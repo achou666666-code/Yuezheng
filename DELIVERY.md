@@ -57,3 +57,48 @@ connection cleanup are checked again by the release commit's CI.
 Actual MCP execution and the native-file orchestral checks above establish the
 agreed first-release acceptance. The release tag records its delivered version;
 100% refers to this checklist, not to universal recognition accuracy.
+
+## v0.2.0 — sheet music and audio to editable music
+
+This upgrade keeps the five agreed work packages fixed:
+
+1. Engine routing/provisioning: Basic Pitch ONNX, Transkun, YourMT3 and optional
+   Demucs, isolated runtimes, cached weights, actual inference, timeout cleanup
+   and automatic fallback. The Agent chooses tools internally.
+2. Shared music plan: source provenance, original performance seconds,
+   sounding MIDI pitches, track identities, tempo/meter maps, controls and bends,
+   plus a separate detailed native notation representation.
+3. Selected outputs: MSCZ, MusicXML, PDF and multitrack MIDI. Audio notation has
+   explicit rests, overlapping voices and cross-bar ties. Quantization is a
+   provisional notation projection; original MIDI timing stays intact.
+4. ACE adapter: official CLI, stable clip/track resolution, actual AI or plugin
+   sources, native project save/reopen, note and sound readback, generic MIDI
+   expression verification, previous-project preservation and session locking.
+5. Shared Skill/CLI/MCP functions, clean installed-package acceptance and
+   synchronized English/Chinese documentation.
+
+Actual acceptance is recorded in
+[delivery-validation.json](demos/audio-to-score/delivery-validation.json).
+The recognized mixed-audio candidate's 54 events reached all five requested
+formats; ACE's saved project read back 54 pitches/times and velocities. A
+separate generic MIDI test verified CC and pitch bend after reopening. Detailed
+native Agent notation also reached all five formats, including actual AI violin
+and trombone. A seven-note AI violin/clarinet fixture retained tempo and meter
+changes. Existing user music projects were not used as test scratch files.
+
+Measured transcription results are separate in
+[engine-validation.json](demos/audio-to-score/engine-validation.json).
+These are short controlled/rendered inputs. They do not establish a universal
+accuracy percentage for dense orchestral recordings. AI Instrument expression
+uses its native parameter model; MIDI velocities/CC are not silently claimed
+as AI parameter edits. Unmapped expression is retained in private performance
+MIDI and reported in the receipt. Other DAW adapters remain later extensions.
+
+One live ACE request hung inside a third-party BBC plugin's unload path. Saved
+work was preserved and ACE recovered for acceptance. Application restart is not
+an adapter dependency. CLI import rows omitted track coordinates, and AI loading
+changed clip UUIDs; the adapter resolves actual state instead of assuming the
+help examples' shape. Local verification passed 221 tests. The staged release
+installed into a clean virtual environment passed 220 tests, with one private-source
+test skipped because its source is not distributed. The Skill validator and diff
+checks passed. GitHub CI records the published commit's verification.

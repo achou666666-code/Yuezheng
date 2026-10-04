@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "kind": "scorebridge_music_plan",
+  "title": "ScoreBridge music plan example",
+  "source": {
+    "kind": "original_authored_example"
+  },
+  "warnings": [
+    "Automatic notation uses a provisional grid and pitch spelling. Original performance times are preserved."
+  ],
+  "bindings": {},
+  "notation": {
+    "grid_quarters": 0.25,
+    "pitch_mode": "concert",
+    "key_fifths": null
+  },
+  "performance": {
+    "schema_version": 1,
+    "tracks": [
+      {
+        "id": "violin",
+        "name": "Violin",
+        "gm_program": 40,
+        "instrument_source": "agent",
+        "controls": [
+          {
+            "number": 1,
+            "value": 72,
+            "seconds": 0.5
+          }
+        ]
+      },
+      {
+        "id": "clarinet",
+        "name": "Clarinet",
+        "gm_program": 71,
+        "instrument_source": "agent"
+      }
+    ],
+    "events": [
+      {
+        "kind": "note",
+        "track": "violin",
+        "midi_pitch": 69,
+        "velocity": 84,
+        "start_seconds": 0,
+        "end_seconds": 0.5
+      },
+      {
+        "kind": "note",
+        "track": "violin",
+        "midi_pitch": 71,
+        "velocity": 84,
+        "start_seconds": 0.625,
+        "end_seconds": 1.125
+      },
+      {
+        "kind": "note",
+        "track": "violin",
+        "midi_pitch": 72,
+        "velocity": 84,
+        "start_seconds": 1.25,
+        "end_seconds": 1.75
+      },
+      {
+        "kind": "note",
+        "track": "violin",
+        "midi_pitch": 74,
+        "velocity": 84,
+        "start_seconds": 5,
+        "end_seconds": 5.5
+      },
+      {
+        "kind": "note",
+        "track": "clarinet",
+        "midi_pitch": 60,
+        "velocity": 84,
+        "start_seconds": 0,
+        "end_seconds": 1.2
+      },
+      {
+        "kind": "note",
+        "track": "clarinet",
+        "midi_pitch": 64,
+        "velocity": 84,
+        "start_seconds": 1.25,
+        "end_seconds": 2.4
+      },
+      {
+        "kind": "note",
+        "track": "clarinet",
+        "midi_pitch": 67,
+        "velocity": 84,
+        "start_seconds": 5,
+        "end_seconds": 6.4
+      }
+    ]
+  },
+  "tempo_map": [
+    {
+      "seconds": 0,
+      "bpm": 96,
+      "source": "agent"
+    },
+    {
+      "seconds": 5,
+      "bpm": 120,
+      "source": "agent"
+    }
+  ],
+  "meter_map": [
+    {
+      "quarter": 0,
+      "numerator": 4,
+      "denominator": 4,
+      "source": "agent"
+    },
+    {
+      "quarter": 8,
+      "numerator": 3,
+      "denominator": 4,
+      "source": "agent"
+    }
+  ]
+}

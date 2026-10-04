@@ -27,6 +27,55 @@ except ImportError as exc:
 mcp = FastMCP("ScoreBridge")
 
 @mcp.tool()
+def music_plan(input_path: str, output_path: str, title: str = "", bpm: Optional[float] = None,
+               numerator: int = 4, denominator: int = 4) -> dict:
+    """Wrap Agent recognition or engine events in a shared source/performance/notation plan. Agent supplies timing internally."""
+    from scorebridge.music_plan import make_music_plan
+    try:
+        return make_music_plan(input_path, output_path, title, bpm, numerator, denominator)
+    except (ValueError, OSError, KeyError, TypeError) as exc:
+        return {"status": "error", "error": str(exc)}
+
+@mcp.tool()
+def music_deliver(input_path: str, output_dir: str, formats: list[str], executable: str = "", ace_cli: str = "") -> dict:
+    """Deliver selected MSCZ/MusicXML/PDF/multitrack MIDI/ACE outputs. Does not recognize music; use Agent or audio_transcribe first."""
+    from scorebridge.music_delivery import deliver_music_plan
+    return deliver_music_plan(input_path, output_dir, formats, executable, ace_cli)
+
+@mcp.tool()
+def ace_status(executable: str = "") -> dict:
+    """Read-only official ACE Studio CLI connection check."""
+    from scorebridge.ace.adapter import ACEStudioAdapter
+    return ACEStudioAdapter(executable).status()
+
+@mcp.tool()
+def audio_backends(cache_dir: str = "") -> dict:
+    """Inspect real optional engine runtimes without downloading models. Installed is not measured transcription accuracy."""
+    from scorebridge.audio.backends import audio_backends as inspect
+    return inspect(cache_dir)
+
+@mcp.tool()
+def audio_install(engine: str, cache_dir: str = "") -> dict:
+    """Install only one optional audio engine in a separate Python runtime; preserve the Agent/core environment."""
+    from scorebridge.audio.backends import install_backend
+    return install_backend(engine, cache_dir)
+
+@mcp.tool()
+def audio_transcribe(input_path: str, output_dir: str, hint: str = "auto", engine: str = "auto",
+                     cache_dir: str = "", auto_install: bool = True, fallback: bool = True,
+                     combine: bool = False, device: str = "cpu", timeout: int = 1800) -> dict:
+    """Recognize audio with optional engines, automatic fallback and cached recovery. Agent supplies hints internally and resolves candidate evidence."""
+    from scorebridge.audio.transcribe import transcribe_audio
+    return transcribe_audio(input_path, output_dir, hint, engine, cache_dir, auto_install, fallback, combine, device, timeout)
+
+@mcp.tool()
+def audio_separate(input_path: str, output_dir: str, cache_dir: str = "", auto_install: bool = True,
+                   device: str = "cpu", timeout: int = 1800) -> dict:
+    """Optional time-aligned audio stems; not MIDI transcription and not individual orchestral parts. Keep original mix as evidence."""
+    from scorebridge.audio.transcribe import separate_audio
+    return separate_audio(input_path, output_dir, cache_dir, auto_install, device, timeout)
+
+@mcp.tool()
 def audio_prepare(input_path: str, output_dir: str, segment_seconds: float = 8.0, overlap_seconds: float = 1.0, midi_low: int = 24, midi_high: int = 108) -> dict:
     """Prepare time-linked audio/spectral evidence for the calling Agent. Does not recognize music or call DAW transcription."""
     from scorebridge.audio import prepare_audio

@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-04",
+  "platform": {
+    "os": "macOS arm64",
+    "musescore": "4.7.4",
+    "ace_studio": "2.1.8.25201"
+  },
+  "cases": [
+    {
+      "case": "audio-engine-to-files-and-ace",
+      "status": "delivered",
+      "plan_sha256": "0a8cabc57f638023cd51d5db464e1265b5716c2534d33ffc6221f7613a7efe2c",
+      "files": {
+        "ace": {
+          "sha256": "696e502b2f95a125b12fc298272415f61b671290d59457339893963a6847e344",
+          "bytes": 7518
+        },
+        "mscz": {
+          "sha256": "7c23ce1b4ccba064d9a797d8527448cfcaccaeeb2d86c60d355c73ef555463d5",
+          "bytes": 38635
+        },
+        "pdf": {
+          "sha256": "165c815c2e7fee2f831e1bd32f2fdcb1f346810dd906866dd56b9875e3406f67",
+          "bytes": 40603
+        }
+      },
+      "ace_note_count": 54,
+      "ace_reopened": true,
+      "ace_velocities_verified": true,
+      "ace_expression_lanes_verified": 0,
+      "ace_sources": [
+        {
+          "name": "DLSMusicDevice",
+          "kind": "external-instrument",
+          "channel": "1"
+        },
+        {
+          "name": "DLSMusicDevice",
+          "kind": "external-instrument",
+          "channel": "10"
+        }
+      ],
+      "timing_import": {
+        "tempoImported": true,
+        "timeSignaturesImported": true
+      },
+      "warnings": [
+        "Automatic notation uses a provisional grid and pitch spelling. Original performance times are preserved."
+      ]
+    },
+    {
+      "case": "generic-midi-expression",
+      "status": "delivered",
+      "plan_sha256": "199cd640da656d0978c9c6327d92b683205726fb874dbf335e7323f85f3a5d7a",
+      "files": {
+        "ace": {
+          "sha256": "1b8ff7efccda43296c8f4044e644e29a36e58ddc502c269a76703ceb1d513940",
+          "bytes": 7648
+        }
+      },
+      "ace_note_count": 54,
+      "ace_reopened": true,
+      "ace_velocities_verified": true,
+      "ace_expression_lanes_verified": 2,
+      "ace_sources": [
+        {
+          "name": "DLSMusicDevice",
+          "kind": "external-instrument",
+          "channel": "1"
+        },
+        {
+          "name": "DLSMusicDevice",
+          "kind": "external-instrument",
+          "channel": "10"
+        }
+      ],
+      "timing_import": {
+        "tempoImported": true,
+        "timeSignaturesImported": true
+      },
+      "warnings": [
+        "Automatic notation uses a provisional grid and pitch spelling. Original performance times are preserved."
+      ]
+    },
+    {
+      "case": "native-notation-to-files-and-ace",
+      "status": "delivered",
+      "plan_sha256": "94c59170ee8c3521d03e2d5e5e3d30218683bdc2d75304a26ce6ce0f12db5500",
+      "files": {
+        "mscz": {
+          "sha256": "3d48c575ef115f5e7ef0da91943aa96a239e4ed957791b76ebd92fe00e8c9feb",
+          "bytes": 25468
+        },
+        "musicxml": {
+          "sha256": "29988b5d5fb8a4b15b6ca985cecafb880e44f90d9759cb4a559917a37f2fdff5",
+          "bytes": 11251
+        },
+        "pdf": {
+          "sha256": "d1375511a720e14bddfe49d05342ac92d0d3b96d24e944127a8854045153a868",
+          "bytes": 30009
+        },
+        "midi": {
+          "sha256": "188bc8f9bde1ad1c7379a8378dd7a775edc04cbdd6ee52942638d1c1c7fc4a1a",
+          "bytes": 337
+        },
+        "ace": {
+          "sha256": "ea7529e4b059c2e7315b1c6873c79963ac7e6226c4b4633a7f952d8574dd4eea",
+          "bytes": 5277
+        }
+      },
+      "ace_note_count": 4,
+      "ace_reopened": true,
+      "ace_velocities_verified": false,
+      "ace_expression_lanes_verified": 0,
+      "ace_sources": [
+        {
+          "name": "Violin - Gabriele Boschi",
+          "kind": "instrument",
+          "channel": null
+        },
+        {
+          "name": "Trombone - Daniel Eddington",
+          "kind": "instrument",
+          "channel": null
+        }
+      ],
+      "timing_import": {
+        "tempoImported": true,
+        "timeSignaturesImported": true
+      },
+      "warnings": [
+        "midi-0-0-40: AI instrument clips use native synthesis parameters. MIDI velocities/CC/bends remain in the private performance MIDI; they are not claimed as native AI expression.",
+        "midi-1-1-57: AI instrument clips use native synthesis parameters. MIDI velocities/CC/bends remain in the private performance MIDI; they are not claimed as native AI expression."
+      ]
+    },
+    {
+      "case": "ai-instrument-notes-and-timing",
+      "status": "delivered",
+      "plan_sha256": "d35173dc1da2c1854a3de9fdcaff44ab21287eb2f1f6efe00b1ecd3d2f441653",
+      "files": {
+        "ace": {
+          "sha256": "28341b1f3352b09c4125ee746df8dec8386d14a62ea263b0609081b46268249f",
+          "bytes": 5402
+        }
+      },
+      "ace_note_count": 7,
+      "ace_reopened": true,
+      "ace_velocities_verified": false,
+      "ace_expression_lanes_verified": 0,
+      "ace_sources": [
+        {
+          "name": "Violin - Gabriele Boschi",
+          "kind": "instrument",
+          "channel": null
+        },
+        {
+          "name": "Clarinet - Carlo Alfonso",
+          "kind": "instrument",
+          "channel": null
+        }
+      ],
+      "timing_import": {
+        "tempoImported": true,
+        "timeSignaturesImported": true
+      },
+      "warnings": [
+        "Automatic notation uses a provisional grid and pitch spelling. Original performance times are preserved.",
+        "violin: AI instrument clips use native synthesis parameters. MIDI velocities/CC/bends remain in the private performance MIDI; they are not claimed as native AI expression.",
+        "clarinet: AI instrument clips use native synthesis parameters. MIDI velocities/CC/bends remain in the private performance MIDI; they are not claimed as native AI expression."
+      ]
+    }
+  ],
+  "scope": "File/application acceptance on original short test music. Model note accuracy is measured separately in engine-validation.json. Native AI expression and subjective audio quality are not certified.",
+  "host_issue": "One ACE project-new call hung inside BBC Symphony Orchestra plugin unloading; original project was saved, a private snapshot retained, ACE recovered, and plugin-free acceptance completed. No host restart is part of the adapter."
+}

@@ -1,0 +1,3620 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-04",
+  "platform": "macOS arm64; isolated Python 3.11; CPU",
+  "scope": "Short original controlled/rendered samples. Predictions frozen before reading answers. Not microphone recordings, general accuracy or instrument inference certification. Offset tolerance 0.1s; onset 0.05s.",
+  "excluded": "Earlier sampled mixed fixture used generic Percussion template program 48; replaced with audited Drumset program 0 rather than treating its timbre as standard kit.",
+  "footprint_mib": {
+    "basic_pitch_runtime": 515,
+    "transkun_runtime": 949,
+    "yourmt3_runtime": 1077,
+    "demucs_runtime": 818,
+    "shared_downloaded_weights": 620
+  },
+  "cases": [
+    {
+      "case": "control-melody",
+      "engine": "basic_pitch",
+      "seed": 2026100407,
+      "source_sha256": "62ad86c23a3e7e3fe10b317f0b55d6a058f9165d085be53858b189e1fae952a6",
+      "prediction_sha256": "662d055dc0e0ecb4fcff5ab31a58e1faca25cec5cc15d4e36526aab868e6c27d",
+      "worker_sha256": "460026aa52702daf25a182ff049b121e72239170a809fee48576615c850b871b",
+      "note": {
+        "reference_events": 12,
+        "predicted_events": 12,
+        "matched": 12,
+        "missed": 0,
+        "extra": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "onset_mae_seconds": 0.004734848484848473,
+        "with_offset": {
+          "reference_events": 12,
+          "predicted_events": 12,
+          "matched": 12,
+          "missed": 0,
+          "extra": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "offset_mae_seconds": 0.020833333333333297,
+        "instrument_matches": 0,
+        "instrument_comparisons": 0,
+        "unmatched_reference": [],
+        "unmatched_prediction": []
+      },
+      "drum": {
+        "reference_events": 0,
+        "predicted_events": 0,
+        "matched": 0,
+        "missed": 0,
+        "extra": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "onset_mae_seconds": null,
+        "instrument_matches": 0,
+        "instrument_comparisons": 0,
+        "unmatched_reference": [],
+        "unmatched_prediction": []
+      },
+      "reference_events": [
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 72,
+          "start_seconds": 0,
+          "end_seconds": 0.5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 76,
+          "start_seconds": 0.5,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 78,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 69,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 71,
+          "start_seconds": 3,
+          "end_seconds": 3.5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 71,
+          "start_seconds": 3.5,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 69,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 67,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 76,
+          "start_seconds": 6,
+          "end_seconds": 6.5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 76,
+          "start_seconds": 6.5,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 74,
+          "start_seconds": 7,
+          "end_seconds": 7.5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 76,
+          "start_seconds": 7.5,
+          "end_seconds": 8
+        }
+      ],
+      "predicted_events": [
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 72,
+          "velocity": 105,
+          "start_seconds": 0.011363636363636364,
+          "end_seconds": 0.5227272727272727
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 76,
+          "velocity": 103,
+          "start_seconds": 0.5,
+          "end_seconds": 1.0227272727272727
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 78,
+          "velocity": 105,
+          "start_seconds": 0.9977272727272727,
+          "end_seconds": 2.0204545454545455
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 104,
+          "start_seconds": 1.9977272727272726,
+          "end_seconds": 3.0204545454545455
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 71,
+          "velocity": 106,
+          "start_seconds": 2.9977272727272726,
+          "end_seconds": 3.506818181818182
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 71,
+          "velocity": 102,
+          "start_seconds": 3.506818181818182,
+          "end_seconds": 4.0204545454545455
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 105,
+          "start_seconds": 3.995454545454545,
+          "end_seconds": 5.018181818181818
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 104,
+          "start_seconds": 5.006818181818182,
+          "end_seconds": 6.029545454545454
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 76,
+          "velocity": 107,
+          "start_seconds": 5.995454545454545,
+          "end_seconds": 6.493181818181818
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 76,
+          "velocity": 103,
+          "start_seconds": 6.493181818181818,
+          "end_seconds": 7.027272727272727
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 74,
+          "velocity": 103,
+          "start_seconds": 7.004545454545454,
+          "end_seconds": 7.527272727272727
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 76,
+          "velocity": 104,
+          "start_seconds": 7.504545454545454,
+          "end_seconds": 8.027272727272727
+        }
+      ],
+      "predicted_tracks": [
+        {
+          "id": "track-1",
+          "name": "track-1",
+          "is_drum": false,
+          "gm_program": null,
+          "instrument_source": "unresolved"
+        }
+      ]
+    },
+    {
+      "case": "control-polyphonic",
+      "engine": "transkun",
+      "seed": 2026100407,
+      "source_sha256": "8f0b1883a5cd2803da7921df4322c2da49a17c776380183fd54f7f146296fd57",
+      "prediction_sha256": "2fe57e02ee7aec80f5e855f7a2a30ccecf3a290a132b9416b1c8fdc558af998e",
+      "worker_sha256": "460026aa52702daf25a182ff049b121e72239170a809fee48576615c850b871b",
+      "note": {
+        "reference_events": 24,
+        "predicted_events": 13,
+        "matched": 13,
+        "missed": 11,
+        "extra": 0,
+        "precision": 1.0,
+        "recall": 0.5416666666666666,
+        "f1": 0.7027027027027027,
+        "onset_mae_seconds": 0.013621794871794978,
+        "with_offset": {
+          "reference_events": 24,
+          "predicted_events": 13,
+          "matched": 8,
+          "missed": 16,
+          "extra": 5,
+          "precision": 0.6153846153846154,
+          "recall": 0.3333333333333333,
+          "f1": 0.43243243243243246
+        },
+        "offset_mae_seconds": 0.22944711538461546,
+        "instrument_matches": 0,
+        "instrument_comparisons": 0,
+        "unmatched_reference": [
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 71,
+            "start_seconds": 1,
+            "end_seconds": 2
+          },
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 74,
+            "start_seconds": 1,
+            "end_seconds": 2
+          },
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 62,
+            "start_seconds": 2,
+            "end_seconds": 3
+          },
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 67,
+            "start_seconds": 3,
+            "end_seconds": 4
+          },
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 74,
+            "start_seconds": 3,
+            "end_seconds": 4
+          },
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 74,
+            "start_seconds": 4,
+            "end_seconds": 5
+          },
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 65,
+            "start_seconds": 5,
+            "end_seconds": 6
+          },
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 72,
+            "start_seconds": 5,
+            "end_seconds": 6
+          },
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 67,
+            "start_seconds": 7,
+            "end_seconds": 8
+          },
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 71,
+            "start_seconds": 7,
+            "end_seconds": 8
+          },
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 74,
+            "start_seconds": 7,
+            "end_seconds": 8
+          }
+        ],
+        "unmatched_prediction": []
+      },
+      "drum": {
+        "reference_events": 0,
+        "predicted_events": 0,
+        "matched": 0,
+        "missed": 0,
+        "extra": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "onset_mae_seconds": null,
+        "instrument_matches": 0,
+        "instrument_comparisons": 0,
+        "unmatched_reference": [],
+        "unmatched_prediction": []
+      },
+      "reference_events": [
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 60,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 64,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 67,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 67,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 71,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 74,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 62,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 65,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 69,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 67,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 70,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 74,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 67,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 70,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 74,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 65,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 68,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 72,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 65,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 68,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 72,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 67,
+          "start_seconds": 7,
+          "end_seconds": 8
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 71,
+          "start_seconds": 7,
+          "end_seconds": 8
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 74,
+          "start_seconds": 7,
+          "end_seconds": 8
+        }
+      ],
+      "predicted_events": [
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 60,
+          "velocity": 42,
+          "start_seconds": 0.0,
+          "end_seconds": 0.38229166666666664
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 64,
+          "velocity": 50,
+          "start_seconds": 0.0,
+          "end_seconds": 0.38229166666666664
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 44,
+          "start_seconds": 0.0,
+          "end_seconds": 0.40572916666666664
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 45,
+          "start_seconds": 0.9859375,
+          "end_seconds": 1.9619791666666666
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 52,
+          "start_seconds": 1.9859375,
+          "end_seconds": 2.9614583333333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 65,
+          "velocity": 46,
+          "start_seconds": 1.9864583333333332,
+          "end_seconds": 2.9614583333333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 70,
+          "velocity": 59,
+          "start_seconds": 2.9859375,
+          "end_seconds": 3.4229166666666666
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 39,
+          "start_seconds": 3.9791666666666665,
+          "end_seconds": 4.9796875
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 70,
+          "velocity": 60,
+          "start_seconds": 3.9796875,
+          "end_seconds": 4.9796875
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 68,
+          "velocity": 51,
+          "start_seconds": 4.984895833333333,
+          "end_seconds": 5.653645833333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 72,
+          "velocity": 56,
+          "start_seconds": 5.977604166666667,
+          "end_seconds": 6.975520833333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 65,
+          "velocity": 46,
+          "start_seconds": 5.978645833333333,
+          "end_seconds": 6.976041666666666
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 68,
+          "velocity": 54,
+          "start_seconds": 5.978645833333333,
+          "end_seconds": 6.974479166666667
+        }
+      ],
+      "predicted_tracks": [
+        {
+          "id": "track-1",
+          "name": "track-1",
+          "is_drum": false,
+          "gm_program": 0,
+          "instrument_source": "model"
+        }
+      ]
+    },
+    {
+      "case": "control-mixed",
+      "engine": "yourmt3",
+      "seed": 2026100407,
+      "source_sha256": "ecaac10f3fe3f31d35c90d3dc70cc940f39d48c284be3c81c284b951db3f8f0d",
+      "prediction_sha256": "f40103b24a96144de778697fb0f020a3ff5898e8682216867b566e6ad56663a6",
+      "worker_sha256": "460026aa52702daf25a182ff049b121e72239170a809fee48576615c850b871b",
+      "note": {
+        "reference_events": 32,
+        "predicted_events": 25,
+        "matched": 25,
+        "missed": 7,
+        "extra": 0,
+        "precision": 1.0,
+        "recall": 0.78125,
+        "f1": 0.8771929824561403,
+        "onset_mae_seconds": 0.004083333333333386,
+        "with_offset": {
+          "reference_events": 32,
+          "predicted_events": 25,
+          "matched": 23,
+          "missed": 9,
+          "extra": 2,
+          "precision": 0.92,
+          "recall": 0.71875,
+          "f1": 0.8070175438596491
+        },
+        "offset_mae_seconds": 0.09449999999999997,
+        "instrument_matches": 0,
+        "instrument_comparisons": 0,
+        "unmatched_reference": [
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 65,
+            "start_seconds": 0,
+            "end_seconds": 1
+          },
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 69,
+            "start_seconds": 0,
+            "end_seconds": 1
+          },
+          {
+            "kind": "note",
+            "track": "lead",
+            "midi_pitch": 72,
+            "start_seconds": 0,
+            "end_seconds": 1
+          },
+          {
+            "kind": "note",
+            "track": "bass",
+            "midi_pitch": 41,
+            "start_seconds": 0,
+            "end_seconds": 1
+          },
+          {
+            "kind": "note",
+            "track": "bass",
+            "midi_pitch": 38,
+            "start_seconds": 1,
+            "end_seconds": 2
+          },
+          {
+            "kind": "note",
+            "track": "bass",
+            "midi_pitch": 36,
+            "start_seconds": 2,
+            "end_seconds": 3
+          },
+          {
+            "kind": "note",
+            "track": "bass",
+            "midi_pitch": 41,
+            "start_seconds": 7,
+            "end_seconds": 8
+          }
+        ],
+        "unmatched_prediction": []
+      },
+      "drum": {
+        "reference_events": 24,
+        "predicted_events": 23,
+        "matched": 17,
+        "missed": 7,
+        "extra": 6,
+        "precision": 0.7391304347826086,
+        "recall": 0.7083333333333334,
+        "f1": 0.723404255319149,
+        "onset_mae_seconds": 0.006678921568627568,
+        "instrument_matches": 0,
+        "instrument_comparisons": 0,
+        "unmatched_reference": [
+          {
+            "kind": "drum",
+            "track": "drums",
+            "drum": "kick",
+            "start_seconds": 0,
+            "end_seconds": 0.25
+          },
+          {
+            "kind": "drum",
+            "track": "drums",
+            "drum": "kick",
+            "start_seconds": 2,
+            "end_seconds": 2.25
+          },
+          {
+            "kind": "drum",
+            "track": "drums",
+            "drum": "snare",
+            "start_seconds": 3,
+            "end_seconds": 3.25
+          },
+          {
+            "kind": "drum",
+            "track": "drums",
+            "drum": "kick",
+            "start_seconds": 4,
+            "end_seconds": 4.25
+          },
+          {
+            "kind": "drum",
+            "track": "drums",
+            "drum": "kick",
+            "start_seconds": 6,
+            "end_seconds": 6.25
+          },
+          {
+            "kind": "drum",
+            "track": "drums",
+            "drum": "closed_hi_hat",
+            "start_seconds": 0.0,
+            "end_seconds": 0.125
+          },
+          {
+            "kind": "drum",
+            "track": "drums",
+            "drum": "closed_hi_hat",
+            "start_seconds": 3.0,
+            "end_seconds": 3.125
+          }
+        ],
+        "unmatched_prediction": [
+          {
+            "kind": "drum",
+            "track": "track-3",
+            "midi_pitch": 38,
+            "velocity": 100,
+            "start_seconds": 2.0,
+            "end_seconds": 2.0104166666666665,
+            "drum": "snare"
+          },
+          {
+            "kind": "drum",
+            "track": "track-3",
+            "midi_pitch": 46,
+            "velocity": 100,
+            "start_seconds": 2.9895833333333335,
+            "end_seconds": 3.0,
+            "drum": "open_hi_hat"
+          },
+          {
+            "kind": "drum",
+            "track": "track-3",
+            "midi_pitch": 55,
+            "velocity": 100,
+            "start_seconds": 2.9895833333333335,
+            "end_seconds": 3.0,
+            "drum": "gm-55"
+          },
+          {
+            "kind": "drum",
+            "track": "track-3",
+            "midi_pitch": 41,
+            "velocity": 100,
+            "start_seconds": 3.4895833333333335,
+            "end_seconds": 3.5,
+            "drum": "low_floor_tom"
+          },
+          {
+            "kind": "drum",
+            "track": "track-3",
+            "midi_pitch": 41,
+            "velocity": 100,
+            "start_seconds": 4.0,
+            "end_seconds": 4.010416666666667,
+            "drum": "low_floor_tom"
+          },
+          {
+            "kind": "drum",
+            "track": "track-3",
+            "midi_pitch": 42,
+            "velocity": 100,
+            "start_seconds": 6.989583333333333,
+            "end_seconds": 7.0,
+            "drum": "closed_hi_hat"
+          }
+        ]
+      },
+      "reference_events": [
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 65,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 69,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 72,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 60,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 63,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 67,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 62,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 66,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 69,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 65,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 68,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 72,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 65,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 69,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 72,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 65,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 69,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 72,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 67,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 71,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 74,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 62,
+          "start_seconds": 7,
+          "end_seconds": 8
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 66,
+          "start_seconds": 7,
+          "end_seconds": 8
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 69,
+          "start_seconds": 7,
+          "end_seconds": 8
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "midi_pitch": 41,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "kick",
+          "start_seconds": 0,
+          "end_seconds": 0.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "midi_pitch": 38,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "snare",
+          "start_seconds": 1,
+          "end_seconds": 1.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "midi_pitch": 36,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "kick",
+          "start_seconds": 2,
+          "end_seconds": 2.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "midi_pitch": 38,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "snare",
+          "start_seconds": 3,
+          "end_seconds": 3.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "midi_pitch": 36,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "kick",
+          "start_seconds": 4,
+          "end_seconds": 4.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "midi_pitch": 41,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "snare",
+          "start_seconds": 5,
+          "end_seconds": 5.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "midi_pitch": 41,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "kick",
+          "start_seconds": 6,
+          "end_seconds": 6.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "midi_pitch": 41,
+          "start_seconds": 7,
+          "end_seconds": 8
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "snare",
+          "start_seconds": 7,
+          "end_seconds": 7.25
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 0.0,
+          "end_seconds": 0.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 0.5,
+          "end_seconds": 0.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 1.0,
+          "end_seconds": 1.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 1.5,
+          "end_seconds": 1.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 2.0,
+          "end_seconds": 2.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 2.5,
+          "end_seconds": 2.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 3.0,
+          "end_seconds": 3.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 3.5,
+          "end_seconds": 3.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 4.0,
+          "end_seconds": 4.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 4.5,
+          "end_seconds": 4.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 5.0,
+          "end_seconds": 5.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 5.5,
+          "end_seconds": 5.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 6.0,
+          "end_seconds": 6.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 6.5,
+          "end_seconds": 6.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 7.0,
+          "end_seconds": 7.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 7.5,
+          "end_seconds": 7.625
+        }
+      ],
+      "predicted_events": [
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 0.5,
+          "end_seconds": 0.5104166666666666,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 60,
+          "velocity": 100,
+          "start_seconds": 1.0,
+          "end_seconds": 1.9697916666666666
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 63,
+          "velocity": 100,
+          "start_seconds": 1.0,
+          "end_seconds": 1.9697916666666666
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 100,
+          "start_seconds": 1.0,
+          "end_seconds": 1.9697916666666666
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 38,
+          "velocity": 100,
+          "start_seconds": 1.0,
+          "end_seconds": 1.0104166666666667,
+          "drum": "snare"
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 1.0,
+          "end_seconds": 1.0104166666666667,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 1.5,
+          "end_seconds": 1.5104166666666667,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 62,
+          "velocity": 100,
+          "start_seconds": 2.0,
+          "end_seconds": 2.9697916666666666
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 66,
+          "velocity": 100,
+          "start_seconds": 2.0,
+          "end_seconds": 2.9697916666666666
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 100,
+          "start_seconds": 2.0,
+          "end_seconds": 2.9697916666666666
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 38,
+          "velocity": 100,
+          "start_seconds": 2.0,
+          "end_seconds": 2.0104166666666665,
+          "drum": "snare"
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 2.0,
+          "end_seconds": 2.0104166666666665,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 2.4895833333333335,
+          "end_seconds": 2.5,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-2",
+          "midi_pitch": 38,
+          "velocity": 100,
+          "start_seconds": 2.9697916666666666,
+          "end_seconds": 3.9895833333333335
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 46,
+          "velocity": 100,
+          "start_seconds": 2.9895833333333335,
+          "end_seconds": 3.0,
+          "drum": "open_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 55,
+          "velocity": 100,
+          "start_seconds": 2.9895833333333335,
+          "end_seconds": 3.0,
+          "drum": "gm-55"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 65,
+          "velocity": 100,
+          "start_seconds": 3.0,
+          "end_seconds": 3.9697916666666666
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 68,
+          "velocity": 100,
+          "start_seconds": 3.0,
+          "end_seconds": 3.9697916666666666
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 72,
+          "velocity": 100,
+          "start_seconds": 3.0,
+          "end_seconds": 3.9697916666666666
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 3.480208333333333,
+          "end_seconds": 3.4895833333333335,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 41,
+          "velocity": 100,
+          "start_seconds": 3.4895833333333335,
+          "end_seconds": 3.5,
+          "drum": "low_floor_tom"
+        },
+        {
+          "kind": "note",
+          "track": "track-2",
+          "midi_pitch": 36,
+          "velocity": 100,
+          "start_seconds": 3.9697916666666666,
+          "end_seconds": 4.095833333333333
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 3.9895833333333335,
+          "end_seconds": 4.0,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 65,
+          "velocity": 100,
+          "start_seconds": 4.0,
+          "end_seconds": 4.980208333333334
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 100,
+          "start_seconds": 4.0,
+          "end_seconds": 4.980208333333334
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 72,
+          "velocity": 100,
+          "start_seconds": 4.0,
+          "end_seconds": 4.980208333333334
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 41,
+          "velocity": 100,
+          "start_seconds": 4.0,
+          "end_seconds": 4.010416666666667,
+          "drum": "low_floor_tom"
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 4.489583333333333,
+          "end_seconds": 4.5,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 38,
+          "velocity": 100,
+          "start_seconds": 4.989583333333333,
+          "end_seconds": 5.0,
+          "drum": "snare"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 65,
+          "velocity": 100,
+          "start_seconds": 5.0,
+          "end_seconds": 5.980208333333334
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 100,
+          "start_seconds": 5.0,
+          "end_seconds": 5.980208333333334
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 72,
+          "velocity": 100,
+          "start_seconds": 5.0,
+          "end_seconds": 5.980208333333334
+        },
+        {
+          "kind": "note",
+          "track": "track-2",
+          "midi_pitch": 41,
+          "velocity": 100,
+          "start_seconds": 5.0,
+          "end_seconds": 5.980208333333334
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 5.0,
+          "end_seconds": 5.010416666666667,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 5.489583333333333,
+          "end_seconds": 5.5,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-2",
+          "midi_pitch": 41,
+          "velocity": 100,
+          "start_seconds": 5.989583333333333,
+          "end_seconds": 6.14375
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 5.989583333333333,
+          "end_seconds": 6.0,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 100,
+          "start_seconds": 6.0,
+          "end_seconds": 6.969791666666667
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 71,
+          "velocity": 100,
+          "start_seconds": 6.0,
+          "end_seconds": 6.969791666666667
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 74,
+          "velocity": 100,
+          "start_seconds": 6.0,
+          "end_seconds": 6.969791666666667
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 6.489583333333333,
+          "end_seconds": 6.5,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 62,
+          "velocity": 100,
+          "start_seconds": 6.989583333333333,
+          "end_seconds": 7.969791666666667
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 66,
+          "velocity": 100,
+          "start_seconds": 6.989583333333333,
+          "end_seconds": 7.969791666666667
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 100,
+          "start_seconds": 6.989583333333333,
+          "end_seconds": 7.969791666666667
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 38,
+          "velocity": 100,
+          "start_seconds": 6.989583333333333,
+          "end_seconds": 7.0,
+          "drum": "snare"
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 6.989583333333333,
+          "end_seconds": 7.0,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 7.0,
+          "end_seconds": 7.010416666666667,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-3",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 7.489583333333333,
+          "end_seconds": 7.5,
+          "drum": "closed_hi_hat"
+        }
+      ],
+      "predicted_tracks": [
+        {
+          "id": "track-1",
+          "name": "Electric Piano",
+          "is_drum": false,
+          "gm_program": 2,
+          "instrument_source": "model"
+        },
+        {
+          "id": "track-2",
+          "name": "Bass",
+          "is_drum": false,
+          "gm_program": 33,
+          "instrument_source": "model"
+        },
+        {
+          "id": "track-3",
+          "name": "Drums",
+          "is_drum": true,
+          "gm_program": null,
+          "instrument_source": "model"
+        }
+      ]
+    },
+    {
+      "case": "sampled-melody",
+      "engine": "basic_pitch",
+      "seed": 2026100407,
+      "source_sha256": "b132790416bb5c6f7521eed037867e117d834ff6811c5cbbb390d5b4b6837b2a",
+      "prediction_sha256": "08ec9dc45092d2ec563a42f18c2c30b88e017f72e6ecf31c747f26e7997aa663",
+      "worker_sha256": "460026aa52702daf25a182ff049b121e72239170a809fee48576615c850b871b",
+      "note": {
+        "reference_events": 12,
+        "predicted_events": 13,
+        "matched": 10,
+        "missed": 2,
+        "extra": 3,
+        "precision": 0.7692307692307693,
+        "recall": 0.8333333333333334,
+        "f1": 0.8,
+        "onset_mae_seconds": 0.012045454545454507,
+        "with_offset": {
+          "reference_events": 12,
+          "predicted_events": 13,
+          "matched": 2,
+          "missed": 10,
+          "extra": 11,
+          "precision": 0.15384615384615385,
+          "recall": 0.16666666666666666,
+          "f1": 0.16
+        },
+        "offset_mae_seconds": 0.3947727272727271,
+        "instrument_matches": 0,
+        "instrument_comparisons": 10,
+        "unmatched_reference": [
+          {
+            "kind": "note",
+            "track": "lead",
+            "instrument_id": "flute",
+            "midi_pitch": 71,
+            "start_seconds": 3.5,
+            "end_seconds": 4
+          },
+          {
+            "kind": "note",
+            "track": "lead",
+            "instrument_id": "flute",
+            "midi_pitch": 76,
+            "start_seconds": 6.5,
+            "end_seconds": 7
+          }
+        ],
+        "unmatched_prediction": [
+          {
+            "kind": "note",
+            "track": "track-1",
+            "midi_pitch": 64,
+            "velocity": 67,
+            "start_seconds": 5.970454545454545,
+            "end_seconds": 6.343181818181818
+          },
+          {
+            "kind": "note",
+            "track": "track-1",
+            "midi_pitch": 64,
+            "velocity": 42,
+            "start_seconds": 6.6909090909090905,
+            "end_seconds": 6.911363636363636
+          },
+          {
+            "kind": "note",
+            "track": "track-1",
+            "midi_pitch": 76,
+            "velocity": 78,
+            "start_seconds": 9.85,
+            "end_seconds": 10.177272727272726
+          }
+        ]
+      },
+      "drum": {
+        "reference_events": 0,
+        "predicted_events": 0,
+        "matched": 0,
+        "missed": 0,
+        "extra": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "onset_mae_seconds": null,
+        "instrument_matches": 0,
+        "instrument_comparisons": 0,
+        "unmatched_reference": [],
+        "unmatched_prediction": []
+      },
+      "reference_events": [
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "flute",
+          "midi_pitch": 72,
+          "start_seconds": 0,
+          "end_seconds": 0.5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "flute",
+          "midi_pitch": 76,
+          "start_seconds": 0.5,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "flute",
+          "midi_pitch": 78,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "flute",
+          "midi_pitch": 69,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "flute",
+          "midi_pitch": 71,
+          "start_seconds": 3,
+          "end_seconds": 3.5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "flute",
+          "midi_pitch": 71,
+          "start_seconds": 3.5,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "flute",
+          "midi_pitch": 69,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "flute",
+          "midi_pitch": 67,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "flute",
+          "midi_pitch": 76,
+          "start_seconds": 6,
+          "end_seconds": 6.5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "flute",
+          "midi_pitch": 76,
+          "start_seconds": 6.5,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "flute",
+          "midi_pitch": 74,
+          "start_seconds": 7,
+          "end_seconds": 7.5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "flute",
+          "midi_pitch": 76,
+          "start_seconds": 7.5,
+          "end_seconds": 8
+        }
+      ],
+      "predicted_events": [
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 72,
+          "velocity": 84,
+          "start_seconds": 0.022727272727272728,
+          "end_seconds": 0.7999999999999999
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 76,
+          "velocity": 90,
+          "start_seconds": 0.5227272727272727,
+          "end_seconds": 1.1272727272727272
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 78,
+          "velocity": 89,
+          "start_seconds": 0.9977272727272727,
+          "end_seconds": 2.2886363636363636
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 96,
+          "start_seconds": 2.009090909090909,
+          "end_seconds": 3.0886363636363634
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 71,
+          "velocity": 92,
+          "start_seconds": 2.9977272727272726,
+          "end_seconds": 4.413636363636363
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 90,
+          "start_seconds": 3.984090909090909,
+          "end_seconds": 5.179545454545455
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 95,
+          "start_seconds": 4.995454545454545,
+          "end_seconds": 6.284090909090909
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 64,
+          "velocity": 67,
+          "start_seconds": 5.970454545454545,
+          "end_seconds": 6.343181818181818
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 76,
+          "velocity": 93,
+          "start_seconds": 6.029545454545454,
+          "end_seconds": 7.120454545454545
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 64,
+          "velocity": 42,
+          "start_seconds": 6.6909090909090905,
+          "end_seconds": 6.911363636363636
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 74,
+          "velocity": 91,
+          "start_seconds": 7.004545454545454,
+          "end_seconds": 7.561363636363636
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 76,
+          "velocity": 75,
+          "start_seconds": 7.493181818181818,
+          "end_seconds": 9.084090909090909
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 76,
+          "velocity": 78,
+          "start_seconds": 9.85,
+          "end_seconds": 10.177272727272726
+        }
+      ],
+      "predicted_tracks": [
+        {
+          "id": "track-1",
+          "name": "track-1",
+          "is_drum": false,
+          "gm_program": null,
+          "instrument_source": "unresolved"
+        }
+      ]
+    },
+    {
+      "case": "sampled-piano",
+      "engine": "transkun",
+      "seed": 2026100407,
+      "source_sha256": "004904799bac56390dd8f0d530fc8a663ab6eec11733b970cd0c6b7902c29673",
+      "prediction_sha256": "0eab4f79e7c484bd47e8b9082d721ce965349a6c634c3b8ddcfbe42aa0ad77ca",
+      "worker_sha256": "460026aa52702daf25a182ff049b121e72239170a809fee48576615c850b871b",
+      "note": {
+        "reference_events": 24,
+        "predicted_events": 24,
+        "matched": 24,
+        "missed": 0,
+        "extra": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "onset_mae_seconds": 0.005078124999999984,
+        "with_offset": {
+          "reference_events": 24,
+          "predicted_events": 24,
+          "matched": 9,
+          "missed": 15,
+          "extra": 15,
+          "precision": 0.375,
+          "recall": 0.375,
+          "f1": 0.375
+        },
+        "offset_mae_seconds": 0.26527777777777783,
+        "instrument_matches": 0,
+        "instrument_comparisons": 24,
+        "unmatched_reference": [],
+        "unmatched_prediction": []
+      },
+      "drum": {
+        "reference_events": 0,
+        "predicted_events": 0,
+        "matched": 0,
+        "missed": 0,
+        "extra": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "onset_mae_seconds": null,
+        "instrument_matches": 0,
+        "instrument_comparisons": 0,
+        "unmatched_reference": [],
+        "unmatched_prediction": []
+      },
+      "reference_events": [
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 60,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 64,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 67,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 67,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 71,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 74,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 62,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 65,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 69,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 67,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 70,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 74,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 67,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 70,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 74,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 65,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 68,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 72,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 65,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 68,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 72,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 67,
+          "start_seconds": 7,
+          "end_seconds": 8
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 71,
+          "start_seconds": 7,
+          "end_seconds": 8
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 74,
+          "start_seconds": 7,
+          "end_seconds": 8
+        }
+      ],
+      "predicted_events": [
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 64,
+          "velocity": 95,
+          "start_seconds": 0.009375,
+          "end_seconds": 1.009375
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 96,
+          "start_seconds": 0.009375,
+          "end_seconds": 0.5447916666666667
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 60,
+          "velocity": 87,
+          "start_seconds": 0.010416666666666666,
+          "end_seconds": 0.9864583333333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 74,
+          "velocity": 93,
+          "start_seconds": 0.9901041666666667,
+          "end_seconds": 2.0317708333333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 71,
+          "velocity": 99,
+          "start_seconds": 0.99375,
+          "end_seconds": 2.0296875
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 97,
+          "start_seconds": 1.0010416666666666,
+          "end_seconds": 2.0083333333333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 65,
+          "velocity": 86,
+          "start_seconds": 1.9921875,
+          "end_seconds": 2.9604166666666667
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 62,
+          "velocity": 79,
+          "start_seconds": 1.9994791666666667,
+          "end_seconds": 2.9604166666666667
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 101,
+          "start_seconds": 1.9994791666666667,
+          "end_seconds": 3.0286458333333335
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 74,
+          "velocity": 95,
+          "start_seconds": 2.990625,
+          "end_seconds": 3.5171875
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 70,
+          "velocity": 103,
+          "start_seconds": 2.997916666666667,
+          "end_seconds": 3.447395833333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 96,
+          "start_seconds": 2.9989583333333334,
+          "end_seconds": 3.5635416666666666
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 74,
+          "velocity": 95,
+          "start_seconds": 3.9895833333333335,
+          "end_seconds": 4.678125
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 70,
+          "velocity": 103,
+          "start_seconds": 3.9989583333333334,
+          "end_seconds": 4.631770833333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 97,
+          "start_seconds": 4.0,
+          "end_seconds": 4.678125
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 65,
+          "velocity": 86,
+          "start_seconds": 4.994270833333333,
+          "end_seconds": 5.5375
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 72,
+          "velocity": 96,
+          "start_seconds": 4.9953125,
+          "end_seconds": 5.583333333333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 68,
+          "velocity": 89,
+          "start_seconds": 4.995833333333334,
+          "end_seconds": 5.560416666666667
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 65,
+          "velocity": 85,
+          "start_seconds": 5.994270833333333,
+          "end_seconds": 7.022916666666666
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 72,
+          "velocity": 97,
+          "start_seconds": 5.995833333333334,
+          "end_seconds": 6.605208333333334
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 68,
+          "velocity": 89,
+          "start_seconds": 5.997395833333333,
+          "end_seconds": 6.605208333333334
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 74,
+          "velocity": 95,
+          "start_seconds": 6.9921875,
+          "end_seconds": 7.557291666666667
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 71,
+          "velocity": 101,
+          "start_seconds": 6.995833333333334,
+          "end_seconds": 7.6734374999999995
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 99,
+          "start_seconds": 6.996354166666666,
+          "end_seconds": 7.6734374999999995
+        }
+      ],
+      "predicted_tracks": [
+        {
+          "id": "track-1",
+          "name": "track-1",
+          "is_drum": false,
+          "gm_program": 0,
+          "instrument_source": "model"
+        }
+      ]
+    },
+    {
+      "case": "sampled-mixed-corrected-drumset",
+      "engine": "yourmt3",
+      "seed": 2026100407,
+      "source_sha256": "327086216dc0195226a71e8c9835859ab966510e2ef9d3210c42c87e5e42f166",
+      "prediction_sha256": "11e8dfa5a07dc6075ad3bf19bc21259eed923a3abd23fc359c3bde9ee1fba454",
+      "worker_sha256": "8e58368da288b18d890f0225042421112f51a1e76d62fa3d02be4881b510603e",
+      "note": {
+        "reference_events": 32,
+        "predicted_events": 32,
+        "matched": 31,
+        "missed": 1,
+        "extra": 1,
+        "precision": 0.96875,
+        "recall": 0.96875,
+        "f1": 0.96875,
+        "onset_mae_seconds": 0.00907258064516133,
+        "with_offset": {
+          "reference_events": 32,
+          "predicted_events": 32,
+          "matched": 28,
+          "missed": 4,
+          "extra": 4,
+          "precision": 0.875,
+          "recall": 0.875,
+          "f1": 0.875
+        },
+        "offset_mae_seconds": 0.022177419354838725,
+        "instrument_matches": 0,
+        "instrument_comparisons": 31,
+        "unmatched_reference": [
+          {
+            "kind": "note",
+            "track": "bass",
+            "instrument_id": "piano",
+            "midi_pitch": 36,
+            "start_seconds": 2,
+            "end_seconds": 3
+          }
+        ],
+        "unmatched_prediction": [
+          {
+            "kind": "note",
+            "track": "track-1",
+            "midi_pitch": 35,
+            "velocity": 100,
+            "start_seconds": 1.9895833333333333,
+            "end_seconds": 2.0479166666666666
+          }
+        ]
+      },
+      "drum": {
+        "reference_events": 24,
+        "predicted_events": 22,
+        "matched": 22,
+        "missed": 2,
+        "extra": 0,
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1": 0.9565217391304348,
+        "onset_mae_seconds": 0.003787878787878868,
+        "instrument_matches": 0,
+        "instrument_comparisons": 0,
+        "unmatched_reference": [
+          {
+            "kind": "drum",
+            "track": "drums",
+            "drum": "snare",
+            "start_seconds": 1,
+            "end_seconds": 1.25
+          },
+          {
+            "kind": "drum",
+            "track": "drums",
+            "drum": "snare",
+            "start_seconds": 5,
+            "end_seconds": 5.25
+          }
+        ],
+        "unmatched_prediction": []
+      },
+      "reference_events": [
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 65,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 69,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 72,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 60,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 63,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 67,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 62,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 66,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 69,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 65,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 68,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 72,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 65,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 69,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 72,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 65,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 69,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 72,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 67,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 71,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 74,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 62,
+          "start_seconds": 7,
+          "end_seconds": 8
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 66,
+          "start_seconds": 7,
+          "end_seconds": 8
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "instrument_id": "piano",
+          "midi_pitch": 69,
+          "start_seconds": 7,
+          "end_seconds": 8
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "instrument_id": "piano",
+          "midi_pitch": 41,
+          "start_seconds": 0,
+          "end_seconds": 1
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "kick",
+          "start_seconds": 0,
+          "end_seconds": 0.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "instrument_id": "piano",
+          "midi_pitch": 38,
+          "start_seconds": 1,
+          "end_seconds": 2
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "snare",
+          "start_seconds": 1,
+          "end_seconds": 1.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "instrument_id": "piano",
+          "midi_pitch": 36,
+          "start_seconds": 2,
+          "end_seconds": 3
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "kick",
+          "start_seconds": 2,
+          "end_seconds": 2.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "instrument_id": "piano",
+          "midi_pitch": 38,
+          "start_seconds": 3,
+          "end_seconds": 4
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "snare",
+          "start_seconds": 3,
+          "end_seconds": 3.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "instrument_id": "piano",
+          "midi_pitch": 36,
+          "start_seconds": 4,
+          "end_seconds": 5
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "kick",
+          "start_seconds": 4,
+          "end_seconds": 4.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "instrument_id": "piano",
+          "midi_pitch": 41,
+          "start_seconds": 5,
+          "end_seconds": 6
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "snare",
+          "start_seconds": 5,
+          "end_seconds": 5.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "instrument_id": "piano",
+          "midi_pitch": 41,
+          "start_seconds": 6,
+          "end_seconds": 7
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "kick",
+          "start_seconds": 6,
+          "end_seconds": 6.25
+        },
+        {
+          "kind": "note",
+          "track": "bass",
+          "instrument_id": "piano",
+          "midi_pitch": 41,
+          "start_seconds": 7,
+          "end_seconds": 8
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "snare",
+          "start_seconds": 7,
+          "end_seconds": 7.25
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 0.0,
+          "end_seconds": 0.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 0.5,
+          "end_seconds": 0.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 1.0,
+          "end_seconds": 1.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 1.5,
+          "end_seconds": 1.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 2.0,
+          "end_seconds": 2.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 2.5,
+          "end_seconds": 2.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 3.0,
+          "end_seconds": 3.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 3.5,
+          "end_seconds": 3.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 4.0,
+          "end_seconds": 4.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 4.5,
+          "end_seconds": 4.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 5.0,
+          "end_seconds": 5.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 5.5,
+          "end_seconds": 5.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 6.0,
+          "end_seconds": 6.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 6.5,
+          "end_seconds": 6.625
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 7.0,
+          "end_seconds": 7.125
+        },
+        {
+          "kind": "drum",
+          "track": "drums",
+          "drum": "closed_hi_hat",
+          "start_seconds": 7.5,
+          "end_seconds": 7.625
+        }
+      ],
+      "predicted_events": [
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 41,
+          "velocity": 100,
+          "start_seconds": 0.010416666666666666,
+          "end_seconds": 0.9895833333333334
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 65,
+          "velocity": 100,
+          "start_seconds": 0.010416666666666666,
+          "end_seconds": 0.9895833333333334
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 100,
+          "start_seconds": 0.010416666666666666,
+          "end_seconds": 0.9895833333333334
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 72,
+          "velocity": 100,
+          "start_seconds": 0.010416666666666666,
+          "end_seconds": 0.9895833333333334
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 36,
+          "velocity": 100,
+          "start_seconds": 0.010416666666666666,
+          "end_seconds": 0.019791666666666666,
+          "drum": "kick"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 0.010416666666666666,
+          "end_seconds": 0.019791666666666666,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 0.5,
+          "end_seconds": 0.5104166666666666,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 38,
+          "velocity": 100,
+          "start_seconds": 0.9895833333333334,
+          "end_seconds": 1.9895833333333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 60,
+          "velocity": 100,
+          "start_seconds": 0.9895833333333334,
+          "end_seconds": 1.9895833333333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 63,
+          "velocity": 100,
+          "start_seconds": 0.9895833333333334,
+          "end_seconds": 1.9895833333333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 100,
+          "start_seconds": 0.9895833333333334,
+          "end_seconds": 1.9895833333333333
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 1.0,
+          "end_seconds": 1.0104166666666667,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 1.5,
+          "end_seconds": 1.5104166666666667,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 35,
+          "velocity": 100,
+          "start_seconds": 1.9895833333333333,
+          "end_seconds": 2.0479166666666666
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 62,
+          "velocity": 100,
+          "start_seconds": 1.9895833333333333,
+          "end_seconds": 3.0
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 66,
+          "velocity": 100,
+          "start_seconds": 1.9895833333333333,
+          "end_seconds": 3.0
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 100,
+          "start_seconds": 1.9895833333333333,
+          "end_seconds": 3.0
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 36,
+          "velocity": 100,
+          "start_seconds": 2.0,
+          "end_seconds": 2.0104166666666665,
+          "drum": "kick"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 2.0,
+          "end_seconds": 2.0104166666666665,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 2.5,
+          "end_seconds": 2.5104166666666665,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 38,
+          "velocity": 100,
+          "start_seconds": 2.9895833333333335,
+          "end_seconds": 4.0
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 65,
+          "velocity": 100,
+          "start_seconds": 2.9895833333333335,
+          "end_seconds": 3.9895833333333335
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 68,
+          "velocity": 100,
+          "start_seconds": 2.9895833333333335,
+          "end_seconds": 4.0
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 72,
+          "velocity": 100,
+          "start_seconds": 2.9895833333333335,
+          "end_seconds": 3.9895833333333335
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 38,
+          "velocity": 100,
+          "start_seconds": 3.0,
+          "end_seconds": 3.0104166666666665,
+          "drum": "snare"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 3.0,
+          "end_seconds": 3.0104166666666665,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 3.5,
+          "end_seconds": 3.5104166666666665,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 36,
+          "velocity": 100,
+          "start_seconds": 3.9895833333333335,
+          "end_seconds": 5.010416666666667
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 65,
+          "velocity": 100,
+          "start_seconds": 3.9895833333333335,
+          "end_seconds": 4.989583333333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 100,
+          "start_seconds": 3.9895833333333335,
+          "end_seconds": 5.0
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 72,
+          "velocity": 100,
+          "start_seconds": 3.9895833333333335,
+          "end_seconds": 4.989583333333333
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 4.0,
+          "end_seconds": 4.010416666666667,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 36,
+          "velocity": 100,
+          "start_seconds": 4.010416666666667,
+          "end_seconds": 4.019791666666666,
+          "drum": "kick"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 4.510416666666667,
+          "end_seconds": 4.519791666666666,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 41,
+          "velocity": 100,
+          "start_seconds": 4.989583333333333,
+          "end_seconds": 6.0
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 65,
+          "velocity": 100,
+          "start_seconds": 4.989583333333333,
+          "end_seconds": 6.14375
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 72,
+          "velocity": 100,
+          "start_seconds": 4.989583333333333,
+          "end_seconds": 6.14375
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 100,
+          "start_seconds": 5.0,
+          "end_seconds": 6.14375
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 5.010416666666667,
+          "end_seconds": 5.019791666666666,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 5.510416666666667,
+          "end_seconds": 5.519791666666666,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 74,
+          "velocity": 100,
+          "start_seconds": 5.989583333333333,
+          "end_seconds": 6.989583333333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 41,
+          "velocity": 100,
+          "start_seconds": 6.0,
+          "end_seconds": 6.989583333333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 100,
+          "start_seconds": 6.0,
+          "end_seconds": 6.989583333333333
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 71,
+          "velocity": 100,
+          "start_seconds": 6.0,
+          "end_seconds": 6.989583333333333
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 36,
+          "velocity": 100,
+          "start_seconds": 6.010416666666667,
+          "end_seconds": 6.019791666666666,
+          "drum": "kick"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 6.010416666666667,
+          "end_seconds": 6.019791666666666,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 6.5,
+          "end_seconds": 6.510416666666667,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 41,
+          "velocity": 100,
+          "start_seconds": 6.989583333333333,
+          "end_seconds": 7.980208333333334
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 62,
+          "velocity": 100,
+          "start_seconds": 6.989583333333333,
+          "end_seconds": 7.980208333333334
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 66,
+          "velocity": 100,
+          "start_seconds": 6.989583333333333,
+          "end_seconds": 7.980208333333334
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 69,
+          "velocity": 100,
+          "start_seconds": 6.989583333333333,
+          "end_seconds": 7.980208333333334
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 38,
+          "velocity": 100,
+          "start_seconds": 7.0,
+          "end_seconds": 7.010416666666667,
+          "drum": "snare"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 7.0,
+          "end_seconds": 7.010416666666667,
+          "drum": "closed_hi_hat"
+        },
+        {
+          "kind": "drum",
+          "track": "track-2",
+          "midi_pitch": 42,
+          "velocity": 100,
+          "start_seconds": 7.5,
+          "end_seconds": 7.510416666666667,
+          "drum": "closed_hi_hat"
+        }
+      ],
+      "predicted_tracks": [
+        {
+          "id": "track-1",
+          "name": "Acoustic Piano",
+          "is_drum": false,
+          "gm_program": 0,
+          "instrument_source": "model",
+          "velocity_source": "default"
+        },
+        {
+          "id": "track-2",
+          "name": "Drums",
+          "is_drum": true,
+          "gm_program": null,
+          "instrument_source": "model",
+          "velocity_source": "default"
+        }
+      ]
+    },
+    {
+      "case": "control-random-rests-durations",
+      "engine": "basic_pitch",
+      "seed": 2026100409,
+      "source_sha256": "73ea05531ffd0f3556d309eb95e066136dae4c325c1e677a7b9e8e1a86e5b750",
+      "prediction_sha256": "46be6f6ebe3f5329d85def4e04e92e4ee9126a91588df242035b244057c26bda",
+      "worker_sha256": "9348d7d0bbb583f27b564139ec06b5b6888f204eb76f68c4f411cd293712bb7d",
+      "note": {
+        "reference_events": 9,
+        "predicted_events": 9,
+        "matched": 9,
+        "missed": 0,
+        "extra": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "onset_mae_seconds": 0.0053030303030303155,
+        "with_offset": {
+          "reference_events": 9,
+          "predicted_events": 9,
+          "matched": 8,
+          "missed": 1,
+          "extra": 1,
+          "precision": 0.8888888888888888,
+          "recall": 0.8888888888888888,
+          "f1": 0.8888888888888888
+        },
+        "offset_mae_seconds": 0.04999999999999985,
+        "instrument_matches": 0,
+        "instrument_comparisons": 0,
+        "unmatched_reference": [],
+        "unmatched_prediction": []
+      },
+      "drum": {
+        "reference_events": 0,
+        "predicted_events": 0,
+        "matched": 0,
+        "missed": 0,
+        "extra": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "onset_mae_seconds": null,
+        "instrument_matches": 0,
+        "instrument_comparisons": 0,
+        "unmatched_reference": [],
+        "unmatched_prediction": []
+      },
+      "reference_events": [
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 76,
+          "start_seconds": 0.25,
+          "end_seconds": 1.0
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 67,
+          "start_seconds": 1.25,
+          "end_seconds": 2.0
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 64,
+          "start_seconds": 2.375,
+          "end_seconds": 3.125
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 76,
+          "start_seconds": 3.375,
+          "end_seconds": 3.875
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 67,
+          "start_seconds": 4.0,
+          "end_seconds": 4.25
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 67,
+          "start_seconds": 4.375,
+          "end_seconds": 4.75
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 72,
+          "start_seconds": 4.875,
+          "end_seconds": 5.25
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 71,
+          "start_seconds": 5.625,
+          "end_seconds": 6.375
+        },
+        {
+          "kind": "note",
+          "track": "lead",
+          "midi_pitch": 65,
+          "start_seconds": 6.75,
+          "end_seconds": 7.25
+        }
+      ],
+      "predicted_events": [
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 76,
+          "velocity": 104,
+          "start_seconds": 0.24318181818181817,
+          "end_seconds": 1.034090909090909
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 103,
+          "start_seconds": 1.2545454545454544,
+          "end_seconds": 2.0454545454545454
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 64,
+          "velocity": 104,
+          "start_seconds": 2.370454545454545,
+          "end_seconds": 3.1704545454545454
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 76,
+          "velocity": 104,
+          "start_seconds": 3.3795454545454544,
+          "end_seconds": 3.9136363636363636
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 89,
+          "start_seconds": 3.995454545454545,
+          "end_seconds": 4.368181818181818
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 67,
+          "velocity": 103,
+          "start_seconds": 4.368181818181818,
+          "end_seconds": 4.786363636363636
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 72,
+          "velocity": 102,
+          "start_seconds": 4.868181818181818,
+          "end_seconds": 5.297727272727273
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 71,
+          "velocity": 104,
+          "start_seconds": 5.634090909090909,
+          "end_seconds": 6.413636363636363
+        },
+        {
+          "kind": "note",
+          "track": "track-1",
+          "midi_pitch": 65,
+          "velocity": 104,
+          "start_seconds": 6.75,
+          "end_seconds": 7.295454545454545
+        }
+      ]
+    }
+  ]
+}

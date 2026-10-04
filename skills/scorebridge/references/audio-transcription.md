@@ -1,72 +1,86 @@
-# Agent-owned audio transcription
+# Agent-led audio transcription
 
-Use this reference for audio inputs; existing PDF/image instructions still apply
-to sheet music. Do not ask a DAW or notation application's transcription feature
-to recognize music. CLI/MCP editor interfaces receive Agent-authored music only.
+The calling Agent owns the task and musical interpretation. Assess host audio
+input and tool availability internally; the user does not need to ask whether
+this Agent can hear, choose a model, or approve individual notes. Use native audio
+recognition when genuinely available and suitable, otherwise invoke an optional
+transcription engine. Editor software receives the resulting music plan.
 
-## Available tools
-
-Install `.[audio]`. WAV PCM16 can be prepared directly. Install `ffmpeg` for MP3,
-float WAV and other formats it can decode, or set `SCOREBRIDGE_FFMPEG` to its path.
-
-```bash
-scorebridge prepare-audio INPUT.wav --output work/audio
-```
-
-MCP: `audio_prepare(input_path, output_dir)`. The tool returns `awaiting_agent`,
-source-linked WAV segments, raw waveform/STFT images and an evidence manifest.
-It never selects notes, recognizes an instrument, or invokes another model.
-Read original audio with the host's audio input when supported. Otherwise use
-spectral images as visual evidence and record `evidence_mode: raw_spectral_images`;
-do not report that you heard the source. A path/preview alone does not establish
-that the host exposes audio to its Agent.
-
-Inspect both spectral resolutions: long windows distinguish pitches, short
-windows locate attacks. Harmonics at octave/fifth intervals are not independent
-notes unless their attacks, envelopes and context support that judgment. Request
-a narrower display with `--midi-low 54 --midi-high 84` when needed. Read absolute
-source seconds from the axes, join consecutive segments and deduplicate their
-overlap. Keep note releases separate from acoustic reverb tails. Infer drum
-events independently of pitched bass notes; do not assume a repeating pattern.
-
-## Event record for the first development stage
-
-Save Agent judgments before opening any benchmark reference:
-
-```json
-{
-  "schema_version": 1,
-  "recognizer": "calling_agent",
-  "evidence_mode": "raw_spectral_images",
-  "events": [
-    {"kind": "note", "track": "lead", "midi_pitch": 69,
-     "start_seconds": 0.0, "end_seconds": 0.5},
-    {"kind": "drum", "track": "drums", "drum": "snare",
-     "start_seconds": 1.0, "end_seconds": 1.1}
-  ]
-}
-```
-
-These are sounding MIDI pitches, not transposed instrument notation. Optional
-`instrument_id` records a judged identity; a label is not a playback assignment.
-This experimental event record is not yet the unified notation/performance plan.
-Resolve uncertainty using source/context and produce the best complete record;
-there is no mandatory human note-review stage or repeated recognition pipeline.
-
-For development tests only, compare predictions with separately held answers:
+## Engine tools
 
 ```bash
-scorebridge evaluate-audio reference.json prediction.json --output report.json
+scorebridge audio-backends
+scorebridge transcribe-audio recording.wav --output work/audio --hint mixed
+# Only when separation helps:
+scorebridge separate-audio recording.wav --output work/stems
 ```
 
-It reports one-to-one pitch/onset matches, missed/extra events, separate release
-timing, drums and supplied instrument identity. It does not certify a musical
-result. Keep test provenance (known templates, synthetic versus sampled sources,
-native-audio versus spectral input) with results.
+MCP equivalents: `audio_backends`, `audio_transcribe`, `audio_separate`.
+The hint comes from the Agent's interpretation of the task/source: `piano` prefers
+Transkun, `solo` prefers Basic Pitch, and `mixed`/`auto` prefers YourMT3. Failure
+switches to the next engine. A pitched-only fallback on a mixture is a draft;
+it cannot establish drum or instrument identities. Repair the failed runtime or
+use stems and appropriate engines rather than treating the fallback as complete.
 
-## Delivery
+`--combine` keeps two candidates for source-based Agent resolution. It does not
+append both note lists or accept agreement as proof. Apply combination only when
+useful; retain primary events and the disagreements while resolving uncertain
+segments. No full second transcription pass or human note-review gate is required.
 
-Use existing MuseScore command plans to write Agent-recognized music when
-requested. Automatic conversion of audio events to notation, multi-track MIDI
-and DAW projects belongs to the next development stages. Do not present evidence
-preparation as completed transcription or native-project generation.
+Python 3.10/3.11 runtimes are installed in separate optional environments, not in
+the Agent/core Python. Models are loaded in short-lived workers and released on
+exit. Packages are pinned; YourMT3 downloads one checksum-verified checkpoint
+rather than cloning the Space's entire Git LFS repository. Models are not bundled
+with ScoreBridge. Set `SCOREBRIDGE_AUDIO_HOME` or `--cache-dir` to choose cache
+storage. To provision only one engine, use `scorebridge audio-install ENGINE`.
+A pre-existing runtime can be supplied with
+`SCOREBRIDGE_AUDIO_BASIC_PITCH_PYTHON`, `SCOREBRIDGE_AUDIO_TRANSKUN_PYTHON`,
+`SCOREBRIDGE_AUDIO_YOURMT3_PYTHON`, or `SCOREBRIDGE_AUDIO_DEMUCS_PYTHON`.
+These external runtimes are inspected but never installed over.
+
+`audio-backends` distinguishes imports from actual inference verification.
+Neither proves accuracy on a new recording. A genuine dependency/permission
+failure should be repaired or reported specifically, not replaced by invented
+notes or a generic claim that the Agent cannot do the task.
+
+## Source and event evidence
+
+`audio_transcribe` retains original audio, decoded WAV, attempts, model MIDI and
+source-linked event candidates in a private job. Identical inputs/options reuse
+verified artifacts; failed jobs can resume. Events use sounding MIDI pitches and
+absolute source seconds. They retain velocity, control changes and pitch bends
+when supplied by the engine. Printed instrument transposition belongs in the
+notation plan, not in these sounding pitches.
+
+Basic Pitch does not identify instruments. Its default MIDI program 0 is not
+recognized piano. Resolve track sound identity using the source/task or an
+instrument-capable engine before native score/project delivery. YourMT3 provides
+model-estimated GM families; same-family players are not automatically separate
+orchestral parts. Do not claim arbitrary dynamics/techniques were recognized
+merely because the model emitted a fixed default velocity.
+
+Separation produces aligned **audio stems**, not notes. Demucs's drum/bass/vocal/
+other groups do not isolate every orchestral instrument. Keep the original mix,
+transcribe melodic stems with a suitable engine, and use a drum-capable engine
+for percussion. Never run Basic Pitch on a drum stem as a drum recognizer.
+
+For difficult local judgments, `audio_prepare` / `scorebridge prepare-audio`
+provides source-linked waveform/STFT images. These are diagnostic evidence;
+without native audio input, do not claim to have heard the file. Preserve rests,
+ornaments and genuine polyphony; harmonics and reverb tails are not extra notes.
+
+## Evaluation and delivery
+
+`audio_evaluate` / `scorebridge evaluate-audio` compares frozen predictions with
+held-out reference events. Score pitch/onset, release timing, drum categories and
+supplied instrument identity separately. References are development answers,
+never recognition input. Samples rendered with an instrument must have their
+actual instrument/routing checked, not just a matching part name.
+
+Use the existing MuseScore plan tools for Agent-authored notation. Engine MIDI is
+candidate performance data, not a finished engraved score or verified DAW project.
+Use `music_plan` then `music_deliver` for selected notation, multitrack MIDI or
+native ACE delivery. Read [music-plan.md](music-plan.md) for timing, instrument
+bindings, automatic notation and software-specific expression. Preserve the best
+complete draft and source uncertainties for editing;
+do not turn uncertainty into a mandatory human checkpoint.

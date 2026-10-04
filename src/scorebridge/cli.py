@@ -6,9 +6,43 @@ from scorebridge.musicxml import compile_musicxml
 from scorebridge.validation import validate_score
 
 def main():
-    parser=argparse.ArgumentParser(prog="scorebridge", description="Compile and validate Agent-readable music scores")
+    parser=argparse.ArgumentParser(prog="scorebridge", description="Agent-led sheet music and audio transcription into editable music")
     sub=parser.add_subparsers(dest="command", required=True)
+    plan = sub.add_parser("music-plan", help="Wrap Agent notation or audio events in one music construction plan")
+    plan.add_argument("input"); plan.add_argument("--output", required=True)
+    plan.add_argument("--title", default="")
+    plan.add_argument("--bpm", type=float, default=None)
+    plan.add_argument("--numerator", type=int, default=4)
+    plan.add_argument("--denominator", type=int, default=4)
+    deliver = sub.add_parser("deliver-music", help="Deliver only requested notation, MIDI or native DAW files")
+    deliver.add_argument("input"); deliver.add_argument("--output", required=True)
+    deliver.add_argument("--formats", nargs="+", choices=["mscz", "musicxml", "pdf", "midi", "ace"], default=["mscz"])
+    deliver.add_argument("--executable", default="")
+    deliver.add_argument("--ace-cli", default="")
+    ace = sub.add_parser("ace-status", help="Read-only official ACE Studio CLI connection check")
+    ace.add_argument("--ace-cli", default="")
     sub.add_parser("doctor")
+    backends = sub.add_parser("audio-backends", help="Inspect optional isolated audio engines")
+    backends.add_argument("--cache-dir", default="")
+    install = sub.add_parser("audio-install", help="Install one optional audio engine in isolation")
+    install.add_argument("engine", choices=["basic_pitch", "transkun", "yourmt3", "demucs"])
+    install.add_argument("--cache-dir", default="")
+    transcribe = sub.add_parser("transcribe-audio", help="Run audio transcription with automatic engine fallback")
+    transcribe.add_argument("input"); transcribe.add_argument("--output", required=True)
+    transcribe.add_argument("--hint", choices=["auto", "solo", "piano", "mixed"], default="auto")
+    transcribe.add_argument("--engine", choices=["auto", "basic_pitch", "transkun", "yourmt3"], default="auto")
+    transcribe.add_argument("--cache-dir", default="")
+    transcribe.add_argument("--no-install", action="store_true")
+    transcribe.add_argument("--no-fallback", action="store_true")
+    transcribe.add_argument("--combine", action="store_true", help="Keep two engine candidates for Agent resolution")
+    transcribe.add_argument("--device", choices=["cpu", "cuda", "auto"], default="cpu")
+    transcribe.add_argument("--timeout", type=int, default=1800)
+    separate = sub.add_parser("separate-audio", help="Create aligned audio stems for optional transcription assistance")
+    separate.add_argument("input"); separate.add_argument("--output", required=True)
+    separate.add_argument("--cache-dir", default="")
+    separate.add_argument("--no-install", action="store_true")
+    separate.add_argument("--device", choices=["cpu", "cuda", "auto"], default="cpu")
+    separate.add_argument("--timeout", type=int, default=1800)
     prepare=sub.add_parser("prepare"); prepare.add_argument("input"); prepare.add_argument("--output", required=True)
     prepare.add_argument("--dpi", type=int, default=450)
     audio = sub.add_parser("prepare-audio", help="Prepare audio evidence for the calling Agent")
@@ -45,6 +79,36 @@ def main():
     validate=sub.add_parser("validate"); validate.add_argument("input")
     compile_cmd=sub.add_parser("compile"); compile_cmd.add_argument("input"); compile_cmd.add_argument("--output", required=True)
     args=parser.parse_args()
+    if args.command in {"music-plan", "deliver-music", "ace-status"}:
+        try:
+            if args.command == "music-plan":
+                from scorebridge.music_plan import make_music_plan
+                result = make_music_plan(args.input, args.output, args.title, args.bpm, args.numerator, args.denominator)
+            elif args.command == "deliver-music":
+                from scorebridge.music_delivery import deliver_music_plan
+                result = deliver_music_plan(args.input, args.output, args.formats, args.executable, args.ace_cli)
+            else:
+                from scorebridge.ace.adapter import ACEStudioAdapter
+                result = ACEStudioAdapter(args.ace_cli).status()
+        except (ValueError, OSError, KeyError, TypeError) as exc:
+            result = {"status": "error", "error": str(exc)}
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        raise SystemExit(0 if result.get("status") in {"planned", "delivered", "connected"} else 1)
+    if args.command in {"audio-backends", "audio-install", "transcribe-audio", "separate-audio"}:
+        from .audio.backends import audio_backends, install_backend
+        from .audio.transcribe import transcribe_audio, separate_audio
+        if args.command == "audio-backends":
+            report = audio_backends(args.cache_dir)
+        elif args.command == "audio-install":
+            report = install_backend(args.engine, args.cache_dir)
+        elif args.command == "transcribe-audio":
+            report = transcribe_audio(args.input, args.output, args.hint, args.engine, args.cache_dir,
+                                      not args.no_install, not args.no_fallback, args.combine, args.device, args.timeout)
+        else:
+            report = separate_audio(args.input, args.output, args.cache_dir,
+                                    not args.no_install, args.device, args.timeout)
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+        raise SystemExit(1 if report.get("status") in {"error", "busy"} else 0)
     if args.command in {"prepare-audio", "evaluate-audio"}:
         from .audio import prepare_audio, evaluate_audio_events
         try:

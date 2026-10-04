@@ -23,7 +23,7 @@ def _write_xml(events, path):
     for i, track in enumerate(tracks):
         group = [e for e in events if e["track"] == track]
         percussion = group[0]["kind"] == "drum"
-        name = "Percussion" if percussion else group[0]["instrument_id"]
+        name = "Drumset" if percussion else group[0]["instrument_id"]
         entry = SubElement(part_list, "score-part", id=f"P{i}")
         SubElement(entry, "part-name").text = name
         drum_values = {"kick": 36, "snare": 38, "closed_hi_hat": 42}
@@ -31,7 +31,8 @@ def _write_xml(events, path):
         for identity in identities:
             iid = f"P{i}-{identity}"
             instrument = SubElement(entry, "score-instrument", id=iid)
-            SubElement(instrument, "instrument-name").text = identity if percussion else name
+            drum_names = {"kick": "Acoustic Bass Drum", "snare": "Acoustic Snare", "closed_hi_hat": "Closed Hi-Hat"}
+            SubElement(instrument, "instrument-name").text = drum_names[identity] if percussion else name
             midi = SubElement(entry, "midi-instrument", id=iid)
             SubElement(midi, "midi-channel").text = "10" if percussion else str(i + 1)
             SubElement(midi, "midi-program").text = "1" if percussion or name == "piano" else "74"

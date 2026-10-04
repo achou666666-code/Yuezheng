@@ -13,6 +13,7 @@ def test_server_exposes_agent_default():
     assert tools['score_transcribe'].inputSchema['properties']['mode']['default'] == 'agent'
     assert 'musescore_execute_plan' in tools
     assert 'musescore_create_score' in tools
+    assert {'music_plan', 'music_deliver', 'ace_status'} <= tools.keys()
     assert 'musescore_bind_score' in tools
     assert tools['musescore_create_score'].inputSchema['properties']['open_editor']['default'] is False
 
@@ -20,3 +21,8 @@ def test_server_exposes_agent_default():
     assert "musescore_apply_plan" in tools
     assert "audio_prepare" in tools
     assert "audio_evaluate" in tools
+    assert "audio_backends" in tools
+    assert "audio_install" in tools
+    assert "audio_transcribe" in tools
+    assert "audio_separate" in tools
+    assert tools['audio_transcribe'].inputSchema['properties']['hint']['default'] == 'auto'

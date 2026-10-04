@@ -1,17 +1,22 @@
 ---
 name: scorebridge
-description: Read PDF or image sheet music as an Agent and create editable, playable MSCZ files through ScoreBridge's MuseScore MCP or CLI. Prepare audio evidence for Agent-led transcription experiments.
+description: Transcribe PDF/image sheet music and audio with an Agent. Use ScoreBridge notation tools and optional audio engines to produce editable music, with CLI and MCP workflows.
 ---
 
 # ScoreBridge
 
-The calling Agent recognizes the original music. ScoreBridge executes the notation
-plan in MuseScore and delivers one editable, playable `.mscz` by default.
+The calling Agent interprets the user's natural-language request, reads or
+transcribes the source, and chooses the required tools internally. ScoreBridge
+provides source preparation, optional audio engines and music-software adapters.
+The existing notation route delivers an editable, playable `.mscz` by default.
 
 For audio input, read [audio-transcription.md](references/audio-transcription.md).
-The calling Agent owns recognition; editor MCP tools only write/edit/save the
-result. Audio evidence preparation and event benchmarking are implemented;
-automatic multi-format audio delivery is under development.
+Use native audio recognition when suitable; otherwise select optional engines
+and, when useful, audio separation. Runtime checks, actual model transcription,
+fallback, candidate combination and event benchmarking are implemented. Use
+[music-plan.md](references/music-plan.md) to produce selected MSCZ, MusicXML,
+PDF, multitrack MIDI or ACE projects. Do not ask the user to choose engines or
+approve notes individually. Assess the requested output and bindings internally.
 
 **The workflow must not depend on computer use, screen control, menu clicking,
 or Accessibility automation.** Use the official MuseScore extension host through
