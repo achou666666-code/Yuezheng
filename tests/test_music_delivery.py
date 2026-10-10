@@ -110,3 +110,18 @@ def test_missing_notation_software_does_not_block_midi(plan, tmp_path):
     assert report["status"] == "partial"
     assert set(report["outputs"]) == {"midi", "musicxml"}
     assert "mscz" in report["errors"]
+
+
+def test_sibelius_delivery_uses_independent_musicxml_projection(plan, tmp_path, monkeypatch):
+    p = tmp_path / "plan.json"; p.write_text(json.dumps(plan))
+
+    def fake_create(xml_path, output_path, url):
+        assert Path(xml_path).read_text().startswith("<?xml")
+        Path(output_path).write_bytes(b"SIB")
+        return {"status": "delivered", "output_path": output_path, "staff_count": 2}
+
+    monkeypatch.setattr("scorebridge.sibelius.adapter.create_sibelius_score", fake_create)
+    report = deliver_music_plan(p, tmp_path / "output", ["sib"], executable=str(tmp_path / "missing"))
+    assert report["status"] == "delivered"
+    assert Path(report["outputs"]["sib"]).read_bytes() == b"SIB"
+    assert report["sibelius_receipt"]["staff_count"] == 2

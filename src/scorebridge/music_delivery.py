@@ -242,13 +242,13 @@ def _rests(measure, duration, voice):
             SubElement(note, "dot")
 
 
-def deliver_music_plan(input_path, output_dir, formats=("mscz",), executable="", ace_cli=""):
+def deliver_music_plan(input_path, output_dir, formats=("mscz",), executable="", ace_cli="", sibelius_url=""):
     """Generate only requested public files and preserve a private delivery receipt."""
     try:
         plan = load_music_plan(input_path)
-        allowed = {"mscz", "musicxml", "pdf", "midi", "ace"}
+        allowed = {"mscz", "musicxml", "pdf", "midi", "ace", "sib"}
         if not formats or len(formats) != len(set(formats)) or any(f not in allowed for f in formats):
-            raise ValueError("Choose unique formats: mscz, musicxml, pdf, midi, ace")
+            raise ValueError("Choose unique formats: mscz, sib, musicxml, pdf, midi, ace")
         output = Path(output_dir).resolve()
         output.mkdir(parents=True, exist_ok=True)
         digest = hashlib.sha256(json.dumps(plan, sort_keys=True).encode()).hexdigest()
@@ -259,7 +259,7 @@ def deliver_music_plan(input_path, output_dir, formats=("mscz",), executable="",
         score_path = internal / "score.mscz"
         xml_path = internal / "score.musicxml"
         native = plan.get("notation", {}).get("native")
-        need_score = bool(set(formats) & {"mscz", "pdf"}) or bool(native and set(formats) & {"musicxml", "midi", "ace"})
+        need_score = bool(set(formats) & {"mscz", "pdf"}) or bool(native and set(formats) & {"musicxml", "midi", "ace", "sib"})
         score_error = None
         if need_score:
             try:
@@ -277,8 +277,19 @@ def deliver_music_plan(input_path, output_dir, formats=("mscz",), executable="",
         import shutil
         for fmt in formats:
             try:
-                if score_error and (fmt in {"mscz", "pdf"} or native and fmt in {"musicxml", "midi", "ace"}):
+                if score_error and (fmt in {"mscz", "pdf"} or native and fmt in {"musicxml", "midi", "ace", "sib"}):
                     raise ValueError(score_error)
+                if fmt == "sib":
+                    from .sibelius.adapter import create_sibelius_score
+                    sib_xml = internal / "sibelius.musicxml"
+                    if native:
+                        adapter.convert(str(score_path), str(sib_xml))
+                    else:
+                        write_plan_musicxml(plan, sib_xml)
+                    result = create_sibelius_score(str(sib_xml), str(output / "music.sib"), sibelius_url)
+                    report["outputs"][fmt] = result["output_path"]
+                    report["sibelius_receipt"] = result
+                    continue
                 if fmt == "ace":
                     from .ace.adapter import create_ace_project
                     ace_plan = plan
@@ -305,11 +316,11 @@ def deliver_music_plan(input_path, output_dir, formats=("mscz",), executable="",
                 else:
                     adapter.convert(str(score_path), str(destination))
                 report["outputs"][fmt] = str(destination)
-            except (ValueError, OSError, MuseScoreError, ImportError) as exc:
+            except (ValueError, OSError, RuntimeError, MuseScoreError, ImportError) as exc:
                 report["status"] = "partial"
                 report.setdefault("errors", {})[fmt] = str(exc)
         receipt = internal / "receipt.json"
         receipt.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
         return {**report, "receipt_path": str(receipt)}
-    except (ValueError, OSError, KeyError, TypeError, MuseScoreError, ImportError) as exc:
+    except (ValueError, OSError, RuntimeError, KeyError, TypeError, MuseScoreError, ImportError) as exc:
         return {"status": "error", "error": str(exc)}

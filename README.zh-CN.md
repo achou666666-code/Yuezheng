@@ -5,7 +5,7 @@
 **由 Agent 驱动，将乐谱图片、PDF 和音频转录为可编辑音乐。**
 ScoreBridge 由 Skill、可复用程序和 CLI／MCP 接口组成。Agent 理解用户的自然语言，
 读取原谱或转录音频，整理音乐内容，再执行用户需要的文件输出或软件工作流。
-MuseScore 是当前的制谱适配器，项目的定位不局限于一个编辑软件。
+MuseScore 和 Sibelius 是当前的制谱适配器，项目的定位不局限于一个编辑软件。
 
 ## 工作流程
 
@@ -23,7 +23,7 @@ MuseScore 是当前的制谱适配器，项目的定位不局限于一个编辑�
 | 功能 | 当前实现 |
 | --- | --- |
 | PDF 和图片输入 | 页面准备、页序映射、原图／增强图；由 Agent 读谱 |
-| 可编辑乐谱 | Agent 施工计划通过 MuseScore 官方扩展接口创建、修改、保存 MSCZ |
+| 可编辑乐谱 | Agent 施工计划通过 MuseScore 创建 MSCZ，或通过 Sibelius Connect 创建 SIB |
 | 音频转录 | 可选 Basic Pitch、Transkun、YourMT3；独立环境、失败切换、任务缓存 |
 | 音频辅助 | 可选 Demucs 分轨、波形／频谱证据、多候选结果组合 |
 | 统一计划和输出 | 原始演奏时间与记谱并存；按需生成 MSCZ、MusicXML、PDF、多轨 MIDI |
@@ -102,10 +102,11 @@ Basic Pitch 不识别乐器，不能把它默认写出的钢琴程序号当成�
 scorebridge music-plan work/events.json --output work/music-plan.json --bpm 96
 scorebridge deliver-music work/music-plan.json --output final --formats mscz
 # 用户需要时：
-scorebridge deliver-music work/music-plan.json --output final --formats musicxml pdf midi ace
+scorebridge deliver-music work/music-plan.json --output final --formats musicxml pdf midi ace sib
 ```
 
-MCP 对应 `music_plan`、`music_deliver`、`ace_status`。Agent 在内部提供音乐上下文，
+MCP 对应 `music_plan`、`music_deliver`、`ace_status`、`sibelius_status` 和
+`sibelius_create_score`。Agent 在内部提供音乐上下文，
 用户不必填写施工计划。已有图片制谱计划也可装入同一格式。演奏 MIDI 保留原始事件
 时间；音频自动记谱使用暂定网格，独立于演奏数据。精细记谱仍通过 Agent 编写的
 软件编辑指令实现。
@@ -115,6 +116,11 @@ ACE Studio 需已运行并开启 External Agent Access。官方 CLI 适配器创
 保存响应。AI 乐器使用原生表情参数；普通 MIDI／插件轨保留并验证 MIDI CC 和力度，
 AI 轨尚未映射的表情会明确记录。多乐器插件需要真正选择预设或状态。
 参见[音乐计划及 ACE 说明](skills/scorebridge/references/music-plan.md)。
+
+Sibelius 输出使用官方本机 Sibelius Connect WebSocket 和随工具提供的 ManuScript
+桥接插件。先运行 `scorebridge sibelius-install-plugin`，在 Sibelius 中开启 1898
+端口的 Sibelius Connect，再在 `deliver-music` 中请求 `sib`；适配器只在 Sibelius
+确认保存成功且文件真实存在后发布 `.sib`。
 
 ## 编辑接口与开发
 

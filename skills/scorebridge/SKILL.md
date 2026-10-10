@@ -15,7 +15,7 @@ Use native audio recognition when suitable; otherwise select optional engines
 and, when useful, audio separation. Runtime checks, actual model transcription,
 fallback, candidate combination and event benchmarking are implemented. Use
 [music-plan.md](references/music-plan.md) to produce selected MSCZ, MusicXML,
-PDF, multitrack MIDI or ACE projects. Do not ask the user to choose engines or
+PDF, multitrack MIDI, ACE projects or native Sibelius SIB files. Do not ask the user to choose engines or
 approve notes individually. Assess the requested output and bindings internally.
 
 **The workflow must not depend on computer use, screen control, menu clicking,
@@ -70,6 +70,11 @@ completed IDs and inspect state after a timeout instead of blindly replaying.
 text alone does not select a playback technique. Arbitrary MuseSound/VST resources,
 cross-staff slurs and two-chord tremolos need additional backend support.
 Do not report unsupported effects as implemented.
+
+For native Sibelius output, use `sibelius_install_plugin` once, then
+`music_deliver(..., formats=["sib"])` or `sibelius_create_score`. The bundled
+ManuScript bridge is called through official Sibelius Connect; it opens the
+MusicXML projection and confirms the native save before publishing the file.
 
 Audiveris is opt-in assistance via `score_transcribe(..., mode="omr")`, not the
 recognition engine for this default workflow.

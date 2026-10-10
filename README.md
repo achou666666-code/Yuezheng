@@ -5,8 +5,8 @@
 **Agent-led transcription from sheet music and audio into editable music.**
 ScoreBridge combines a Skill, reusable programs, and CLI/MCP interfaces. The Agent
 interprets a natural-language request, reads PDF/images or transcribes audio,
-organizes music, and uses the requested output/software workflow. MuseScore is
-the current notation adapter; the product is not tied to one editor.
+organizes music, and uses the requested output/software workflow. MuseScore and
+Sibelius are the current notation adapters; the product is not tied to one editor.
 
 ## Workflow
 
@@ -24,7 +24,7 @@ Request + PDF / images / audio
 | Capability | Current implementation |
 | --- | --- |
 | PDF and image input | Source preparation, page mapping, original/enhanced evidence; Agent reads the score |
-| Editable notation | Agent plans create/edit/save native MSCZ through MuseScore's official extension host |
+| Editable notation | Agent plans create/edit/save native MSCZ through MuseScore, or native SIB through Sibelius Connect |
 | Audio transcription | Optional Basic Pitch, Transkun and YourMT3 engines; isolated environments, fallback and cached jobs |
 | Audio assistance | Optional Demucs stems, waveform/spectral evidence and candidate combination |
 | Shared plan/output | Original performance plus notation; selected MSCZ, MusicXML, PDF and multitrack MIDI |
@@ -106,10 +106,11 @@ mistaken for recognized piano. Drum stems need a drum-capable transcriber.
 scorebridge music-plan work/events.json --output work/music-plan.json --bpm 96
 scorebridge deliver-music work/music-plan.json --output final --formats mscz
 # When requested:
-scorebridge deliver-music work/music-plan.json --output final --formats musicxml pdf midi ace
+scorebridge deliver-music work/music-plan.json --output final --formats musicxml pdf midi ace sib
 ```
 
-MCP: `music_plan`, `music_deliver`, `ace_status`. The Agent supplies musical
+MCP: `music_plan`, `music_deliver`, `ace_status`, `sibelius_status`, and
+`sibelius_create_score`. The Agent supplies musical
 context internally; users need not fill a plan. Existing image notation plans
 can be wrapped in the same format. Performance MIDI retains original event
 times; automatic audio notation uses a provisional grid, separate from that
@@ -122,6 +123,12 @@ save response. AI instruments use native synthesis parameters; MIDI CC/velocity
 are retained/verified on GenericMidi plugin tracks, with unmapped AI expression
 reported explicitly. Multi-instrument plugins require an actual preset/state.
 See [music plan / ACE reference](skills/scorebridge/references/music-plan.md).
+
+Sibelius delivery uses its official local Sibelius Connect WebSocket and a bundled
+ManuScript bridge. Install the bridge with `scorebridge sibelius-install-plugin`,
+enable Sibelius Connect on port 1898, and request `sib` in `deliver-music`. The
+adapter opens the generated MusicXML and saves the native `.sib` file only after
+Sibelius returns a successful save result and the file exists.
 
 ## Editor details and development
 

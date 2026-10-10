@@ -1,0 +1,43 @@
+{
+    Initialize "() {
+if (Sibelius.ProgramVersion >= 20200900) {
+    SetInterpreterOption('TreatSingleCharacterAsString');
+    SetInterpreterOption('SupportHalfSemitonePitchValues');
+}
+AddToPluginsMenu('ScoreBridge','Run');
+}"
+
+    Run "() {
+return InspectActive();
+}"
+
+    InspectActive "() {
+if (Sibelius.ScoreCount = 0) {
+    return CreateDictionary('status','empty','score_count',0);
+}
+score = Sibelius.ActiveScore;
+return CreateDictionary(
+    'status','connected',
+    'score_count',Sibelius.ScoreCount,
+    'staff_count',score.StaffCount,
+    'bar_count',score.NthStaff(1).BarCount,
+    'file_name',score.FileName
+);
+}"
+
+    ImportAndSave "(inputPath, outputPath) {
+opened = Sibelius.Open(inputPath, True);
+if (not opened) {
+    return CreateDictionary('status','error','error','Sibelius could not open the MusicXML input');
+}
+score = Sibelius.ActiveScore;
+score.SaveAs(outputPath,'SIBL');
+return CreateDictionary(
+    'status','saved',
+    'output_path',outputPath,
+    'staff_count',score.StaffCount,
+    'bar_count',score.NthStaff(1).BarCount,
+    'file_name',score.FileName
+);
+}"
+}

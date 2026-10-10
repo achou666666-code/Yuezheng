@@ -13,7 +13,8 @@ def test_server_exposes_agent_default():
     assert tools['score_transcribe'].inputSchema['properties']['mode']['default'] == 'agent'
     assert 'musescore_execute_plan' in tools
     assert 'musescore_create_score' in tools
-    assert {'music_plan', 'music_deliver', 'ace_status'} <= tools.keys()
+    assert {'music_plan', 'music_deliver', 'ace_status', 'sibelius_status',
+            'sibelius_install_plugin', 'sibelius_create_score'} <= tools.keys()
     assert 'musescore_bind_score' in tools
     assert tools['musescore_create_score'].inputSchema['properties']['open_editor']['default'] is False
 

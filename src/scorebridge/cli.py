@@ -16,11 +16,16 @@ def main():
     plan.add_argument("--denominator", type=int, default=4)
     deliver = sub.add_parser("deliver-music", help="Deliver only requested notation, MIDI or native DAW files")
     deliver.add_argument("input"); deliver.add_argument("--output", required=True)
-    deliver.add_argument("--formats", nargs="+", choices=["mscz", "musicxml", "pdf", "midi", "ace"], default=["mscz"])
+    deliver.add_argument("--formats", nargs="+", choices=["mscz", "sib", "musicxml", "pdf", "midi", "ace"], default=["mscz"])
     deliver.add_argument("--executable", default="")
     deliver.add_argument("--ace-cli", default="")
+    deliver.add_argument("--sibelius-url", default="")
     ace = sub.add_parser("ace-status", help="Read-only official ACE Studio CLI connection check")
     ace.add_argument("--ace-cli", default="")
+    sibelius = sub.add_parser("sibelius-status", help="Inspect the local Sibelius Connect endpoint and bridge plugin")
+    sibelius.add_argument("--url", default="")
+    install_sibelius = sub.add_parser("sibelius-install-plugin", help="Install the bundled Sibelius Connect bridge")
+    install_sibelius.add_argument("--destination", default="")
     sub.add_parser("doctor")
     backends = sub.add_parser("audio-backends", help="Inspect optional isolated audio engines")
     backends.add_argument("--cache-dir", default="")
@@ -79,21 +84,27 @@ def main():
     validate=sub.add_parser("validate"); validate.add_argument("input")
     compile_cmd=sub.add_parser("compile"); compile_cmd.add_argument("input"); compile_cmd.add_argument("--output", required=True)
     args=parser.parse_args()
-    if args.command in {"music-plan", "deliver-music", "ace-status"}:
+    if args.command in {"music-plan", "deliver-music", "ace-status", "sibelius-status", "sibelius-install-plugin"}:
         try:
             if args.command == "music-plan":
                 from scorebridge.music_plan import make_music_plan
                 result = make_music_plan(args.input, args.output, args.title, args.bpm, args.numerator, args.denominator)
             elif args.command == "deliver-music":
                 from scorebridge.music_delivery import deliver_music_plan
-                result = deliver_music_plan(args.input, args.output, args.formats, args.executable, args.ace_cli)
-            else:
+                result = deliver_music_plan(args.input, args.output, args.formats, args.executable, args.ace_cli, args.sibelius_url)
+            elif args.command == "ace-status":
                 from scorebridge.ace.adapter import ACEStudioAdapter
                 result = ACEStudioAdapter(args.ace_cli).status()
+            elif args.command == "sibelius-status":
+                from scorebridge.sibelius import sibelius_status
+                result = sibelius_status(args.url)
+            else:
+                from scorebridge.sibelius import install_sibelius_plugin
+                result = install_sibelius_plugin(args.destination)
         except (ValueError, OSError, KeyError, TypeError) as exc:
             result = {"status": "error", "error": str(exc)}
         print(json.dumps(result, ensure_ascii=False, indent=2))
-        raise SystemExit(0 if result.get("status") in {"planned", "delivered", "connected"} else 1)
+        raise SystemExit(0 if result.get("status") in {"planned", "delivered", "connected", "available", "installed"} else 1)
     if args.command in {"audio-backends", "audio-install", "transcribe-audio", "separate-audio"}:
         from .audio.backends import audio_backends, install_backend
         from .audio.transcribe import transcribe_audio, separate_audio

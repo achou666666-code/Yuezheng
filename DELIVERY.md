@@ -3,11 +3,13 @@
 ## Fixed design
 
 Skill instructs the calling Agent → Agent reads original PDF/images → internal
-notation plan → MuseScore MCP executes the plan → MuseScore handles engraving,
-instruments, playback and saving → MSCZ is the main user deliverable.
+notation plan → the selected native software adapter executes the plan → the
+target software handles engraving, instruments, playback and saving → the
+requested native project is the main user deliverable.
 
 Recognition is performed by the calling multimodal Agent. ScoreBridge executes
-its notation plan in MuseScore. Audiveris remains an optional auxiliary route.
+its notation plan through the selected native software adapter. Audiveris remains
+an optional auxiliary route.
 
 ## Fixed acceptance checkpoints
 
@@ -42,10 +44,12 @@ locations are provided but have not had a real application acceptance run.
 ## Capabilities still outside this release
 
 Arbitrary MuseSound/VST selection, playback changes triggered solely by technique
-text, cross-staff slurs, two-chord tremolos, and Sibelius/Cubase backends are not
-implemented here. The workflow preserves the Agent's supplied content; it does
-not claim a measured recognition percentage or identical layout for arbitrary
-scores. Missing commands return errors instead of silently discarding notation.
+text, cross-staff slurs, two-chord tremolos, and additional software backends
+remain extension points. Native MuseScore and Sibelius delivery are available
+through their respective adapters. The workflow preserves the Agent's supplied
+content; it does not claim a measured recognition percentage or identical layout
+for arbitrary scores. Missing commands return errors instead of silently
+discarding notation.
 
 ## First-release verification
 

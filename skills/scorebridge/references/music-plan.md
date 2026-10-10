@@ -10,10 +10,11 @@ scorebridge music-plan work/native-plan.json --output work/music-plan.json
 scorebridge music-plan work/events.json --output work/music-plan.json --bpm 96
 scorebridge deliver-music work/music-plan.json --output final --formats mscz
 # Select only what the user asked for:
-scorebridge deliver-music work/music-plan.json --output final --formats musicxml pdf midi ace
+scorebridge deliver-music work/music-plan.json --output final --formats musicxml pdf midi ace sib
 ```
 
-MCP: `music_plan`, `music_deliver`, `ace_status`. These call the same functions
+MCP: `music_plan`, `music_deliver`, `ace_status`, `sibelius_status`, and
+`sibelius_create_score`. These call the same functions
 as the CLI. `audio_transcribe` recognizes audio; `music_deliver` does not.
 
 ## Plan fields
@@ -84,6 +85,17 @@ and verify MIDI velocities/controllers/bends. Explicit supported AI note
 articulations are applied by display name. Native synthesis-parameter mappings
 can be added per instrument; do not pretend MIDI controllers were applied to AI.
 Mounted sound sources and nonempty audio do not prove subjective sound quality.
+
+## Sibelius
+
+Sibelius output uses the official localhost Sibelius Connect WebSocket (default
+`ws://127.0.0.1:1898`) and the bundled `ScoreBridge.plg` ManuScript bridge.
+`scorebridge sibelius-install-plugin` installs it in the user plug-in directory;
+the MCP equivalent is `sibelius_install_plugin`. `sibelius_create_score` opens
+MusicXML through the plugin and calls `Score.SaveAs(path, "SIBL")`. The adapter
+publishes `.sib` only after the response reports success and the file is present.
+Use `sibelius_status` to inspect the endpoint and plugin. The plan remains the
+same across MuseScore, Sibelius, ACE and file outputs.
 
 ## Recovery and publication
 

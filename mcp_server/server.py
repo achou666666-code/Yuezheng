@@ -37,16 +37,37 @@ def music_plan(input_path: str, output_path: str, title: str = "", bpm: Optional
         return {"status": "error", "error": str(exc)}
 
 @mcp.tool()
-def music_deliver(input_path: str, output_dir: str, formats: list[str], executable: str = "", ace_cli: str = "") -> dict:
-    """Deliver selected MSCZ/MusicXML/PDF/multitrack MIDI/ACE outputs. Does not recognize music; use Agent or audio_transcribe first."""
+def music_deliver(input_path: str, output_dir: str, formats: list[str], executable: str = "", ace_cli: str = "", sibelius_url: str = "") -> dict:
+    """Deliver selected MSCZ/SIB/MusicXML/PDF/multitrack MIDI/ACE outputs. Does not recognize music; use Agent or audio_transcribe first."""
     from scorebridge.music_delivery import deliver_music_plan
-    return deliver_music_plan(input_path, output_dir, formats, executable, ace_cli)
+    return deliver_music_plan(input_path, output_dir, formats, executable, ace_cli, sibelius_url)
 
 @mcp.tool()
 def ace_status(executable: str = "") -> dict:
     """Read-only official ACE Studio CLI connection check."""
     from scorebridge.ace.adapter import ACEStudioAdapter
     return ACEStudioAdapter(executable).status()
+
+@mcp.tool()
+def sibelius_status(url: str = "") -> dict:
+    """Inspect the official local Sibelius Connect endpoint and installed ScoreBridge bridge."""
+    from scorebridge.sibelius import sibelius_status as inspect
+    return inspect(url)
+
+@mcp.tool()
+def sibelius_install_plugin(destination: str = "") -> dict:
+    """Install ScoreBridge's bundled ManuScript bridge in Sibelius' user plug-in directory."""
+    from scorebridge.sibelius import install_sibelius_plugin
+    return install_sibelius_plugin(destination)
+
+@mcp.tool()
+def sibelius_create_score(musicxml_path: str, output_path: str, url: str = "") -> dict:
+    """Open MusicXML through official Sibelius Connect and save an editable native SIB score."""
+    from scorebridge.sibelius import SibeliusError, create_sibelius_score
+    try:
+        return create_sibelius_score(musicxml_path, output_path, url)
+    except (SibeliusError, OSError, ValueError) as exc:
+        return {"status": "error", "error": str(exc)}
 
 @mcp.tool()
 def audio_backends(cache_dir: str = "") -> dict:
