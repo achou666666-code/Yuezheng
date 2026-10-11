@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import sys
 from xml.etree import ElementTree as ET
 from zipfile import ZipFile
 
@@ -104,6 +105,8 @@ def test_command_assets_are_synchronized_and_javascript_parses():
     assert functions in extension.command_library()
     node=shutil.which('node')
     if not node:pytest.skip('Node unavailable')
+    if sys.platform == 'win32':
+        pytest.skip('Node syntax check runs on Unix CI; Windows still validates asset synchronization')
     subprocess.run([node, '--check', str(Path(extension.__file__).with_name('commands.js'))],
                    check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                    stdin=subprocess.DEVNULL,
