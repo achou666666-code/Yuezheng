@@ -21,28 +21,30 @@ def run_function(name, setup, expression):
     # causes the test process to be interrupted while the child is cleaned up.
     with tempfile.TemporaryDirectory(prefix='yuezheng-node-test-') as temp_dir:
         script = Path(temp_dir) / 'behavior_test.js'
+        stdout_path = Path(temp_dir) / 'stdout.txt'
+        stderr_path = Path(temp_dir) / 'stderr.txt'
         script.write_text(
             setup + '\n' + function + '\nconsole.log(JSON.stringify(' + expression + '));',
             encoding='utf-8',
         )
-        result = subprocess.run(
-            [node, str(script)],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            check=True,
-            stdin=subprocess.DEVNULL,
-            timeout=15,
-            close_fds=True,
-            **(
-                {
-                    'creationflags': subprocess.CREATE_NO_WINDOW | subprocess.CREATE_NEW_PROCESS_GROUP,
-                }
-                if os.name == 'nt'
-                else {}
-            ),
-        )
-    return json.loads(result.stdout)
+        with stdout_path.open('wb') as stdout, stderr_path.open('wb') as stderr:
+            subprocess.run(
+                [node, str(script)],
+                stdout=stdout,
+                stderr=stderr,
+                check=True,
+                stdin=subprocess.DEVNULL,
+                timeout=15,
+                close_fds=True,
+                **(
+                    {
+                        'creationflags': subprocess.CREATE_NO_WINDOW | subprocess.CREATE_NEW_PROCESS_GROUP,
+                    }
+                    if os.name == 'nt'
+                    else {}
+                ),
+            )
+        return json.loads(stdout_path.read_text(encoding='utf-8'))
 
 
 @pytest.mark.parametrize('failure', [{'error': 'bad duration'}, {'valid': False}, {'success': False}])
