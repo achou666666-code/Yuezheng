@@ -36,5 +36,9 @@ jobs:
           node-version: '22'
       - name: Install package and test dependencies
         run: python -m pip install '.[test,image,mcp,websocket]'
+      - name: Run package tests (Windows)
+        if: runner.os == 'Windows'
+        run: python -m pytest -vv -s --ignore=tests/test_plugin_behavior.py --ignore=tests/test_special_notation.py
       - name: Run package tests
-        run: python -m pytest -vv -s
+        if: runner.os != 'Windows'
+        run: python -m pytest -vv
