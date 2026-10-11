@@ -1,5 +1,6 @@
 """Run the plugin's actual JavaScript functions with a small editor double."""
 import json
+import os
 from pathlib import Path
 import re
 import shutil
@@ -32,6 +33,14 @@ def run_function(name, setup, expression):
             check=True,
             stdin=subprocess.DEVNULL,
             timeout=15,
+            close_fds=True,
+            **(
+                {
+                    'creationflags': subprocess.CREATE_NO_WINDOW | subprocess.CREATE_NEW_PROCESS_GROUP,
+                }
+                if os.name == 'nt'
+                else {}
+            ),
         )
     return json.loads(result.stdout)
 
