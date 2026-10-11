@@ -4,6 +4,7 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import tempfile
 
 import pytest
 
@@ -14,14 +15,24 @@ def run_function(name, setup, expression):
         pytest.skip('Node.js required for plugin JavaScript behavior tests')
     source = (Path(__file__).parents[1] / 'plugins/musescore-mcp-websocket.qml').read_text()
     function = re.search(r'    function ' + name + r'\(.*?\n    }', source, re.S).group()
-    result = subprocess.run(
-        [node, '-e', setup + '\n' + function + '\nconsole.log(JSON.stringify(' + expression + '));'],
-        capture_output=True,
-        text=True,
-        check=True,
-        stdin=subprocess.DEVNULL,
-        timeout=15,
-    )
+    # Run a closed script file instead of ``node -e``. Windows runners can
+    # leave an inline command process attached to pytest's console, which
+    # causes the test process to be interrupted while the child is cleaned up.
+    with tempfile.TemporaryDirectory(prefix='yuezheng-node-test-') as temp_dir:
+        script = Path(temp_dir) / 'behavior_test.js'
+        script.write_text(
+            setup + '\n' + function + '\nconsole.log(JSON.stringify(' + expression + '));',
+            encoding='utf-8',
+        )
+        result = subprocess.run(
+            [node, str(script)],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=True,
+            stdin=subprocess.DEVNULL,
+            timeout=15,
+        )
     return json.loads(result.stdout)
 
 
