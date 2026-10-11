@@ -17,7 +17,7 @@ def main():
     env.pop('PYTHONPATH', None)
     env.pop('PYTHONHOME', None)
     env['PYTHONNOUSERSITE'] = '1'
-    with tempfile.TemporaryDirectory(prefix='scorebridge-install-') as folder:
+    with tempfile.TemporaryDirectory(prefix='yuezheng-install-') as folder:
         work = Path(folder)
         source = work / 'source'
         source.mkdir()
@@ -28,8 +28,8 @@ def main():
         python = work / 'venv' / ('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
         subprocess.run([str(python), '-m', 'pip', 'install', str(source) + '[test,image,audio,websocket,mcp]'], check=True, env=env)
         subprocess.run([str(python), '-c',
-            'from pathlib import Path; import scorebridge; '
-            'p=Path(scorebridge.__file__).resolve(); print("Installed package:",p); '
+            'from pathlib import Path; import yuezheng; '
+            'p=Path(yuezheng.__file__).resolve(); print("Installed package:",p); '
             'assert "site-packages" in p.parts, "Test is using a source checkout"'], cwd=work, check=True, env=env)
         subprocess.run([str(python), '-m', 'pytest', '-q', '-rs'], cwd=source, check=True, env=env)
     print('Clean installation checks passed for ' + args.ref)

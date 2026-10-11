@@ -18,9 +18,9 @@ websocket = ["websockets>=12"]
 test = ["pytest>=8"]
 
 [project.scripts]
-yuezheng = "scorebridge.cli:main"
-scorebridge = "scorebridge.cli:main"
+yuezheng = "yuezheng.cli:main"
+scorebridge = "yuezheng.cli:main"
 
 [tool.setuptools.package-data]
-"scorebridge.musescore" = ["commands.js"]
-"scorebridge.sibelius" = ["Yuezheng.plg.in"]
+"yuezheng.musescore" = ["commands.js"]
+"yuezheng.sibelius" = ["Yuezheng.plg.in"]

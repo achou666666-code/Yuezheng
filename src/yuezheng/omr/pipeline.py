@@ -3,10 +3,10 @@ from pathlib import Path
 from typing import Optional
 from zipfile import BadZipFile, ZipFile
 from .engine import OMRAdapter
-from scorebridge.input import inspect_input, prepare_image
-from scorebridge.musicxml import parse_musicxml
-from scorebridge.score_ir import save_score
-from scorebridge.validation import validate_score
+from yuezheng.input import inspect_input, prepare_image
+from yuezheng.musicxml import parse_musicxml
+from yuezheng.score_ir import save_score
+from yuezheng.validation import validate_score
 
 
 def _find_musicxml(directory: Path) -> Optional[Path]:

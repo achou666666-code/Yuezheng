@@ -2,9 +2,9 @@
 from copy import deepcopy
 from dataclasses import asdict
 
-from scorebridge.score_ir import Event, Measure, Score, SourceRef
-from scorebridge.score_ir.io import score_from_dict
-from scorebridge.validation import validate_score
+from yuezheng.score_ir import Event, Measure, Score, SourceRef
+from yuezheng.score_ir.io import score_from_dict
+from yuezheng.validation import validate_score
 
 
 def _event(data):

@@ -4,7 +4,7 @@ from typing import Callable, Optional
 from uuid import uuid4
 from xml.etree.ElementTree import Element, ElementTree, SubElement
 
-from scorebridge.instruments import instrument_spec
+from yuezheng.instruments import instrument_spec
 
 from .adapter import MuseScoreAdapter, MuseScoreError
 from .catalog import scaffold_instrument

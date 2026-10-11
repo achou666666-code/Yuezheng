@@ -1,9 +1,9 @@
 import argparse, json, sys
 from pathlib import Path
-from scorebridge.doctor import diagnose
-from scorebridge.score_ir import load_score
-from scorebridge.musicxml import compile_musicxml
-from scorebridge.validation import validate_score
+from yuezheng.doctor import diagnose
+from yuezheng.score_ir import load_score
+from yuezheng.musicxml import compile_musicxml
+from yuezheng.validation import validate_score
 
 def main():
     parser=argparse.ArgumentParser(prog=Path(sys.argv[0]).name, description="Yuezheng: Agent-led music production assistant for editable music projects")
@@ -87,19 +87,19 @@ def main():
     if args.command in {"music-plan", "deliver-music", "ace-status", "sibelius-status", "sibelius-install-plugin"}:
         try:
             if args.command == "music-plan":
-                from scorebridge.music_plan import make_music_plan
+                from yuezheng.music_plan import make_music_plan
                 result = make_music_plan(args.input, args.output, args.title, args.bpm, args.numerator, args.denominator)
             elif args.command == "deliver-music":
-                from scorebridge.music_delivery import deliver_music_plan
+                from yuezheng.music_delivery import deliver_music_plan
                 result = deliver_music_plan(args.input, args.output, args.formats, args.executable, args.ace_cli, args.sibelius_url)
             elif args.command == "ace-status":
-                from scorebridge.ace.adapter import ACEStudioAdapter
+                from yuezheng.ace.adapter import ACEStudioAdapter
                 result = ACEStudioAdapter(args.ace_cli).status()
             elif args.command == "sibelius-status":
-                from scorebridge.sibelius import sibelius_status
+                from yuezheng.sibelius import sibelius_status
                 result = sibelius_status(args.url)
             else:
-                from scorebridge.sibelius import install_sibelius_plugin
+                from yuezheng.sibelius import install_sibelius_plugin
                 result = install_sibelius_plugin(args.destination)
         except (ValueError, OSError, KeyError, TypeError) as exc:
             result = {"status": "error", "error": str(exc)}

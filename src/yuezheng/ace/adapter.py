@@ -8,7 +8,7 @@ import shutil
 import subprocess
 import tempfile
 
-from scorebridge.music_plan import validate_music_plan, seconds_to_quarters
+from yuezheng.music_plan import validate_music_plan, seconds_to_quarters
 
 
 class ACEError(RuntimeError):
@@ -210,7 +210,7 @@ def _create_ace_project(plan, midi_path, output_path, executable=""):
             factory_gm = source["name"] == "DLSMusicDevice" and (track.get("gm_program") == 0 or track.get("is_drum"))
             if source["kind"] == "external-instrument" and not factory_gm and not any(config.get(k) for k in ("preset", "state_file", "single_program")):
                 raise ACEError("A multi-instrument plugin needs a resolved preset/state or explicit single_program binding; loading its name alone does not select this part's sound")
-        from scorebridge.music_delivery import write_performance_midi
+        from yuezheng.music_delivery import write_performance_midi
         write_performance_midi(plan, midi_path)
         previous = adapter.call("project", "dirty")
         if previous.get("dirty") or not previous.get("projectPath"):

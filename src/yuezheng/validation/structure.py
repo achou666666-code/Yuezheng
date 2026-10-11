@@ -1,6 +1,6 @@
 from collections import defaultdict
-from scorebridge.musicxml.compiler import DIVISIONS, DURATIONS
-from scorebridge.score_ir import Score
+from yuezheng.musicxml.compiler import DIVISIONS, DURATIONS
+from yuezheng.score_ir import Score
 
 def validate_score(score: Score):
     issues = []

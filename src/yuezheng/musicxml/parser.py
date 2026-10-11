@@ -1,10 +1,24 @@
 """MusicXML 4.0 subset parser used as the OMR engine boundary."""
 from pathlib import Path
 from xml.etree import ElementTree as ET
-from scorebridge.score_ir import Event, Measure, Part, Score, Staff
-from scorebridge.instruments import INSTRUMENTS
+from yuezheng.score_ir import Event, Measure, Part, Score, Staff
+from yuezheng.instruments import INSTRUMENTS
 
 _DURATION_NAMES = {"whole": "whole", "half": "half", "quarter": "quarter", "eighth": "eighth", "16th": "16th", "32nd": "32nd"}
+
+def _duration_name(duration, divisions, note, measure_rest=False):
+    if measure_rest:
+        return "dotted-whole" if duration == divisions * 6 else "whole"
+    dotted = _tag(note, "dot") is not None
+    values = {"whole": divisions * 4, "half": divisions * 2,
+              "quarter": divisions, "eighth": divisions // 2,
+              "16th": divisions // 4, "32nd": max(1, divisions // 8)}
+    for name, value in values.items():
+        if duration == value:
+            return ("dotted-" + name) if dotted else name
+        if duration * 2 == value * 3:
+            return "dotted-" + name
+    return min(values, key=lambda name: abs(duration - values[name]))
 
 def _tag(element, name):
     value = element.find(name)
@@ -16,7 +30,8 @@ def _text(element, name, default=None):
 
 def _parse_note(note, divisions):
     duration = int(_text(note, "duration", "0"))
-    kind = "rest" if _tag(note, "rest") is not None else "note"
+    rest_node = _tag(note, "rest")
+    kind = "rest" if rest_node is not None else "note"
     pitch = None
     pitch_node = _tag(note, "pitch")
     if pitch_node is not None:
@@ -25,11 +40,7 @@ def _parse_note(note, divisions):
         alter = int(_text(pitch_node, "alter", "0"))
         pitch = step + ("#" if alter == 1 else "b" if alter == -1 else "") + octave
     # OMR output commonly uses these exact type names; quantize unknown values conservatively.
-    duration_name = _text(note, "type", "quarter")
-    if _tag(note, "dot") is not None and duration_name in _DURATION_NAMES:
-        duration_name = "dotted-" + duration_name
-    if duration_name not in _DURATION_NAMES and duration_name not in {"dotted-" + x for x in _DURATION_NAMES}:
-        duration_name = min(_DURATION_NAMES, key=lambda name: abs(duration - {"whole": 4*divisions, "half": 2*divisions, "quarter": divisions, "eighth": divisions//2, "16th": divisions//4, "32nd": divisions//8}[name]))
+    duration_name = _duration_name(duration, divisions, note, bool(rest_node is not None and rest_node.attrib.get("measure") == "yes"))
     return Event(kind, duration_name, pitch=pitch, voice=int(_text(note, "voice", "1")), accidental=_text(note, "accidental"))
 
 def parse_musicxml(path: str) -> Score:

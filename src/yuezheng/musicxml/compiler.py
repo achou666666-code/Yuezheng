@@ -2,8 +2,8 @@ from collections import defaultdict
 from pathlib import Path
 from xml.etree.ElementTree import Element, ElementTree, SubElement
 
-from scorebridge.score_ir import Event, Score
-from scorebridge.instruments import instrument_spec
+from yuezheng.score_ir import Event, Score
+from yuezheng.instruments import instrument_spec
 
 DIVISIONS = 8
 DURATIONS = {"whole": (32, "whole"), "half": (16, "half"), "quarter": (8, "quarter"), "eighth": (4, "eighth"), "16th": (2, "16th"), "32nd": (1, "32nd"),

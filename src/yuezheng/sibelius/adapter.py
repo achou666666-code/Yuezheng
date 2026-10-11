@@ -35,7 +35,7 @@ def install_sibelius_plugin(destination: str = "") -> dict:
     """Install the bundled source as Sibelius' UTF-16LE .plg format."""
     root = Path(destination).expanduser().resolve() if destination else _plugin_root()
     target = root / f"{PLUGIN_NAME}.plg"
-    source = files("scorebridge.sibelius").joinpath("Yuezheng.plg.in").read_text(encoding="utf-8")
+    source = files("yuezheng.sibelius").joinpath("Yuezheng.plg.in").read_text(encoding="utf-8")
     payload = b"\xff\xfe" + source.replace("\n", "\r\n").encode("utf-16-le")
     root.mkdir(parents=True, exist_ok=True)
     changed = not target.exists() or target.read_bytes() != payload
