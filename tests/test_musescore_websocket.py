@@ -7,6 +7,7 @@ def test_websocket_backend_uses_configured_url(monkeypatch):
     assert backend.url == "ws://127.0.0.1:9876"
 
 import json
+import sys
 import threading
 import pytest
 from websockets.sync.server import serve
@@ -26,7 +27,8 @@ def test_real_socket_negotiates_protocol_and_propagates_error(wire_key):
             else:
                 writes.append(message[wire_key])
                 socket.send(json.dumps({'status': 'success', 'result': {'error': 'No score open'}}))
-    with serve(handler, '127.0.0.1', 0) as server:
+    server = serve(handler, '127.0.0.1', 0)
+    try:
         thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
         bridge = MuseScoreWebSocketBackend(url=f'ws://127.0.0.1:{server.socket.getsockname()[1]}', timeout=2)
         assert bridge.status()['protocol'] == wire_key
@@ -34,7 +36,15 @@ def test_real_socket_negotiates_protocol_and_propagates_error(wire_key):
         with pytest.raises(MuseScoreWebSocketError, match='No score open'):
             bridge.command('addNote', {'pitch': 60})
         assert writes == ['addNote']
-        server.shutdown(); thread.join(3)
+    finally:
+        if sys.platform == 'win32':
+            # websockets' sync Server.shutdown waits for a selector that
+            # closing a listening socket doesn't wake on Windows.
+            server.socket.close()
+            thread.join(0.1)
+        else:
+            server.shutdown()
+            thread.join(3)
 
 
 @pytest.mark.parametrize('reply', [{'error': 'bad'}, {'status': 'error', 'message': 'bad'}, {'result': {'valid': False}}, {'result': {'success': False}}])
