@@ -11,9 +11,10 @@ tests exercise installation and software behavior; they do not establish desktop
 audio quality or universal transcription accuracy.
 
 The verified native editor platform remains macOS / MuseScore Studio 4.7.4.
-Windows core package tests are a required CI gate; the Windows plugin and special
-notation harness is reported separately as diagnostic evidence while its hosted
-runner teardown behavior is stabilized.
+Ubuntu and macOS package tests are required release gates. Windows package tests,
+plugin behavior, and special notation are reported as diagnostic evidence because
+the hosted Windows runner can terminate with exit 1 after a clean test summary;
+they are not represented as a full Windows application acceptance.
 
 ## Historical baseline
 
