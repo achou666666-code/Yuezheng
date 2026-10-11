@@ -50,7 +50,7 @@ def test_open_score_uses_macos_document_event_for_app_bundle(monkeypatch, tmp_pa
                         lambda command, **kwargs: calls.append(command) or Process())
     adapter = MuseScoreAdapter()
     monkeypatch.setattr(adapter, "resolve",
-                        lambda: Path("/Applications/MuseScore 4.app/Contents/MacOS/mscore"))
+                        lambda: PurePosixPath("/Applications/MuseScore 4.app/Contents/MacOS/mscore"))
     result = adapter.open_score(str(source))
     assert calls == [["/usr/bin/open", "-a", "/Applications/MuseScore 4.app", str(source.resolve())]]
     assert result["command"] == calls[0]
