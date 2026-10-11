@@ -28,22 +28,30 @@ def run_function(name, setup, expression):
             encoding='utf-8',
         )
         with stdout_path.open('wb') as stdout, stderr_path.open('wb') as stderr:
-            subprocess.run(
+            process = subprocess.Popen(
                 [node, str(script)],
                 stdout=stdout,
                 stderr=stderr,
-                check=True,
                 stdin=subprocess.DEVNULL,
-                timeout=15,
                 close_fds=True,
                 **(
                     {
-                        'creationflags': subprocess.CREATE_NO_WINDOW | subprocess.CREATE_NEW_PROCESS_GROUP,
+                        'creationflags': subprocess.CREATE_NO_WINDOW
+                        | subprocess.CREATE_NEW_PROCESS_GROUP
+                        | subprocess.DETACHED_PROCESS,
                     }
                     if os.name == 'nt'
                     else {}
                 ),
             )
+            try:
+                returncode = process.wait(timeout=15)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait()
+                raise
+            if returncode:
+                raise subprocess.CalledProcessError(returncode, process.args)
         return json.loads(stdout_path.read_text(encoding='utf-8'))
 
 
