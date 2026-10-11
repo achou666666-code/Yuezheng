@@ -1,6 +1,12 @@
 """Yuezheng: an Agent-facing assistant for editable music projects."""
+from importlib.metadata import PackageNotFoundError, version
+
 __brand__ = "Yuezheng"
-__version__ = "0.4.10"
+try:
+    __version__ = version("yuezheng")
+except PackageNotFoundError:
+    # Source checkouts without an installed distribution still remain importable.
+    __version__ = "0+unknown"
 from .review import create_review_packet, apply_review
 from .workflow import transcribe_score
 

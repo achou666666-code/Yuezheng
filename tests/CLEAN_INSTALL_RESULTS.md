@@ -1,23 +1,22 @@
-# Clean installation verification — September 15, 2026
+# Clean installation verification — v0.4.28 release gate
 
-Before the fix, an export of commit 7723cfc had 68 passing tests, two failures,
-and one local-evidence skip. Both failures involved instrument names: Flute
-and Violin desk names depended on uncommitted local instrument changes.
+The clean-install workflow exports the committed tree, creates a fresh virtual
+environment, installs the package with test/image/audio/websocket/MCP extras,
+and verifies that imports come from site-packages rather than the source tree.
+The v0.4.28 pre-release clean-install run produced **228 passed, 1 skipped** on
+Python 3.11; the release workflow repeats the check on Python 3.10, 3.11 and
+3.12 before it can upload assets. The skip is the private Pirates
+page-classification evidence that is not distributed with the repository. These
+tests exercise installation and software behavior; they do not establish desktop
+audio quality or universal transcription accuracy.
 
-The fix resolves canonical names, flat spellings and numbered desks, adds the
-violin metadata missing from the committed catalog, and avoids reporting an
-explicit Piano alias as an accidental fallback. It does not add all orchestral
-instruments or establish audible sound quality.
+The verified native editor platform remains macOS / MuseScore Studio 4.7.4.
+Windows core package tests are a required CI gate; the Windows plugin and special
+notation harness is reported separately as diagnostic evidence while its hosted
+runner teardown behavior is stabilized.
 
-`scripts/check_clean_install.py` exported the staged fix, created a fresh Python
-3.14 environment, built and installed the package with test/image/websocket/MCP
-extras, and verified imports came from site-packages. Result: **73 passed,
-1 skipped**. The skip is the absent local Pirates page-classification evidence;
-JavaScript plugin behavior and MCP entry-point tests ran. The working checkout
-also passed all 74 tests, including its local evidence.
+## Historical baseline
 
-The new GitHub workflow repeats the clean installation check on Python 3.11
-with Node 22. Its live run status is separate from this local result. These tests
-exercise installation and software behavior, not desktop audio or transcription
-accuracy. Existing unrelated instrument/parser edits were excluded from the
-snapshot and retained in the working tree.
+The September 15, 2026 v0.1-era result was 73 passed and 1 skipped after fixes
+to canonical instrument names. That result is retained here as historical context;
+it is not the current release verification count.

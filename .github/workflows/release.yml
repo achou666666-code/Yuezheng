@@ -8,7 +8,13 @@ permissions:
   contents: write
 
 jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+    permissions:
+      contents: read
+
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,6 +25,36 @@ jobs:
         run: |
           python -m pip install --upgrade build
           python -m build
+      - name: Verify tag and built package versions
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import os
+          import pathlib
+          import re
+          import tomllib
+          import zipfile
+
+          tag = os.environ["RELEASE_TAG"]
+          expected = tag[1:] if tag.startswith("v") else tag
+          project = tomllib.loads(pathlib.Path("pyproject.toml").read_text())
+          declared = project["project"]["version"]
+          if declared != expected:
+              raise SystemExit(f"tag {tag} does not match project version {declared}")
+          wheels = list(pathlib.Path("dist").glob("*.whl"))
+          if len(wheels) != 1:
+              raise SystemExit(f"expected one wheel, found {wheels}")
+          with zipfile.ZipFile(wheels[0]) as archive:
+              metadata_name = next(name for name in archive.namelist() if name.endswith(".dist-info/METADATA"))
+              metadata = archive.read(metadata_name).decode()
+          match = re.search(r"^Version: (.+)$", metadata, re.MULTILINE)
+          if not match or match.group(1).strip() != expected:
+              raise SystemExit("wheel metadata version does not match the release tag")
+          if "License-Expression: Apache-2.0" not in metadata:
+              raise SystemExit("wheel metadata is missing License-Expression: Apache-2.0")
+          print(f"Verified release {tag}: version {expected}, Apache-2.0 metadata present")
+          PY
       - name: Upload release assets
         env:
           GH_TOKEN: ${{ github.token }}
