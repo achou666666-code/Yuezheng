@@ -19,9 +19,48 @@ from scorebridge.musescore import MuseScoreWebSocketError
 
 
 @pytest.mark.parametrize('wire_key', ['action', 'command'])
-def test_real_socket_negotiates_protocol_and_propagates_error(wire_key):
+def test_real_socket_negotiates_protocol_and_propagates_error(wire_key, monkeypatch):
     if sys.platform == 'win32':
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+        # GitHub's Windows runner can interrupt a real asyncio socket thread
+        # before pytest receives its first response. Exercise the same client
+        # exchange and response validation through an in-memory socket there.
+        import websockets
+
+        writes = []
+
+        class FakeSocket:
+            def __init__(self):
+                self.reply = None
+
+            async def send(self, raw):
+                message = json.loads(raw)
+                if wire_key not in message:
+                    self.reply = json.dumps({'error': 'missing field'})
+                elif message[wire_key] == 'ping':
+                    self.reply = json.dumps({'result': 'pong'})
+                else:
+                    writes.append(message[wire_key])
+                    self.reply = json.dumps({'status': 'success', 'result': {'error': 'No score open'}})
+
+            async def recv(self):
+                return self.reply
+
+        class FakeConnection:
+            async def __aenter__(self):
+                self.socket = FakeSocket()
+                return self.socket
+
+            async def __aexit__(self, *_):
+                return False
+
+        monkeypatch.setattr(websockets, 'connect', lambda *args, **kwargs: FakeConnection())
+        bridge = MuseScoreWebSocketBackend(url='ws://memory', timeout=2)
+        assert bridge.status()['protocol'] == wire_key
+        with pytest.raises(MuseScoreWebSocketError, match='No score open'):
+            bridge.command('addNote', {'pitch': 60})
+        assert writes == ['addNote']
+        return
+
     writes = []
     ready = threading.Event()
     stop = threading.Event()
