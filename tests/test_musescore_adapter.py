@@ -1,5 +1,5 @@
 import pytest
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import os
 from scorebridge.musescore import MuseScoreAdapter, MuseScoreError
 
@@ -65,9 +65,11 @@ def test_launch_score_process_returns_real_musescore_pid(monkeypatch, tmp_path):
         pid = 777
     monkeypatch.setattr(adapter_module.subprocess, "Popen",
                         lambda command, **kwargs: calls.append(command) or Process())
-    adapter = MuseScoreAdapter(executable="/usr/bin/true")
+    executable = tmp_path / ("fake-mscore.exe" if os.name == "nt" else "fake-mscore")
+    executable.write_bytes(b"fake")
+    adapter = MuseScoreAdapter(executable=str(executable))
     result = adapter.launch_score_process(str(source))
-    assert calls == [["/usr/bin/true", str(source.resolve())]]
+    assert calls == [[str(executable), str(source.resolve())]]
     assert result["pid"] == 777
     assert result["launch_mode"] == "dedicated_process"
 
@@ -82,7 +84,7 @@ def test_macos_dedicated_launch_uses_open_new_and_discovers_pid(monkeypatch, tmp
     monkeypatch.setattr(adapter_module.subprocess, "run",
                         lambda command, **kwargs: calls.append(command) or subprocess.CompletedProcess(command, 0))
     adapter = MuseScoreAdapter()
-    executable = Path("/Applications/MuseScore 4.app/Contents/MacOS/mscore")
+    executable = PurePosixPath("/Applications/MuseScore 4.app/Contents/MacOS/mscore")
     monkeypatch.setattr(adapter, "resolve", lambda: executable)
     states = iter(({11}, {11, 22}))
     monkeypatch.setattr(adapter, "_running_musescore_pids", lambda exe: next(states))
