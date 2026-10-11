@@ -2,12 +2,12 @@
 
 The default route uses the calling multimodal Agent to read the source image,
 then MuseScore MCP to execute its notation plan and save editable MSCZ.
-The Agent supplies the musical content; ScoreBridge handles software execution.
+The Agent supplies the musical content; Yuezheng handles software execution.
 
 Run from the repository root:
 
 ```bash
-.venv/bin/scorebridge prepare public-image.png --output /tmp/scorebridge-image
+.venv/bin/yuezheng prepare public-image.png --output /tmp/yuezheng-image
 ```
 
 The Agent reads the original and prepared pages, establishes page order, and
@@ -16,7 +16,7 @@ a plan containing `score` and `steps`. It then calls
 `musescore_build_score(specification, steps, output_path)`, or:
 
 ```bash
-.venv/bin/scorebridge build-score PLAN.json --output /tmp/image-score.mscz
+.venv/bin/yuezheng build-score PLAN.json --output /tmp/image-score.mscz
 ```
 
 The bundled `public-samples/twinkle-twinkle-cc0.png` can be used as an image input.
@@ -24,7 +24,7 @@ The bundled `public-samples/twinkle-twinkle-cc0.png` can be used as an image inp
 not a transcription of that image. To test software execution alone:
 
 ```bash
-.venv/bin/scorebridge build-score examples/native-plan.json --output /tmp/native-demo.mscz
+.venv/bin/yuezheng build-score examples/native-plan.json --output /tmp/native-demo.mscz
 ```
 
 Video walkthroughs will be added here after recording. Keep source permissions

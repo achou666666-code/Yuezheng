@@ -1,4 +1,4 @@
-# ScoreBridge first-release acceptance
+# Yuezheng first-release acceptance
 
 ## Fixed design
 
@@ -7,7 +7,7 @@ notation plan → the selected native software adapter executes the plan → the
 target software handles engraving, instruments, playback and saving → the
 requested native project is the main user deliverable.
 
-Recognition is performed by the calling multimodal Agent. ScoreBridge executes
+Recognition is performed by the calling multimodal Agent. Yuezheng executes
 its notation plan through the selected native software adapter. Audiveris remains
 an optional auxiliary route.
 

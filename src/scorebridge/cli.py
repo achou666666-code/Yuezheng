@@ -1,4 +1,4 @@
-import argparse, json
+import argparse, json, sys
 from pathlib import Path
 from scorebridge.doctor import diagnose
 from scorebridge.score_ir import load_score
@@ -6,7 +6,7 @@ from scorebridge.musicxml import compile_musicxml
 from scorebridge.validation import validate_score
 
 def main():
-    parser=argparse.ArgumentParser(prog="scorebridge", description="Agent-led sheet music and audio transcription into editable music")
+    parser=argparse.ArgumentParser(prog=Path(sys.argv[0]).name, description="Yuezheng: Agent-led transcription into editable music projects")
     sub=parser.add_subparsers(dest="command", required=True)
     plan = sub.add_parser("music-plan", help="Wrap Agent notation or audio events in one music construction plan")
     plan.add_argument("input"); plan.add_argument("--output", required=True)

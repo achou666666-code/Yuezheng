@@ -1,5 +1,6 @@
-"""ScoreBridge: an Agent-facing bridge for editable music scores."""
-__version__ = "0.3.0"
+"""Yuezheng: an Agent-facing assistant for editable music projects."""
+__brand__ = "Yuezheng"
+__version__ = "0.4.0"
 from .review import create_review_packet, apply_review
 from .workflow import transcribe_score
 

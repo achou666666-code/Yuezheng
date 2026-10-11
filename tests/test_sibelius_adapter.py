@@ -39,8 +39,8 @@ def test_official_handshake_and_plugin_invocation():
     result = client.invoke_plugin("ImportAndSave", ["in.musicxml", "out.sib"])
     assert result["staff_count"] == 3
     assert socket.sent[0] == {
-        "message": "connect", "clientName": "ScoreBridge",
-        "handshakeVersion": "1.0", "plugins": ["ScoreBridge"],
+        "message": "connect", "clientName": "Yuezheng",
+        "handshakeVersion": "1.0", "plugins": ["Yuezheng"],
     }
     assert socket.sent[1]["message"] == "invokePlugin"
     assert socket.sent[1]["method"] == "ImportAndSave"
@@ -80,7 +80,7 @@ def test_native_score_is_published_only_after_file_verification(tmp_path, monkey
     assert result["status"] == "delivered"
     assert output.read_bytes() == b"SIBELIUS-NATIVE"
     assert result["staff_count"] == 2 and result["bar_count"] == 5
-    assert not (tmp_path / "final.scorebridge-partial.sib").exists()
+    assert not (tmp_path / "final.yuezheng-partial.sib").exists()
 
 
 def test_missing_native_output_fails(tmp_path, monkeypatch):

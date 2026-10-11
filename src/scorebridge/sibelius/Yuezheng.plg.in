@@ -4,7 +4,7 @@ if (Sibelius.ProgramVersion >= 20200900) {
     SetInterpreterOption('TreatSingleCharacterAsString');
     SetInterpreterOption('SupportHalfSemitonePitchValues');
 }
-AddToPluginsMenu('ScoreBridge','Run');
+AddToPluginsMenu('Yuezheng','Run');
 }"
 
     Run "() {

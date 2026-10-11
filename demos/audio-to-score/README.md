@@ -47,11 +47,11 @@ python -m pip install -e '.[audio]'
 python scripts/make_audio_benchmark.py --output work/controls --seed 2026100407
 # A sampled fixture needs MuseScore and ffmpeg:
 python scripts/make_audio_benchmark.py --output work/sampled --seed 2026100407 --musescore /path/to/mscore
-scorebridge transcribe-audio work/sampled/inputs/mixed.wav --output work/inference --hint mixed
+yuezheng transcribe-audio work/sampled/inputs/mixed.wav --output work/inference --hint mixed
 # Freeze events before opening the answer:
-scorebridge evaluate-audio work/sampled/answers/mixed.json work/inference/transcription-JOB/events.json
-scorebridge music-plan work/inference/transcription-JOB/events.json --output work/plan.json --bpm 120
-scorebridge deliver-music work/plan.json --output final --formats mscz musicxml pdf midi ace
+yuezheng evaluate-audio work/sampled/answers/mixed.json work/inference/transcription-JOB/events.json
+yuezheng music-plan work/inference/transcription-JOB/events.json --output work/plan.json --bpm 120
+yuezheng deliver-music work/plan.json --output final --formats mscz musicxml pdf midi ace
 ```
 
 Here 120 BPM is the authored fixture tempo, not a tempo-recognition score. Agent
@@ -67,7 +67,7 @@ ACE read back all 54 pitches/times and MIDI velocities, with mounted piano and
 channel-10 kit. A separate seven-note test mounted AI violin and clarinet,
 retained tempo/meter changes and reopened correctly. AI Instrument clips do not
 use MIDI CC/velocity; unmapped expression is explicit, while plugin/MIDI tracks
-retain those controls. See [music plan reference](../../skills/scorebridge/references/music-plan.md).
+retain those controls. See [music plan reference](../../skills/yuezheng/references/music-plan.md).
 
 [validation.json](validation.json) preserves the earlier Agent spectral-image
 self-evaluation as a historical record; it is separate from model results.

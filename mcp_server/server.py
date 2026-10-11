@@ -1,4 +1,4 @@
-"""ScoreBridge MCP entry point. Install with `pip install -e '.[mcp]'`."""
+"""Yuezheng MCP entry point. Install with `pip install -e '.[mcp]'`."""
 import json
 from pathlib import Path
 from typing import Optional
@@ -22,9 +22,9 @@ from scorebridge.agent_workflow import prepare_agent_job, execute_plan_file
 try:
     from mcp.server.fastmcp import FastMCP
 except ImportError as exc:
-    raise SystemExit("Install ScoreBridge with the mcp extra: pip install -e '.[mcp]'") from exc
+    raise SystemExit("Install Yuezheng with the mcp extra: pip install -e '.[mcp]'") from exc
 
-mcp = FastMCP("ScoreBridge")
+mcp = FastMCP("Yuezheng")
 
 @mcp.tool()
 def music_plan(input_path: str, output_path: str, title: str = "", bpm: Optional[float] = None,
@@ -50,13 +50,13 @@ def ace_status(executable: str = "") -> dict:
 
 @mcp.tool()
 def sibelius_status(url: str = "") -> dict:
-    """Inspect the official local Sibelius Connect endpoint and installed ScoreBridge bridge."""
+    """Inspect the official local Sibelius Connect endpoint and installed Yuezheng bridge."""
     from scorebridge.sibelius import sibelius_status as inspect
     return inspect(url)
 
 @mcp.tool()
 def sibelius_install_plugin(destination: str = "") -> dict:
-    """Install ScoreBridge's bundled ManuScript bridge in Sibelius' user plug-in directory."""
+    """Install Yuezheng's bundled ManuScript bridge in Sibelius' user plug-in directory."""
     from scorebridge.sibelius import install_sibelius_plugin
     return install_sibelius_plugin(destination)
 
@@ -118,9 +118,14 @@ def musescore_connect() -> dict:
     return connect_editor()
 
 @mcp.tool()
-def scorebridge_doctor() -> dict:
+def yuezheng_doctor() -> dict:
     """Check Python, image, OMR, MuseScore and MCP dependencies."""
     return diagnose()
+
+@mcp.tool(name="scorebridge_doctor")
+def scorebridge_doctor_compatibility() -> dict:
+    """Compatibility alias for the legacy ScoreBridge doctor tool."""
+    return yuezheng_doctor()
 
 @mcp.tool()
 def score_validate(input_path: str) -> dict:
@@ -258,7 +263,7 @@ def omr_run(input_path: str, output_dir: str, executable: str = "", scale: int =
 
 @mcp.tool()
 def musicxml_import(input_path: str, output_score_path: str = "") -> dict:
-    """Import OMR-produced MusicXML into ScoreBridge's canonical Score IR."""
+    """Import OMR-produced MusicXML into Yuezheng's canonical Score IR."""
     try:
         score = parse_musicxml(input_path)
         destination = output_score_path or str(Path(input_path).with_suffix(".score.json"))

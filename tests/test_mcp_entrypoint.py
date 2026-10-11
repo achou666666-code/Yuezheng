@@ -27,3 +27,4 @@ def test_server_exposes_agent_default():
     assert "audio_transcribe" in tools
     assert "audio_separate" in tools
     assert tools['audio_transcribe'].inputSchema['properties']['hint']['default'] == 'auto'
+    assert {'yuezheng_doctor', 'scorebridge_doctor'} <= tools.keys()

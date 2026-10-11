@@ -12,7 +12,7 @@ from importlib.resources import files
 
 
 DEFAULT_URL = "ws://127.0.0.1:1898"
-PLUGIN_NAME = "ScoreBridge"
+PLUGIN_NAME = "Yuezheng"
 
 
 class SibeliusError(RuntimeError):
@@ -24,18 +24,18 @@ def _plugin_root() -> Path:
     if override:
         return Path(override).expanduser().resolve()
     if sys.platform == "darwin":
-        return Path.home() / "Library/Application Support/Avid/Sibelius/Plugins/ScoreBridge"
+        return Path.home() / "Library/Application Support/Avid/Sibelius/Plugins/Yuezheng"
     if os.name == "nt":
         base = Path(os.environ.get("APPDATA", Path.home() / "AppData/Roaming"))
-        return base / "Avid/Sibelius/Plugins/ScoreBridge"
-    return Path.home() / ".local/share/Avid/Sibelius/Plugins/ScoreBridge"
+        return base / "Avid/Sibelius/Plugins/Yuezheng"
+    return Path.home() / ".local/share/Avid/Sibelius/Plugins/Yuezheng"
 
 
 def install_sibelius_plugin(destination: str = "") -> dict:
     """Install the bundled source as Sibelius' UTF-16LE .plg format."""
     root = Path(destination).expanduser().resolve() if destination else _plugin_root()
     target = root / f"{PLUGIN_NAME}.plg"
-    source = files("scorebridge.sibelius").joinpath("ScoreBridge.plg.in").read_text(encoding="utf-8")
+    source = files("scorebridge.sibelius").joinpath("Yuezheng.plg.in").read_text(encoding="utf-8")
     payload = b"\xff\xfe" + source.replace("\n", "\r\n").encode("utf-16-le")
     root.mkdir(parents=True, exist_ok=True)
     changed = not target.exists() or target.read_bytes() != payload
@@ -98,7 +98,7 @@ class SibeliusConnect:
         try:
             from websockets.sync.client import connect
         except ImportError as exc:
-            raise SibeliusError("Install ScoreBridge with the websocket extra") from exc
+            raise SibeliusError("Install Yuezheng with the websocket extra") from exc
         try:
             return connect(self.url, open_timeout=self.timeout, close_timeout=2)
         except (OSError, TimeoutError) as exc:
@@ -107,7 +107,7 @@ class SibeliusConnect:
     def invoke_plugin(self, method: str, args: list | None = None) -> dict:
         handshake = {
             "message": "connect",
-            "clientName": "ScoreBridge",
+            "clientName": "Yuezheng",
             "handshakeVersion": "1.0",
             "plugins": [PLUGIN_NAME],
         }
@@ -154,7 +154,7 @@ def create_sibelius_score(input_path: str, output_path: str, url: str = "", clie
     destination.parent.mkdir(parents=True, exist_ok=True)
     install = install_sibelius_plugin()
     bridge = client or SibeliusConnect(url)
-    temporary = destination.with_name(destination.stem + ".scorebridge-partial.sib")
+    temporary = destination.with_name(destination.stem + ".yuezheng-partial.sib")
     if temporary.exists():
         temporary.unlink()
     result = bridge.invoke_plugin("ImportAndSave", [str(source), str(temporary)])

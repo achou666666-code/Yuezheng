@@ -1,9 +1,9 @@
-# ScoreBridge
+# Yuezheng
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 **由 Agent 驱动，将乐谱图片、PDF 和音频转录为可编辑音乐。**
-ScoreBridge 由 Skill、可复用程序和 CLI／MCP 接口组成。Agent 理解用户的自然语言，
+Yuezheng 由 Skill、可复用程序和 CLI／MCP 接口组成。Agent 理解用户的自然语言，
 读取原谱或转录音频，整理音乐内容，再执行用户需要的文件输出或软件工作流。
 MuseScore 和 Sibelius 是当前的制谱适配器，项目的定位不局限于一个编辑软件。
 
@@ -32,21 +32,21 @@ MuseScore 和 Sibelius 是当前的制谱适配器，项目的定位不局限于
 
 识别由 Agent 主导，配套引擎提供带来源位置的候选结果；Agent 的判断与精细记谱
 进入统一音乐计划，再由文件生成器和软件适配器落实。参见
-[音乐计划及输出范围](skills/scorebridge/references/music-plan.md)和
+[音乐计划及输出范围](skills/yuezheng/references/music-plan.md)和
 [开发实测结果](demos/audio-to-score/README.zh-CN.md)。
 
 ## 安装并接入 Agent
 
 ```bash
-git clone https://github.com/achou666666-code/ScoreBridge.git
-cd ScoreBridge
+git clone https://github.com/achou666666-code/Yuezheng.git
+cd Yuezheng
 python3 -m venv .venv
 .venv/bin/python -m pip install -e '.[mcp,image,audio,websocket]'
-.venv/bin/scorebridge doctor
+.venv/bin/yuezheng doctor
 ```
 
-Windows 使用 `.venv\Scripts\python.exe` 和 `.venv\Scripts\scorebridge.exe`。
-将 `skills/scorebridge` 安装到 Agent 的技能目录。有终端的 Agent 可调用 CLI；
+Windows 使用 `.venv\Scripts\python.exe` 和 `.venv\Scripts\yuezheng.exe`。
+将 `skills/yuezheng` 安装到 Agent 的技能目录。有终端的 Agent 可调用 CLI；
 使用 MCP 时，配置对应环境的 Python 和 `mcp_server/server.py` 的绝对路径：
 
 ```bash
@@ -64,24 +64,24 @@ Windows 使用 `.venv\Scripts\python.exe` 和 `.venv\Scripts\scorebridge.exe`。
 Agent 准备素材、读谱并提供制谱步骤：
 
 ```bash
-scorebridge prepare score.pdf --output work/source
-scorebridge build-score work/plan.json --output score.mscz
+yuezheng prepare score.pdf --output work/source
+yuezheng build-score work/plan.json --output score.mscz
 ```
 
 MCP 对应 `score_transcribe` 和 `musescore_build_score`。
 [examples/native-plan.json](examples/native-plan.json) 提供原创演示音乐。
-修改使用 `musescore_apply_plan` 或 `scorebridge apply-plan`，保留创建时返回的准确目标。
+修改使用 `musescore_apply_plan` 或 `yuezheng apply-plan`，保留创建时返回的准确目标。
 文件后端在私有副本中执行，检查匹配的执行记录后才发布结果。
-参见[记谱指令和支持范围](skills/scorebridge/references/editor-plan.md)。
+参见[记谱指令和支持范围](skills/yuezheng/references/editor-plan.md)。
 Audiveris 保留为可选辅助；原图和页序映射都会保留。
 
 ## 音频转为音乐事件
 
 ```bash
-scorebridge audio-backends
-scorebridge transcribe-audio recording.wav --output work/audio --hint mixed
+yuezheng audio-backends
+yuezheng transcribe-audio recording.wav --output work/audio --hint mixed
 # 有需要时：
-scorebridge separate-audio recording.wav --output work/stems
+yuezheng separate-audio recording.wav --output work/stems
 ```
 
 MCP 对应 `audio_backends`、`audio_transcribe`、`audio_separate`。
@@ -90,7 +90,7 @@ Agent 在内部决定提示和工具，用户无需选择模型。
 推理失败会切换引擎。`--combine` 保留两份候选供 Agent 判断，不会机械叠加两份音符。
 相同任务复用经过检查的文件，失败时保留素材和尝试记录，供后续恢复。
 
-单独配置后端使用 `scorebridge audio-install ENGINE`。
+单独配置后端使用 `yuezheng audio-install ENGINE`。
 通过 `SCOREBRIDGE_AUDIO_HOME` 或 `--cache-dir` 设置模型目录。
 导入检查与实际推理验证分别记录，两者都不是识别准确率。
 Basic Pitch 不识别乐器，不能把它默认写出的钢琴程序号当成识别到了钢琴。
@@ -99,10 +99,10 @@ Basic Pitch 不识别乐器，不能把它默认写出的钢琴程序号当成�
 ## 按需输出文件与原生工程
 
 ```bash
-scorebridge music-plan work/events.json --output work/music-plan.json --bpm 96
-scorebridge deliver-music work/music-plan.json --output final --formats mscz
+yuezheng music-plan work/events.json --output work/music-plan.json --bpm 96
+yuezheng deliver-music work/music-plan.json --output final --formats mscz
 # 用户需要时：
-scorebridge deliver-music work/music-plan.json --output final --formats musicxml pdf midi ace sib
+yuezheng deliver-music work/music-plan.json --output final --formats musicxml pdf midi ace sib
 ```
 
 MCP 对应 `music_plan`、`music_deliver`、`ace_status`、`sibelius_status` 和
@@ -115,10 +115,10 @@ ACE Studio 需已运行并开启 External Agent Access。官方 CLI 适配器创
 绑定已安装的真实音源，保存并重新打开回读，随后恢复原工程。工程路径取自 ACE
 保存响应。AI 乐器使用原生表情参数；普通 MIDI／插件轨保留并验证 MIDI CC 和力度，
 AI 轨尚未映射的表情会明确记录。多乐器插件需要真正选择预设或状态。
-参见[音乐计划及 ACE 说明](skills/scorebridge/references/music-plan.md)。
+参见[音乐计划及 ACE 说明](skills/yuezheng/references/music-plan.md)。
 
 Sibelius 输出使用官方本机 Sibelius Connect WebSocket 和随工具提供的 ManuScript
-桥接插件。先运行 `scorebridge sibelius-install-plugin`，在 Sibelius 中开启 1898
+桥接插件。先运行 `yuezheng sibelius-install-plugin`，在 Sibelius 中开启 1898
 端口的 Sibelius Connect，再在 `deliver-music` 中请求 `sib`；适配器只在 Sibelius
 确认保存成功且文件真实存在后发布 `.sib`。
 
@@ -126,13 +126,16 @@ Sibelius 输出使用官方本机 Sibelius Connect WebSocket 和随工具提供�
 
 可选 MuseScore 实时编辑使用仓库内的 QML／WebSocket 插件：
 运行 `bash scripts/install_musescore_plugin.sh`，在 MuseScore 启用后，用
-`scorebridge editor-status` 检查。默认文件工作流无需实时插件。
-参见[编辑接口](skills/scorebridge/references/editor-plan.md)、
+`yuezheng editor-status` 检查。默认文件工作流无需实时插件。
+参见[编辑接口](skills/yuezheng/references/editor-plan.md)、
 [真实软件验证](tests/LIVE_EDITOR_RESULTS.md)和[交付记录](DELIVERY.md)。
 
 本次升级实现约定的五个工作包：引擎路由、统一音乐计划、按需文件输出、首个原生
 DAW 适配器、统一 Skill／CLI／MCP 验收。后续软件复用同一音乐计划扩展。
 复杂录音准确度按输入类别实测，不用一个百分比代表所有音乐。中英文项目说明同步维护。
+
+公开品牌和主命令现在使用 **Yuezheng**。为兼容已有项目，`scorebridge` Python
+导入路径、CLI 别名、内部计划格式和旧环境变量仍然保留。
 
 ```bash
 python -m pip install -e '.[test,image,audio,mcp,websocket]'

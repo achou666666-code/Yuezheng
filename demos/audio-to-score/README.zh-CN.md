@@ -41,11 +41,11 @@ python -m pip install -e '.[audio]'
 python scripts/make_audio_benchmark.py --output work/controls --seed 2026100407
 # 采样测试需 MuseScore 和 ffmpeg：
 python scripts/make_audio_benchmark.py --output work/sampled --seed 2026100407 --musescore /path/to/mscore
-scorebridge transcribe-audio work/sampled/inputs/mixed.wav --output work/inference --hint mixed
+yuezheng transcribe-audio work/sampled/inputs/mixed.wav --output work/inference --hint mixed
 # 固定预测后才打开参考答案：
-scorebridge evaluate-audio work/sampled/answers/mixed.json work/inference/transcription-JOB/events.json
-scorebridge music-plan work/inference/transcription-JOB/events.json --output work/plan.json --bpm 120
-scorebridge deliver-music work/plan.json --output final --formats mscz musicxml pdf midi ace
+yuezheng evaluate-audio work/sampled/answers/mixed.json work/inference/transcription-JOB/events.json
+yuezheng music-plan work/inference/transcription-JOB/events.json --output work/plan.json --bpm 120
+yuezheng deliver-music work/plan.json --output final --formats mscz musicxml pdf midi ace
 ```
 
 此处 120 BPM 是原创样例的创作速度，不是速度识别得分。任意来源的任务应由 Agent
@@ -58,7 +58,7 @@ scorebridge deliver-music work/plan.json --output final --formats mscz musicxml 
 保存后重新打开的双轨 ACE 工程。ACE 回读全部 54 个音高和时间、MIDI 力度，实际
 加载钢琴和第 10 通道鼓组。另一个七音符测试加载了 AI 小提琴和单簧管，保留变速、
 变拍号并成功重新打开。AI 乐器不使用 MIDI CC／力度，未映射的表情会明确记录；
-普通 MIDI／插件轨保留这些控制数据。参见[音乐计划说明](../../skills/scorebridge/references/music-plan.md)。
+普通 MIDI／插件轨保留这些控制数据。参见[音乐计划说明](../../skills/yuezheng/references/music-plan.md)。
 
 [validation.json](validation.json) 保留之前 Agent 读取频谱图的自测，作为历史记录，
 与模型测量分开。本次固定五个工作包为：引擎路由和配置、统一计划、按需输出、
