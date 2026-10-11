@@ -62,12 +62,13 @@ class MuseScoreAdapter(MuseScoreBackend):
             raise MuseScoreError(self.status()["hint"])
         command = [str(exe), str(src.resolve())]
         if sys.platform == "darwin":
-            app = next((Path(*exe.parts[:index + 1]) for index, part in enumerate(exe.parts)
-                        if part.endswith(".app")), None)
+            exe_text = str(exe)
+            app_end = exe_text.find(".app")
+            app = exe_text[:app_end + len(".app")] if app_end >= 0 else None
             if app:
                 # Send a normal macOS open-document event. Launching the inner
                 # binary directly does not reliably open a path in an existing instance.
-                command = ["/usr/bin/open", "-a", str(app), str(src.resolve())]
+                command = ["/usr/bin/open", "-a", app, str(src.resolve())]
         try:
             process = subprocess.Popen(command,
                                        stdout=subprocess.DEVNULL,
@@ -89,11 +90,12 @@ class MuseScoreAdapter(MuseScoreBackend):
             raise MuseScoreError(self.status()["hint"])
         command = [str(exe), str(src.resolve())]
         if sys.platform == "darwin":
-            app = next((Path(*exe.parts[:index + 1]) for index, part in enumerate(exe.parts)
-                        if part.endswith(".app")), None)
+            exe_text = str(exe)
+            app_end = exe_text.find(".app")
+            app = exe_text[:app_end + len(".app")] if app_end >= 0 else None
             if app:
                 before = self._running_musescore_pids(exe)
-                command = ["/usr/bin/open", "-n", "-a", str(app), str(src.resolve())]
+                command = ["/usr/bin/open", "-n", "-a", app, str(src.resolve())]
                 try:
                     subprocess.run(command, check=True, stdout=subprocess.DEVNULL,
                                    stderr=subprocess.DEVNULL, env=os.environ.copy(), timeout=15)

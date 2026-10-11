@@ -37,5 +37,7 @@ def test_server_exposes_agent_default():
     assert "audio_install" in tools
     assert "audio_transcribe" in tools
     assert "audio_separate" in tools
-    assert tools['audio_transcribe'].inputSchema['properties']['hint']['default'] == 'auto'
+    audio_schema = (tools['audio_transcribe'].parameters if sys.platform == 'win32'
+                    else tools['audio_transcribe'].inputSchema)
+    assert audio_schema['properties']['hint']['default'] == 'auto'
     assert {'yuezheng_doctor', 'scorebridge_doctor'} <= tools.keys()

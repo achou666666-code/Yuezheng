@@ -1,9 +1,12 @@
 import pytest
 from pathlib import Path
+import os
 from scorebridge.musescore import MuseScoreAdapter, MuseScoreError
 
 def test_convert_checks_input_before_launch(tmp_path):
-    adapter = MuseScoreAdapter(executable="/usr/bin/true")
+    executable = tmp_path / ("fake-mscore.exe" if os.name == "nt" else "fake-mscore")
+    executable.write_bytes(b"fake")
+    adapter = MuseScoreAdapter(executable=str(executable))
     with pytest.raises(MuseScoreError, match="Input does not exist"):
         adapter.convert(str(tmp_path / "missing.musicxml"), str(tmp_path / "out.mscz"))
 
@@ -13,7 +16,9 @@ def test_invalid_explicit_executable_does_not_fall_back(tmp_path):
 
 
 def test_open_score_checks_input_before_launch(tmp_path):
-    adapter = MuseScoreAdapter(executable="/usr/bin/true")
+    executable = tmp_path / ("fake-mscore.exe" if os.name == "nt" else "fake-mscore")
+    executable.write_bytes(b"fake")
+    adapter = MuseScoreAdapter(executable=str(executable))
     with pytest.raises(MuseScoreError, match="Input does not exist"):
         adapter.open_score(str(tmp_path / "missing.mscz"))
 
