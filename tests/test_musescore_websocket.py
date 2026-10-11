@@ -8,6 +8,7 @@ def test_websocket_backend_uses_configured_url(monkeypatch):
 
 import json
 import asyncio
+import sys
 import threading
 import pytest
 try:
@@ -19,6 +20,8 @@ from scorebridge.musescore import MuseScoreWebSocketError
 
 @pytest.mark.parametrize('wire_key', ['action', 'command'])
 def test_real_socket_negotiates_protocol_and_propagates_error(wire_key):
+    if sys.platform == 'win32':
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     writes = []
     ready = threading.Event()
     stop = threading.Event()
