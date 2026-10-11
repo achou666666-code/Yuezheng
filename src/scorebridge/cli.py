@@ -6,7 +6,7 @@ from scorebridge.musicxml import compile_musicxml
 from scorebridge.validation import validate_score
 
 def main():
-    parser=argparse.ArgumentParser(prog=Path(sys.argv[0]).name, description="Yuezheng: Agent-led transcription into editable music projects")
+    parser=argparse.ArgumentParser(prog=Path(sys.argv[0]).name, description="Yuezheng: Agent-led music production assistant for editable music projects")
     sub=parser.add_subparsers(dest="command", required=True)
     plan = sub.add_parser("music-plan", help="Wrap Agent notation or audio events in one music construction plan")
     plan.add_argument("input"); plan.add_argument("--output", required=True)

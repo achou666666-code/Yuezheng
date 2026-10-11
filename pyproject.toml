@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "yuezheng"
 version = "0.4.0"
-description = "Yuezheng: Agent-led transcription from sheet music and audio into editable music projects"
+description = "Yuezheng: Agent-led music production assistant for editable music projects"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = ["mido>=1.3,<2"]

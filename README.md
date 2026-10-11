@@ -2,11 +2,14 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-**Agent-led transcription from sheet music and audio into editable music.**
+**An Agent-led music production assistant for turning musical ideas and source material into editable projects.**
 Yuezheng combines a Skill, reusable programs, and CLI/MCP interfaces. The Agent
-interprets a natural-language request, reads PDF/images or transcribes audio,
-organizes music, and uses the requested output/software workflow. MuseScore and
-Sibelius are the current notation adapters; the product is not tied to one editor.
+interprets a natural-language request, understands sheet music, images, PDFs or
+audio, organizes the musical material, and uses the requested output/software
+workflow. Image/audio transcription is the first core workflow; notation and
+DAW adapters are built so the assistant can grow into broader music production
+tasks. MuseScore and Sibelius are current notation adapters, and ACE Studio is
+the first native DAW adapter; the product is not tied to one editor.
 
 ## Workflow
 

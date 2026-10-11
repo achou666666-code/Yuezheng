@@ -1,13 +1,15 @@
 ---
 name: yuezheng
-description: Transcribe PDF/image sheet music and audio with an Agent. Use Yuezheng notation tools and optional audio engines to produce editable music, with CLI and MCP workflows.
+description: Use an Agent-led music production assistant to understand sheet music, images, PDFs and audio, then create editable music projects with Yuezheng CLI and MCP workflows.
 ---
 
 # Yuezheng
 
-The calling Agent interprets the user's natural-language request, reads or
-transcribes the source, and chooses the required tools internally. Yuezheng
-provides source preparation, optional audio engines and music-software adapters.
+The calling Agent interprets the user's natural-language request, understands
+the source, and chooses the required tools internally. Yuezheng is a music
+production assistant: its first core workflow is image/audio transcription,
+followed by editable notation or native project delivery. It provides source
+preparation, optional audio engines and music-software adapters.
 The existing notation route delivers an editable, playable `.mscz` by default.
 
 For audio input, read [audio-transcription.md](references/audio-transcription.md).
