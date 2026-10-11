@@ -104,7 +104,8 @@ def test_command_assets_are_synchronized_and_javascript_parses():
     assert functions in extension.command_library()
     node=shutil.which('node')
     if not node:pytest.skip('Node unavailable')
-    subprocess.run([node,'--check',str(Path(extension.__file__).with_name('commands.js'))],check=True,capture_output=True)
+    subprocess.run([node,'--check',str(Path(extension.__file__).with_name('commands.js'))],
+                   check=True, capture_output=True, timeout=15)
 
 
 def test_embedding_never_interprets_plan_strings():
