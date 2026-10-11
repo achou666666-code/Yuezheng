@@ -42,9 +42,13 @@ MuseScore 和 Sibelius 是当前制谱适配器，ACE Studio 是首个原生 DAW
 git clone https://github.com/achou666666-code/Yuezheng.git
 cd Yuezheng
 python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip setuptools wheel
 .venv/bin/python -m pip install -e '.[mcp,image,audio,websocket]'
 .venv/bin/yuezheng doctor
 ```
+
+需要可复现的开发环境时，可安装 [uv](https://docs.astral.sh/uv/)，然后在仓库根目录运行
+`uv sync --all-extras`。
 
 Windows 使用 `.venv\Scripts\python.exe` 和 `.venv\Scripts\yuezheng.exe`。
 将 `skills/yuezheng` 安装到 Agent 的技能目录。有终端的 Agent 可调用 CLI；
@@ -59,6 +63,18 @@ Windows 使用 `.venv\Scripts\python.exe` 和 `.venv\Scripts\yuezheng.exe`。
 音频模型使用独立的 Python 3.10／3.11；缺少兼容版本且已有 uv 时，工具会在私有目录
 安装所需 Python。压缩音频解码需要 ffmpeg。
 配套依赖和模型权重按需安装、缓存，不打包到工具本体；可复用已有的外部模型环境。
+
+## 兼容性
+
+| 层级 | 已验证 | 范围 |
+| --- | --- | --- |
+| Python 包 | CI 中的 Python 3.10、3.11、3.12 | 包安装和测试 |
+| MuseScore 扩展宿主 | macOS／MuseScore Studio 4.7.4 | 原生 MSCZ 创建和实时编辑检查 |
+| ACE Studio 适配器 | macOS、ACE Studio 和官方 CLI | 原生工程保存和回读 |
+| Sibelius 适配器 | 本机 Sibelius Connect 集成 | 安装 Sibelius 后生成原生 SIB |
+| Linux／Windows 原生制谱软件 | 尚未验证 | Python 包可能可安装，原生软件验收待补 |
+
+MCP extra 要求 Python 3.10 或更高版本。音频后端另有自己的运行时和模型要求。
 
 ## PDF／图片制谱
 
@@ -134,6 +150,8 @@ Sibelius 输出使用官方本机 Sibelius Connect WebSocket 和随工具提供�
 本次升级实现约定的五个工作包：引擎路由、统一音乐计划、按需文件输出、首个原生
 DAW 适配器、统一 Skill／CLI／MCP 验收。后续软件复用同一音乐计划扩展。
 复杂录音准确度按输入类别实测，不用一个百分比代表所有音乐。中英文项目说明同步维护。
+
+Yuezheng 使用 Apache License 2.0，详见 [LICENSE](LICENSE)。
 
 公开品牌和主命令现在使用 **Yuezheng**。为兼容已有项目，`scorebridge` Python
 导入路径、CLI 别名、内部计划格式和旧环境变量仍然保留。

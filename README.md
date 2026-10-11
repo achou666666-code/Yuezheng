@@ -45,9 +45,13 @@ and [measured development results](demos/audio-to-score/README.md).
 git clone https://github.com/achou666666-code/Yuezheng.git
 cd Yuezheng
 python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip setuptools wheel
 .venv/bin/python -m pip install -e '.[mcp,image,audio,websocket]'
 .venv/bin/yuezheng doctor
 ```
+
+For a locked development environment, install [uv](https://docs.astral.sh/uv/)
+and run `uv sync --all-extras` from the repository root.
 
 On Windows use `.venv\Scripts\python.exe` and `.venv\Scripts\yuezheng.exe`.
 Install `skills/yuezheng` in the Agent's skill directory. Agents with a terminal
@@ -64,6 +68,19 @@ Audio engines need a separate Python 3.10/3.11; if none exists and uv is availab
 Yuezheng provisions one privately. Compressed audio needs ffmpeg.
 Optional dependencies and model weights are installed/cached only when selected,
 not bundled into the core. Pre-existing external model environments can be reused.
+
+## Compatibility
+
+| Layer | Verified | Scope |
+| --- | --- | --- |
+| Python package | Python 3.10, 3.11 and 3.12 in CI | Package tests and clean installation |
+| MuseScore extension host | macOS / MuseScore Studio 4.7.4 | Native MSCZ creation and live editor checks |
+| ACE Studio adapter | macOS with ACE Studio and official CLI | Native project save and readback |
+| Sibelius adapter | Local Sibelius Connect integration | Native SIB delivery when Sibelius is installed |
+| Linux and Windows native editor hosts | Not yet verified | Package installation may work; native software acceptance is pending |
+
+The MCP extra requires Python 3.10 or newer. Optional audio engines have their
+own runtime and model requirements.
 
 ## PDF/images to notation
 
@@ -146,6 +163,8 @@ shared music plan, selected file output, first native DAW adapter and unified
 Skill/CLI/MCP acceptance. Further adapters reuse the same music plan. Complex
 recording accuracy is measured by input class, not represented as one universal
 percentage. English and Chinese project documentation are maintained together.
+
+Yuezheng is released under the Apache License 2.0; see [LICENSE](LICENSE).
 
 The public brand and primary commands are now **Yuezheng**. The `scorebridge`
 Python import path, CLI alias, internal plan schema and legacy environment names

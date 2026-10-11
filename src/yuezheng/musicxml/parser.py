@@ -24,6 +24,19 @@ def _tag(element, name):
     value = element.find(name)
     return value if value is not None else element.find("{*}" + name)
 
+def _local_name(tag):
+    return tag.rsplit("}", 1)[-1]
+
+def _children(element, name):
+    return [child for child in list(element) if _local_name(child.tag) == name]
+
+def _descendants(element, name):
+    return [node for node in element.iter() if _local_name(node.tag) == name]
+
+def _descendant_text(element, name, default=None):
+    nodes = _descendants(element, name)
+    return nodes[0].text if nodes and nodes[0].text is not None else default
+
 def _text(element, name, default=None):
     value = _tag(element, name)
     return value.text if value is not None else default
@@ -45,11 +58,12 @@ def _parse_note(note, divisions):
 
 def parse_musicxml(path: str) -> Score:
     root = ET.parse(path).getroot()
-    title = _text(root, "work-title", Path(path).stem)
+    title = _descendant_text(root, "work-title", Path(path).stem)
     parts = []
-    names = {node.attrib.get("id"): _text(node, "part-name", node.attrib.get("id", "Part")) for node in root.findall(".//score-part")}
-    ids = {node.attrib.get("id"): next((key for key, spec in INSTRUMENTS.items() if spec["name"].lower() == _text(node, "part-name", "").lower()), _text(node, "part-name", node.attrib.get("id", "Part"))) for node in root.findall(".//score-part")}
-    for part_node in root.findall(".//part"):
+    score_parts = _descendants(root, "score-part")
+    names = {node.attrib.get("id"): _text(node, "part-name", node.attrib.get("id", "Part")) for node in score_parts}
+    ids = {node.attrib.get("id"): next((key for key, spec in INSTRUMENTS.items() if spec["name"].lower() == _text(node, "part-name", "").lower()), _text(node, "part-name", node.attrib.get("id", "Part"))) for node in score_parts}
+    for part_node in _descendants(root, "part"):
         pid = part_node.attrib["id"]
         staff_map = {}
         active = {"divisions": 1, "key": None, "beats": None, "beat_type": None, "clef": "treble"}
@@ -76,7 +90,7 @@ def parse_musicxml(path: str) -> Score:
                     active["beats"], active["beat_type"] = int(_text(time, "beats", "4")), int(_text(time, "beat-type", "4"))
                 clef = _tag(attrs, "clef")
                 if clef is not None: active["clef"] = "bass" if _text(clef, "sign") == "F" else "treble"
-            for note in measure_node.findall("./note"):
+            for note in _children(measure_node, "note"):
                 staff_no = int(_text(note, "staff", "1"))
                 event = _parse_note(note, active["divisions"])
                 entries = staff_map.setdefault(staff_no, [])

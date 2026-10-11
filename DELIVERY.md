@@ -1,5 +1,9 @@
 # Yuezheng first-release acceptance
 
+`Release checklist completion: 100%` means that the defined checks for the
+release passed. It does not mean universal transcription accuracy, universal
+score support, or cross-platform software acceptance.
+
 ## Fixed design
 
 Skill instructs the calling Agent → Agent reads original PDF/images → internal
@@ -22,7 +26,7 @@ accuracy. Future features do not change this release's denominator.
 | 73% | Exact document identity before live edits | Completed, CI passed |
 | 82% | Special notation and real unpitched percussion | Passed native-file and audio checks |
 | 91% | MCP creation, editing and saving | Passed official extension host and MCP stdio call |
-| 100% | Native orchestral regression, installed-package checks and release | Acceptance passed; release tracked by `v0.1.0` |
+| Release checklist completion: 100% | Native orchestral regression, installed-package checks and release | Acceptance passed for the defined v0.1 checklist |
 
 ## What the delivered route does
 
@@ -60,7 +64,8 @@ connection cleanup are checked again by the release commit's CI.
 
 Actual MCP execution and the native-file orchestral checks above establish the
 agreed first-release acceptance. The release tag records its delivered version;
-100% refers to this checklist, not to universal recognition accuracy.
+The checklist completion refers only to this defined release checklist, not to
+universal recognition accuracy or support for every input.
 
 ## v0.2.0 — sheet music and audio to editable music
 
