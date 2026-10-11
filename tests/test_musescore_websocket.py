@@ -7,44 +7,63 @@ def test_websocket_backend_uses_configured_url(monkeypatch):
     assert backend.url == "ws://127.0.0.1:9876"
 
 import json
-import sys
+import asyncio
 import threading
 import pytest
-from websockets.sync.server import serve
+try:
+    from websockets.asyncio.server import serve
+except ImportError:  # websockets 12 and 13
+    from websockets.legacy.server import serve
 from scorebridge.musescore import MuseScoreWebSocketError
 
 
 @pytest.mark.parametrize('wire_key', ['action', 'command'])
 def test_real_socket_negotiates_protocol_and_propagates_error(wire_key):
     writes = []
-    def handler(socket):
-        for raw in socket:
+    ready = threading.Event()
+    stop = threading.Event()
+    state = {}
+
+    async def handler(socket):
+        async for raw in socket:
             message = json.loads(raw)
             if wire_key not in message:
-                socket.send(json.dumps({'error': 'missing field'}))
+                await socket.send(json.dumps({'error': 'missing field'}))
             elif message[wire_key] == 'ping':
-                socket.send(json.dumps({'result': 'pong'}))
+                await socket.send(json.dumps({'result': 'pong'}))
             else:
                 writes.append(message[wire_key])
-                socket.send(json.dumps({'status': 'success', 'result': {'error': 'No score open'}}))
-    server = serve(handler, '127.0.0.1', 0)
+                await socket.send(json.dumps({'status': 'success', 'result': {'error': 'No score open'}}))
+
+    async def run_server():
+        async with serve(handler, '127.0.0.1', 0) as server:
+            state['port'] = server.sockets[0].getsockname()[1]
+            ready.set()
+            while not stop.is_set():
+                await asyncio.sleep(0.01)
+
+    def server_thread_main():
+        try:
+            asyncio.run(run_server())
+        except BaseException as exc:  # pragma: no cover - only startup failures
+            state['error'] = exc
+            ready.set()
+
+    thread = threading.Thread(target=server_thread_main, daemon=True)
+    thread.start()
+    assert ready.wait(5), state.get('error', 'server did not start')
+    assert 'error' not in state, state['error']
     try:
-        thread = threading.Thread(target=server.serve_forever, daemon=True); thread.start()
-        bridge = MuseScoreWebSocketBackend(url=f'ws://127.0.0.1:{server.socket.getsockname()[1]}', timeout=2)
+        bridge = MuseScoreWebSocketBackend(url=f"ws://127.0.0.1:{state['port']}", timeout=2)
         assert bridge.status()['protocol'] == wire_key
         writes.clear()
         with pytest.raises(MuseScoreWebSocketError, match='No score open'):
             bridge.command('addNote', {'pitch': 60})
         assert writes == ['addNote']
     finally:
-        if sys.platform == 'win32':
-            # websockets' sync Server.shutdown waits for a selector that
-            # closing a listening socket doesn't wake on Windows.
-            server.socket.close()
-            thread.join(0.1)
-        else:
-            server.shutdown()
-            thread.join(3)
+        stop.set()
+        thread.join(5)
+        assert not thread.is_alive(), 'websocket test server did not stop'
 
 
 @pytest.mark.parametrize('reply', [{'error': 'bad'}, {'status': 'error', 'message': 'bad'}, {'result': {'valid': False}}, {'result': {'success': False}}])
