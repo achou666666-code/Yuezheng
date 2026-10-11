@@ -42,9 +42,23 @@ jobs:
         run: python -m pip install '.[test,image,mcp,websocket]'
       - name: Run package tests (Windows)
         if: runner.os == 'Windows'
-        # The runner can return exit 1 after a clean summary during console
-        # teardown. The runner script only normalizes that no-failure case.
-        run: python scripts/run_package_tests.py -vv -s --ignore=tests/test_plugin_behavior.py --ignore=tests/test_special_notation.py
+        shell: pwsh
+        run: |
+          $log = Join-Path $env:RUNNER_TEMP 'yuezheng-windows-package-tests.log'
+          python scripts/run_package_tests.py -vv -s --ignore=tests/test_plugin_behavior.py --ignore=tests/test_special_notation.py *> $log
+          $status = $LASTEXITCODE
+          Get-Content $log
+          $summary = Get-Content $log -Raw
+          # GitHub-hosted Windows can return exit 1 after this exact clean
+          # summary while tearing down console child-process state. Keep that
+          # narrow known case non-blocking; real failures remain hard failures.
+          $cleanSummary = $summary -match '(?m)^=+s+d+ passed(?:,s+d+ skipped)?s+ins+'
+          $hasFailure = $summary -match '(?im)(failed|error|interrupted|xfailed|xpassed)'
+          if ($status -eq 1 -and $cleanSummary -and -not $hasFailure) {
+            Write-Host 'Windows runner teardown returned exit 1 after a clean pytest summary; treating it as successful.'
+            exit 0
+          }
+          exit $status
       - name: Run package tests
         if: runner.os != 'Windows'
         run: python scripts/run_package_tests.py -vv
