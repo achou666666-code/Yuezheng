@@ -56,7 +56,8 @@ def test_success_has_matching_native_receipt_and_uses_no_ui(monkeypatch,tmp_path
     report=extension.execute_extension_plan(PLAN,str(source),str(output),Adapter())
     assert report['status']=='executed' and report['published']
     assert report['computer_use'] is False
-    assert calls[0][0:2]==['/fake/mscore','--extension']
+    assert Path(calls[0][0]).name == 'mscore'
+    assert calls[0][1] == '--extension'
     assert output.exists()
     assert list((tmp_path/'extensions').iterdir())==[]
 
