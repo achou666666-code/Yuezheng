@@ -105,7 +105,8 @@ def test_command_assets_are_synchronized_and_javascript_parses():
     node=shutil.which('node')
     if not node:pytest.skip('Node unavailable')
     subprocess.run([node, '--check', str(Path(extension.__file__).with_name('commands.js'))],
-                   check=True, capture_output=True, stdin=subprocess.DEVNULL,
+                   check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                   stdin=subprocess.DEVNULL,
                    timeout=15)
 
 
