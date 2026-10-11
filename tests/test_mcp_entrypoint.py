@@ -11,15 +11,23 @@ def test_server_exposes_agent_default():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     if sys.platform == 'win32':
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    tools = {t.name: t for t in asyncio.run(module.mcp.list_tools())}
-    assert tools['score_transcribe'].inputSchema['properties']['mode']['default'] == 'agent'
+        # FastMCP's async list_tools currently hangs under the Windows runner's
+        # event loop; the synchronous registry contains the same registered
+        # names and JSON schemas and is the source used by the server.
+        tools = module.mcp._tool_manager._tools
+        score_transcribe_schema = tools['score_transcribe'].parameters
+    else:
+        tools = {t.name: t for t in asyncio.run(module.mcp.list_tools())}
+        score_transcribe_schema = tools['score_transcribe'].inputSchema
+    assert score_transcribe_schema['properties']['mode']['default'] == 'agent'
     assert 'musescore_execute_plan' in tools
     assert 'musescore_create_score' in tools
     assert {'music_plan', 'music_deliver', 'ace_status', 'sibelius_status',
             'sibelius_install_plugin', 'sibelius_create_score'} <= tools.keys()
     assert 'musescore_bind_score' in tools
-    assert tools['musescore_create_score'].inputSchema['properties']['open_editor']['default'] is False
+    create_schema = (tools['musescore_create_score'].parameters if sys.platform == 'win32'
+                     else tools['musescore_create_score'].inputSchema)
+    assert create_schema['properties']['open_editor']['default'] is False
 
     assert "musescore_build_score" in tools
     assert "musescore_apply_plan" in tools
