@@ -14,7 +14,14 @@ def run_function(name, setup, expression):
         pytest.skip('Node.js required for plugin JavaScript behavior tests')
     source = (Path(__file__).parents[1] / 'plugins/musescore-mcp-websocket.qml').read_text()
     function = re.search(r'    function ' + name + r'\(.*?\n    }', source, re.S).group()
-    result = subprocess.run([node, '-e', setup + '\n' + function + '\nconsole.log(JSON.stringify(' + expression + '));'], capture_output=True, text=True, check=True)
+    result = subprocess.run(
+        [node, '-e', setup + '\n' + function + '\nconsole.log(JSON.stringify(' + expression + '));'],
+        capture_output=True,
+        text=True,
+        check=True,
+        stdin=subprocess.DEVNULL,
+        timeout=15,
+    )
     return json.loads(result.stdout)
 
 
