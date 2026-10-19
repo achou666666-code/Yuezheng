@@ -38,7 +38,7 @@ def music_plan(input_path: str, output_path: str, title: str = "", bpm: Optional
 
 @mcp.tool()
 def music_deliver(input_path: str, output_dir: str, formats: list[str], executable: str = "", ace_cli: str = "", sibelius_url: str = "") -> dict:
-    """Deliver selected MSCZ/SIB/MusicXML/PDF/multitrack MIDI/ACE outputs. Does not recognize music; use Agent or audio_transcribe first."""
+    """Deliver selected MSCZ/SIB/MusicXML/PDF/multitrack MIDI/ACE/audio outputs. Does not recognize music; use Agent or audio_transcribe first."""
     from yuezheng.music_delivery import deliver_music_plan
     return deliver_music_plan(input_path, output_dir, formats, executable, ace_cli, sibelius_url)
 

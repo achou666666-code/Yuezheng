@@ -11,7 +11,13 @@ yuezheng music-plan work/events.json --output work/music-plan.json --bpm 96
 yuezheng deliver-music work/music-plan.json --output final --formats mscz
 # Select only what the user asked for:
 yuezheng deliver-music work/music-plan.json --output final --formats musicxml pdf midi ace sib
+# Listening preview:
+yuezheng deliver-music work/music-plan.json --output final --formats wav mp3
 ```
+
+`wav` and `mp3` render a listening preview from the same notated score through
+MuseScore. They are an aid for checking the result, not a new performance, not a
+replacement for the original recording, and not a sound-quality guarantee.
 
 MCP: `music_plan`, `music_deliver`, `ace_status`, `sibelius_status`, and
 `sibelius_create_score`. These call the same functions

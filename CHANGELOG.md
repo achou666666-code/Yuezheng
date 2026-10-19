@@ -7,6 +7,12 @@ evidence lives in [DELIVERY.md](DELIVERY.md) and the `demos/` records.
 
 ## Unreleased
 
+### Added
+
+- Audio preview delivery: `deliver-music --formats wav mp3` renders a listening
+  copy from the same notated MSCZ through MuseScore. It is an aid for checking a
+  result, not a new performance and not a sound-quality guarantee.
+
 ### Changed
 
 - Package tests are decided by a recorded pytest session result plus a JUnit
