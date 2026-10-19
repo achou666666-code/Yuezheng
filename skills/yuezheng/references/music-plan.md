@@ -103,6 +103,27 @@ publishes `.sib` only after the response reports success and the file is present
 Use `sibelius_status` to inspect the endpoint and plugin. The plan remains the
 same across MuseScore, Sibelius, ACE and file outputs.
 
+## Jianpu (numbered notation)
+
+`--formats jianpu` writes two files from the same provisional grid as the
+MusicXML projection, so both notations agree on where a note starts and how long
+it lasts:
+
+- `music.jly` — input for [jianpu-ly](https://github.com/ssb22/jianpu-ly)
+  (`pip install jianpu-ly`). Run `jianpu-ly music.jly > music.ly` and LilyPond
+  engraves the numbered notation.
+- `music.jianpu.txt` — a compact reading copy (degree numbers, `'`/`,` octaves,
+  `_` beams, `-` extensions) for readers who have no LilyPond.
+
+Scale degrees are relative to `notation.key_fifths`. A plan without a key
+signature is written as `1=C` with an explicit warning; chromatic notes use the
+nearest major-scale degree, so the spelling is enharmonic rather than copied
+from the source. Percussion tracks are reported and omitted rather than given a
+wrong number. A native notation plan is first projected through its engraved
+MSCZ and MIDI, so playback-level timing such as an arpeggio can separate chord
+members into extra voices; the receipt says so. Meters without a quarter-note
+beat are reported because jianpu dashes and beams follow quarter beats.
+
 ## Recovery and publication
 
 Intermediates and receipts live in `final/.scorebridge/`; public files contain

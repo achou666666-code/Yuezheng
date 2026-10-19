@@ -9,6 +9,7 @@ from xml.etree.ElementTree import Element, ElementTree, SubElement
 
 from .music_plan import load_music_plan, seconds_to_quarters, validate_music_plan
 from .musescore.adapter import MuseScoreAdapter, MuseScoreError
+from .notation_grid import bars as _bars, lanes as _lanes, pieces as _pieces
 
 
 def write_performance_midi(plan, output):
@@ -67,54 +68,6 @@ def _delta_track(track, messages):
         previous = tick
     import mido
     track.append(mido.MetaMessage("end_of_track"))
-
-
-_TYPES = [(1920, "whole"), (960, "half"), (480, "quarter"), (240, "eighth"),
-          (120, "16th"), (60, "32nd"), (30, "64th")]
-
-
-def _pieces(duration):
-    for base, kind in _TYPES:
-        dotted = base * 3 // 2
-        while duration >= dotted:
-            yield dotted, kind, True
-            duration -= dotted
-        while duration >= base:
-            yield base, kind, False
-            duration -= base
-    if duration:
-        raise ValueError("Duration is not representable on this notation grid")
-
-
-def _bars(plan, last):
-    meters = plan["meter_map"]
-    result, pos, index = [], 0, 0
-    while pos < max(480, last):
-        if index + 1 < len(meters) and round(meters[index + 1]["quarter"] * 480) == pos:
-            index += 1
-        m = meters[index]
-        end = pos + round(m["numerator"] * 4 / m["denominator"] * 480)
-        result.append((pos, end, m))
-        pos = end
-    return result
-
-
-def _lanes(plan, track):
-    grid = round(plan.get("notation", {}).get("grid_quarters", .25) * 480)
-    grouped = defaultdict(list)
-    for event in plan["performance"]["events"]:
-        if event["track"] == track["id"]:
-            begin = round(seconds_to_quarters(event["start_seconds"], plan["tempo_map"]) * 480 / grid) * grid
-            end = max(begin + grid, round(seconds_to_quarters(event["end_seconds"], plan["tempo_map"]) * 480 / grid) * grid)
-            grouped[begin, end].append(event)
-    lanes = []
-    for (begin, end), notes in sorted(grouped.items()):
-        lane = next((l for l in lanes if l[-1][1] <= begin), None)
-        if lane is None:
-            lane = []
-            lanes.append(lane)
-        lane.append((begin, end, notes))
-    return lanes or [[]]
 
 
 def write_plan_musicxml(plan, output):
@@ -246,9 +199,9 @@ def deliver_music_plan(input_path, output_dir, formats=("mscz",), executable="",
     """Generate only requested public files and preserve a private delivery receipt."""
     try:
         plan = load_music_plan(input_path)
-        allowed = {"mscz", "musicxml", "pdf", "midi", "ace", "sib", "wav", "mp3"}
+        allowed = {"mscz", "musicxml", "pdf", "midi", "ace", "sib", "wav", "mp3", "jianpu"}
         if not formats or len(formats) != len(set(formats)) or any(f not in allowed for f in formats):
-            raise ValueError("Choose unique formats: mscz, sib, musicxml, pdf, midi, ace, wav, mp3")
+            raise ValueError("Choose unique formats: mscz, sib, musicxml, pdf, midi, ace, wav, mp3, jianpu")
         output = Path(output_dir).resolve()
         output.mkdir(parents=True, exist_ok=True)
         digest = hashlib.sha256(json.dumps(plan, sort_keys=True).encode()).hexdigest()
@@ -260,7 +213,8 @@ def deliver_music_plan(input_path, output_dir, formats=("mscz",), executable="",
         score_path = internal / "score.mscz"
         xml_path = internal / "score.musicxml"
         native = plan.get("notation", {}).get("native")
-        need_score = bool(set(formats) & {"mscz", "pdf", "wav", "mp3"}) or bool(native and set(formats) & {"musicxml", "midi", "ace", "sib"})
+        need_score = (bool(set(formats) & {"mscz", "pdf", "wav", "mp3"})
+                      or bool(native and set(formats) & {"musicxml", "midi", "ace", "sib", "jianpu"}))
         score_error = None
         if need_score:
             try:
@@ -278,7 +232,7 @@ def deliver_music_plan(input_path, output_dir, formats=("mscz",), executable="",
         import shutil
         for fmt in formats:
             try:
-                if score_error and (fmt in {"mscz", "pdf", "wav", "mp3"} or native and fmt in {"musicxml", "midi", "ace", "sib"}):
+                if score_error and (fmt in {"mscz", "pdf", "wav", "mp3"} or native and fmt in {"musicxml", "midi", "ace", "sib", "jianpu"}):
                     raise ValueError(score_error)
                 if fmt == "sib":
                     from .sibelius.adapter import create_sibelius_score
@@ -305,6 +259,26 @@ def deliver_music_plan(input_path, output_dir, formats=("mscz",), executable="",
                     report["outputs"][fmt] = result["saved_path"]
                     report["ace_receipt"] = result
                     report["warnings"].extend(result.get("warnings", []))
+                    continue
+                if fmt == "jianpu":
+                    from .jianpu import write_jianpu
+                    jianpu_plan = plan
+                    if not plan.get("performance"):
+                        # A native notation plan carries no performance events:
+                        # project the engraved score through MIDI first, exactly
+                        # as the ACE adapter does.
+                        adapter.convert(str(score_path), str(internal / "native.mid"))
+                        from .midi_projection import project_midi
+                        jianpu_plan = project_midi(internal / "native.mid", plan["title"])
+                        key = (native or {}).get("score", {}).get("key_fifths")
+                        if key is not None:
+                            jianpu_plan["notation"]["key_fifths"] = key
+                    written = write_jianpu(jianpu_plan, output / "music.jly",
+                                           output / "music.jianpu.txt")
+                    report["outputs"]["jianpu"] = written["jly_path"]
+                    report["outputs"]["jianpu_text"] = written["text_path"]
+                    report["jianpu_receipt"] = written
+                    report["warnings"].extend(written.get("warnings", []))
                     continue
                 suffix = "mid" if fmt == "midi" else fmt
                 destination = output / ("music." + suffix)

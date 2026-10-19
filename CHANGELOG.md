@@ -12,6 +12,10 @@ evidence lives in [DELIVERY.md](DELIVERY.md) and the `demos/` records.
 - Audio preview delivery: `deliver-music --formats wav mp3` renders a listening
   copy from the same notated MSCZ through MuseScore. It is an aid for checking a
   result, not a new performance and not a sound-quality guarantee.
+- Jianpu (numbered notation) delivery: `deliver-music --formats jianpu` writes a
+  jianpu-ly input (`.jly`) and a compact reading copy (`.txt`) from the shared
+  notation grid, with an explicit warning when a key signature is missing, a
+  percussion track is omitted or a meter does not use a quarter-note beat.
 
 ### Changed
 

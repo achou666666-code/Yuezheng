@@ -27,7 +27,7 @@ MuseScore 和 Sibelius 是当前制谱适配器，ACE Studio 是首个原生 DAW
 | 可编辑乐谱 | Agent 施工计划通过 MuseScore 创建 MSCZ，或通过 Sibelius Connect 创建 SIB |
 | 音频转录 | 可选 Basic Pitch、Transkun、YourMT3；独立环境、失败切换、任务缓存 |
 | 音频辅助 | 可选 Demucs 分轨、波形／频谱证据、多候选结果组合 |
-| 统一计划和输出 | 原始演奏时间与记谱并存；按需生成 MSCZ、MusicXML、PDF、多轨 MIDI、试听音频（WAV／MP3） |
+| 统一计划和输出 | 原始演奏时间与记谱并存；按需生成 MSCZ、MusicXML、PDF、多轨 MIDI、试听音频（WAV／MP3）、简谱 |
 | 原生 DAW 工程 | ACE 官方 CLI：音符导入、真实 AI／插件音源、保存并重新打开回读 |
 | 评测 | 分别测量音高／起音、结束时间、鼓事件和乐器归属 |
 
@@ -122,6 +122,8 @@ yuezheng deliver-music work/music-plan.json --output final --formats mscz
 yuezheng deliver-music work/music-plan.json --output final --formats musicxml pdf midi ace sib
 # 打谱前先试听：
 yuezheng deliver-music work/music-plan.json --output final --formats wav mp3
+# 给不识五线谱的人看的简谱：
+yuezheng deliver-music work/music-plan.json --output final --formats jianpu
 ```
 
 MCP 对应 `music_plan`、`music_deliver`、`ace_status`、`sibelius_status` 和
