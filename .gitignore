@@ -9,6 +9,9 @@ dist/
 # macOS filesystem metadata.
 .DS_Store
 
+# MuseScore backup directories created when a tracked example is opened.
+.mscbackup/
+
 # Generated OMR, review and editor exports. Keep public input samples and
 # documentation under demos/ tracked, but never commit large run artifacts.
 demos/**/output/

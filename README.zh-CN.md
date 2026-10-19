@@ -151,7 +151,8 @@ Sibelius 输出使用官方本机 Sibelius Connect WebSocket 和随工具提供�
 DAW 适配器、统一 Skill／CLI／MCP 验收。后续软件复用同一音乐计划扩展。
 复杂录音准确度按输入类别实测，不用一个百分比代表所有音乐。中英文项目说明同步维护。
 
-Yuezheng 使用 Apache License 2.0，详见 [LICENSE](LICENSE)。
+Yuezheng 使用 Apache License 2.0，详见 [LICENSE](LICENSE)；版本历史见
+[CHANGELOG.md](CHANGELOG.md)。
 
 公开品牌和主命令现在使用 **Yuezheng**。为兼容已有项目，`scorebridge` Python
 导入路径、CLI 别名、内部计划格式和旧环境变量仍然保留。

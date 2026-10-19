@@ -111,3 +111,42 @@ help examples' shape. Local verification passed 221 tests. The staged release
 installed into a clean virtual environment passed 220 tests, with one private-source
 test skipped because its source is not distributed. The Skill validator and diff
 checks passed. GitHub CI records the published commit's verification.
+
+## v0.3.0 and v0.4.x — native Sibelius, brand migration, packaging
+
+v0.3.0 added native Sibelius delivery through the official Sibelius Connect
+WebSocket and the bundled ManuScript bridge; the adapter opens the MusicXML
+projection and publishes `.sib` only after Sibelius reports a successful save and
+the file exists. v0.4.0 renamed the product and canonical Python package to
+Yuezheng while keeping the `scorebridge` import path, CLI alias, plan schema and
+legacy environment variables. v0.4.1–v0.4.27 covered MusicXML compatibility,
+release metadata checks and cross-platform test stability. Capability history is
+recorded in [CHANGELOG.md](CHANGELOG.md).
+
+## Current verification — 2026-10-20
+
+Environment: macOS arm64, MuseScore Studio 4.7.4, Python 3.11.16, ffmpeg present.
+
+| Check | Result |
+| --- | --- |
+| `python scripts/run_package_tests.py -q` | 238 passed |
+| `yuezheng doctor` | pass (Pillow, PyMuPDF, MuseScore, Audiveris, MCP, WebSocket) |
+| `build-score examples/native-plan.json` | published MSCZ, 15/15 receipted steps, 7.2 s |
+| `deliver-music examples/music-plan.json --formats mscz musicxml pdf midi` | four files, 5.9 s |
+
+These are software-execution checks against bundled example plans. They add no
+recognition-accuracy score and are not a new acceptance denominator.
+
+Not re-verified in this environment: ACE Studio (installed, External Agent Access
+disabled), Sibelius (not installed) and the optional audio engines (not
+provisioned). Those adapters remain covered by unit tests only.
+
+## Platform gate
+
+The Windows package job is a required gate again. Package tests are decided by
+a recorded pytest session result plus a JUnit report rather than the pytest
+process exit status, because the hosted Windows runner has returned exit 1 after
+a clean summary and has delivered a spurious console interrupt mid-suite.
+Failures, errors, empty reports, missing records and interrupted sessions still
+fail the run.
+
