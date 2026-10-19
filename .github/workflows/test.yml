@@ -44,9 +44,11 @@ jobs:
       - name: Install package and test dependencies
         run: python -m pip install '.[test,image,mcp,websocket]'
       - name: Run package tests
+        shell: bash
         # The wrapper judges the run by its JUnit report. The hosted Windows
         # runner has returned exit 1 after a clean summary; that incidental
-        # status is ignored, real failures and errors are not.
+        # status is ignored, real failures and errors are not. Bash is used
+        # because the PowerShell wrapper also reports exit 1 on that runner.
         run: python scripts/run_package_tests.py -vv
       - name: Upload test report
         if: always()

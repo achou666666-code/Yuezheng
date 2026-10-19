@@ -71,7 +71,7 @@ def verdict(totals, session):
         return False, "the report contains no tests"
     if totals["failures"] or totals["errors"]:
         return False, f"{totals['failures']} failure(s), {totals['errors']} error(s)"
-    return True, f"{totals['tests']} passed, {totals['skipped']} skipped"
+    return True, f"{totals['tests'] - totals['skipped']} passed, {totals['skipped']} skipped"
 
 
 def main(argv=None):

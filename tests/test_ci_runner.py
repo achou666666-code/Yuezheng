@@ -21,7 +21,7 @@ CLEAN_REPORT = {"tests": 229, "failures": 0, "errors": 0, "skipped": 4}
 def test_clean_session_and_report_pass():
     passed, detail = load_runner().verdict(CLEAN_REPORT, CLEAN_SESSION)
     assert passed is True
-    assert detail == "229 passed, 4 skipped"
+    assert detail == "225 passed, 4 skipped"
 
 
 def test_any_recorded_failure_or_error_fails_the_run():
