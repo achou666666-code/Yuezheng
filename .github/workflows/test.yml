@@ -26,6 +26,9 @@ jobs:
 
   package:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    env:
+      YUEZHENG_JUNIT_REPORT: package-tests.xml
     strategy:
       fail-fast: false
       matrix:
@@ -40,31 +43,15 @@ jobs:
           node-version: '22'
       - name: Install package and test dependencies
         run: python -m pip install '.[test,image,mcp,websocket]'
-      - name: Run Windows package tests (diagnostic)
-        if: runner.os == 'Windows'
-        continue-on-error: true
-        run: |
-          # The hosted Windows runner can return exit 1 after a clean summary
-          # while tearing down console child-process state. Keep this evidence
-          # visible without making it a release gate until that runner issue is
-          # resolved. Ubuntu/macOS package tests remain required gates.
-          python scripts/run_package_tests.py -vv -s --ignore=tests/test_plugin_behavior.py --ignore=tests/test_special_notation.py
       - name: Run package tests
-        if: runner.os != 'Windows'
+        # The wrapper judges the run by its JUnit report. The hosted Windows
+        # runner has returned exit 1 after a clean summary; that incidental
+        # status is ignored, real failures and errors are not.
         run: python scripts/run_package_tests.py -vv
-
-  windows-plugin-diagnostic:
-    runs-on: windows-latest
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          python-version: '3.11'
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Install package and test dependencies
-        run: python -m pip install '.[test,image,mcp,websocket]'
-      - name: Run Windows plugin harness diagnostics
-        run: python scripts/run_package_tests.py -vv -s tests/test_plugin_behavior.py tests/test_special_notation.py
+          name: package-tests-${{ matrix.os }}
+          path: ${{ env.YUEZHENG_JUNIT_REPORT }}
+          if-no-files-found: warn
