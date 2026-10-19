@@ -261,20 +261,18 @@ def deliver_music_plan(input_path, output_dir, formats=("mscz",), executable="",
                     report["warnings"].extend(result.get("warnings", []))
                     continue
                 if fmt == "jianpu":
-                    from .jianpu import write_jianpu
-                    jianpu_plan = plan
-                    if not plan.get("performance"):
-                        # A native notation plan carries no performance events:
-                        # project the engraved score through MIDI first, exactly
-                        # as the ACE adapter does.
-                        adapter.convert(str(score_path), str(internal / "native.mid"))
-                        from .midi_projection import project_midi
-                        jianpu_plan = project_midi(internal / "native.mid", plan["title"])
-                        key = (native or {}).get("score", {}).get("key_fifths")
-                        if key is not None:
-                            jianpu_plan["notation"]["key_fifths"] = key
-                    written = write_jianpu(jianpu_plan, output / "music.jly",
-                                           output / "music.jianpu.txt")
+                    if plan.get("performance"):
+                        from .jianpu import write_jianpu
+                        written = write_jianpu(plan, output / "music.jly",
+                                               output / "music.jianpu.txt")
+                    else:
+                        # Read the engraved score, not its playback MIDI: an
+                        # arpeggio or humanised timing must not move a note.
+                        from .jianpu import write_musicxml_jianpu
+                        adapter.convert(str(score_path), str(internal / "native.musicxml"))
+                        written = write_musicxml_jianpu(
+                            internal / "native.musicxml", output / "music.jly",
+                            output / "music.jianpu.txt", title=plan["title"])
                     report["outputs"]["jianpu"] = written["jly_path"]
                     report["outputs"]["jianpu_text"] = written["text_path"]
                     report["jianpu_receipt"] = written

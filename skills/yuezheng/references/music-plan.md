@@ -119,10 +119,15 @@ Scale degrees are relative to `notation.key_fifths`. A plan without a key
 signature is written as `1=C` with an explicit warning; chromatic notes use the
 nearest major-scale degree, so the spelling is enharmonic rather than copied
 from the source. Percussion tracks are reported and omitted rather than given a
-wrong number. A native notation plan is first projected through its engraved
-MSCZ and MIDI, so playback-level timing such as an arpeggio can separate chord
-members into extra voices; the receipt says so. Meters without a quarter-note
-beat are reported because jianpu dashes and beams follow quarter beats.
+wrong number. Meters without a quarter-note beat are reported because jianpu
+dashes and beams follow quarter beats.
+
+A native notation plan is read from its engraved MusicXML, not from playback
+MIDI, so an arpeggio or humanised timing cannot move a note or split a chord.
+Key and meter changes are written at their bars; a change inside a bar is moved
+to the next bar line and reported. Grace notes are reported and omitted because
+this projection has no grace form. Tuplets are rejected with an error rather
+than rounded into a different rhythm.
 
 ## Recovery and publication
 

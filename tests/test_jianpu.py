@@ -175,9 +175,22 @@ def test_generated_file_parses_with_jianpu_ly(tmp_path):
     assert "\\version" in completed.stdout
 
 
-def test_native_plan_is_projected_through_its_engraved_score(tmp_path, monkeypatch):
-    import mido
+ENGRAVED = """<?xml version="1.0" encoding="UTF-8"?>
+<score-partwise version="4.0">
+  <part-list><score-part id="P1"><part-name>Flute</part-name></score-part></part-list>
+  <part id="P1"><measure number="1">
+    <attributes><divisions>1</divisions><key><fifths>-1</fifths></key>
+      <time><beats>4</beats><beat-type>4</beat-type></time></attributes>
+    <note><pitch><step>C</step><octave>4</octave></pitch><duration>1</duration><voice>1</voice></note>
+    <note><chord/><pitch><step>E</step><octave>4</octave></pitch><duration>1</duration><voice>1</voice></note>
+    <note><chord/><pitch><step>G</step><octave>4</octave></pitch><duration>1</duration><voice>1</voice></note>
+    <note><rest/><duration>3</duration><voice>1</voice></note>
+  </measure></part>
+</score-partwise>
+"""
 
+
+def test_native_plan_is_read_from_its_engraved_musicxml(tmp_path, monkeypatch):
     native = {"score": {"title": "Native", "parts": [{"instrument_id": "flute"}],
                         "key_fifths": -1},
               "steps": [{"id": "note", "action": "addChord", "params": {}}]}
@@ -192,14 +205,7 @@ def test_native_plan_is_projected_through_its_engraved_score(tmp_path, monkeypat
         return {"status": "pass", "target": {}, "parts": []}
 
     def fake_convert(self, src, destination):
-        midi = mido.MidiFile(type=1, ticks_per_beat=480)
-        track = mido.MidiTrack()
-        midi.tracks.append(track)
-        track.append(mido.MetaMessage("set_tempo", tempo=mido.bpm2tempo(60)))
-        track.append(mido.MetaMessage("time_signature", numerator=4, denominator=4))
-        track.append(mido.Message("note_on", note=60, velocity=80, time=0))
-        track.append(mido.Message("note_off", note=60, velocity=0, time=480))
-        midi.save(str(destination))
+        Path(destination).write_text(ENGRAVED, encoding="utf-8")
         return {"output_path": str(destination)}
 
     monkeypatch.setattr("scorebridge.musescore.build.build_agent_score", fake_build)
@@ -207,9 +213,9 @@ def test_native_plan_is_projected_through_its_engraved_score(tmp_path, monkeypat
     report = deliver_music_plan(source, tmp_path / "output", ["jianpu"])
     assert report["status"] == "delivered"
     jly = Path(report["outputs"]["jianpu"]).read_text()
-    # The key signature comes from the Agent's engraved specification.
+    # MusicXML is the source: the engraved key signature and the chord survive.
     assert "1=F 4/4" in jly
-    assert "1" in jly
+    assert "5,7,2 0 - - |" in jly
 
 
 def test_delivery_writes_both_jianpu_files(tmp_path):
@@ -224,3 +230,17 @@ def test_delivery_writes_both_jianpu_files(tmp_path):
     assert "1 2 3 4 |" in Path(report["outputs"]["jianpu_text"]).read_text()
     # No notation software is needed for an event plan.
     assert "editor_receipt" not in report
+
+
+def test_key_change_is_written_at_its_bar(tmp_path):
+    from test_musicxml_notation import KEY_CHANGE
+    from scorebridge.jianpu import write_musicxml_jianpu
+
+    path = tmp_path / "key.musicxml"
+    path.write_text(KEY_CHANGE, encoding="utf-8")
+    result = write_musicxml_jianpu(path, tmp_path / "out.jly")
+    lines = Path(result["jly_path"]).read_text().splitlines()
+    assert "1=C 4/4" in lines
+    assert "1 - - - |" in lines
+    # C4 in F major is the fifth below the tonic.
+    assert "1=F 5, - - - |" in lines

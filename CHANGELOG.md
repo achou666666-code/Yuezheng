@@ -16,6 +16,9 @@ evidence lives in [DELIVERY.md](DELIVERY.md) and the `demos/` records.
   jianpu-ly input (`.jly`) and a compact reading copy (`.txt`) from the shared
   notation grid, with an explicit warning when a key signature is missing, a
   percussion track is omitted or a meter does not use a quarter-note beat.
+  Native notation plans are read from their engraved MusicXML, so playback
+  timing cannot move a note or split a chord; key and meter changes are written
+  at their bars and grace notes are reported.
 
 ### Changed
 

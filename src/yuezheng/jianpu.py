@@ -1,17 +1,24 @@
-"""Jianpu (numbered notation) projection of a music plan.
+"""Jianpu (numbered notation) projection of a notated score.
+
+Two sources produce the same notated model:
+
+* a performance plan (audio events), quantized on the shared grid;
+* an engraved MusicXML score, which keeps its exact engraved positions so
+  playback-only timing such as an arpeggio cannot move notes or split chords.
 
 One internal note model feeds two public files:
 
 * ``.jly`` - input for jianpu-ly, which renders LilyPond and from that PDF;
 * ``.txt`` - a compact reading copy for people who do not have LilyPond.
 
-The projection uses the same provisional grid as the MusicXML projection, so
-both notations agree on where a note starts and how long it lasts. Nothing is
-invented or silently dropped: a missing key signature, a tempo change inside a
-bar and unpitched percussion are reported instead of guessed.
+Nothing is invented or silently dropped: a missing key signature, a percussion
+part, a tempo change inside a bar and a meter without a quarter-note beat are
+reported instead of guessed.
 """
 from .music_plan import seconds_to_quarters
-from .notation_grid import bars as _bars, lanes as _lanes
+from .musicxml.notation import read_musicxml_notation
+from .notation_grid import lanes as _lanes
+from .notation_model import NotatedPart, NotatedScore
 
 KEY_NAMES = {0: "C", 1: "G", 2: "D", 3: "A", 4: "E", 5: "B", 6: "F#", 7: "C#",
              -1: "F", -2: "Bb", -3: "Eb", -4: "Ab", -5: "Db", -6: "Gb", -7: "Cb"}
@@ -39,7 +46,7 @@ def _chunks(length):
             result.append(size)
             length -= size
     if length:
-        raise ValueError("Duration is not representable in jianpu")
+        raise ValueError("Duration is not representable in jianpu; tuplets need another route")
     return result
 
 
@@ -53,14 +60,13 @@ def _pitch_token(pitch, tonic):
 def _items(groups, start, end):
     """Turn the groups overlapping one bar into rests and notes filling the bar."""
     items, cursor = [], start
-    for begin, stop, events in groups:
+    for begin, stop, pitches, tie in groups:
         if stop <= start or begin >= end:
             continue
         left, right = max(begin, start), min(stop, end)
         if left > cursor:
             items.append(("rest", [], left - cursor, False))
-        pitches = sorted({event["midi_pitch"] for event in events})
-        items.append(("note", pitches, right - left, right < stop))
+        items.append(("note", sorted(set(pitches)), right - left, tie or right < stop))
         cursor = right
     if cursor < end:
         items.append(("rest", [], end - cursor, False))
@@ -97,8 +103,124 @@ def _text_item(kind, pitches, length, tie_after, tonic, table):
     return prefix + body + suffix + " -" * dashes + (" ~" if tie_after else "")
 
 
-def _parts(plan, warnings):
-    result, seen = [], {}
+def _score_bars(score, last):
+    result, pos, index = [], 0, 0
+    meters = score.meters or [(0, 4, 4)]
+    while pos < max(480, last):
+        if index + 1 < len(meters) and meters[index + 1][0] == pos:
+            index += 1
+        _, numerator, denominator = meters[index]
+        length = round(numerator * 4 / denominator * 480)
+        result.append((pos, pos + length, (numerator, denominator)))
+        pos += length
+    return result
+
+
+def _shown_tempo(score, bars, warnings):
+    """Map tempo changes onto bar lines; a change inside a bar is shown at the next one."""
+    starts = [start for start, _, _ in bars]
+    shown = {}
+    for tick, bpm in score.tempos:
+        if tick in starts:
+            shown[tick] = bpm
+            continue
+        later = next((start for start in starts if start > tick), None)
+        warnings.append(
+            f"Tempo change at tick {tick} falls inside a bar; jianpu shows it at the "
+            "next bar line, the performance keeps the original timing.")
+        if later is not None:
+            shown[later] = bpm
+    return shown
+
+
+def write_score(score, jly_path, text_path=None):
+    """Render a NotatedScore as a jianpu-ly input and, optionally, a reading copy."""
+    if not score.parts:
+        raise ValueError("Nothing to notate: the score has no pitched notes")
+    warnings = list(score.warnings)
+    for part in score.parts:
+        for _, fifths in (part.keys or [(0, part.key_fifths)]):
+            if fifths not in KEY_NAMES:
+                raise ValueError(f"Jianpu needs a key signature from -7 to 7, got {fifths}")
+    if any(meter[2] != 4 for meter in (score.meters or [(0, 4, 4)])):
+        warnings.append(
+            "A meter in this score does not use a quarter-note beat; jianpu dashes and beams "
+            "follow quarter beats, so they may not match the printed beat of that meter.")
+    last = max(score.end_tick, max(stop for part in score.parts for _, stop, _, _ in part.groups))
+    bars = _score_bars(score, last)
+    shown = _shown_tempo(score, bars, warnings)
+    first_meter = bars[0][2]
+    opening_bpm = shown.get(0) or next((bpm for tick, bpm in score.tempos if tick == 0), None)
+    opening_key = score.parts[0].key_fifths
+    jly = [f"title={score.title}",
+           # Marks follow the digit, including inside chords; without this the
+           # parser rejects a chord that mixes marked and unmarked members.
+           "OctavesAfter",
+           f"1={KEY_NAMES[opening_key]} {first_meter[0]}/{first_meter[1]}"]
+    if opening_bpm:
+        jly.append(f"4={opening_bpm}")
+    text = [f"1={KEY_NAMES[opening_key]} {first_meter[0]}/{first_meter[1]}"
+            + (f" \u2669={opening_bpm}" if opening_bpm else ""),
+            f"title: {score.title}"]
+    previous_meter = first_meter
+    previous_tempo = opening_bpm
+    previous_key = opening_key
+    for index, part in enumerate(score.parts):
+        tonic = (7 * part.key_fifths) % 12
+        key_changes = dict(part.keys or [(0, part.key_fifths)])
+        if index:
+            jly.append("NextPart")
+        jly.append("")
+        key_line = part.key_fifths != previous_key
+        if key_line:
+            jly.append(f"1={KEY_NAMES[part.key_fifths]}")
+            previous_key = part.key_fifths
+        jly.append(f"instrument={part.name}")
+        text.extend(["", f"[{part.name}]"
+                     + (f" 1={KEY_NAMES[part.key_fifths]}" if key_line else "")])
+        for start, end, meter in bars:
+            key_prefix = text_key = ""
+            change = key_changes.get(start)
+            if change is not None and change != previous_key:
+                key_prefix = f"1={KEY_NAMES[change]} "
+                text_key = f"1={KEY_NAMES[change]} "
+                previous_key, tonic = change, (7 * change) % 12
+            meter_prefix = ""
+            if tuple(meter) != tuple(previous_meter):
+                meter_prefix = f"{meter[0]}/{meter[1]} "
+                previous_meter = meter
+            tempo_prefix = text_tempo = ""
+            bpm = shown.get(start)
+            if bpm and bpm != previous_tempo:
+                tempo_prefix = f"4={bpm} "
+                text_tempo = f"\u2669={bpm} "
+                previous_tempo = bpm
+            items = _split(_items(part.groups, start, end))
+            jly.append(meter_prefix + key_prefix + tempo_prefix + " ".join(
+                _write_item(*item, tonic, _JLY) for item in items) + " |")
+            text.append(meter_prefix + text_key + text_tempo + " ".join(
+                _text_item(*item, tonic, _TEXT) for item in items) + " |")
+    jly_path.parent.mkdir(parents=True, exist_ok=True)
+    jly_path.write_text("\n".join(jly) + "\n", encoding="utf-8")
+    result = {"jly_path": str(jly_path), "parts": len(score.parts), "warnings": warnings}
+    if text_path:
+        text_path.parent.mkdir(parents=True, exist_ok=True)
+        text_path.write_text("\n".join(text) + "\n", encoding="utf-8")
+        result["text_path"] = str(text_path)
+    return result
+
+
+def notated_score(plan):
+    """Build the notated model from a performance plan on the shared grid."""
+    warnings = []
+    key = plan.get("notation", {}).get("key_fifths")
+    if key is None:
+        warnings.append("No key signature was supplied; the jianpu projection assumes C major (1=C).")
+        key = 0
+    key = int(key)
+    if key not in KEY_NAMES:
+        raise ValueError("Jianpu needs a key signature from -7 to 7")
+    parts = []
     for track in plan["performance"]["tracks"]:
         if track.get("is_drum"):
             if any(event["track"] == track["id"] for event in plan["performance"]["events"]):
@@ -115,95 +237,21 @@ def _parts(plan, warnings):
             name = track.get("name") or track["id"]
             if index:
                 name = f"{name} (voice {index + 1})"
-            seen[name] = seen.get(name, 0) + 1
-            if seen[name] > 1:
-                name = f"{name} ({seen[name]})"
-            result.append((name, lane))
-    return result
+            groups = [(begin, end, sorted({event["midi_pitch"] for event in events}), False)
+                      for begin, end, events in lane]
+            parts.append(NotatedPart(name, key, groups))
+    meters = [(round(point["quarter"] * 480), point["numerator"], point["denominator"])
+              for point in plan["meter_map"]]
+    tempos = [(round(seconds_to_quarters(point["seconds"], plan["tempo_map"]) * 480), round(point["bpm"]))
+              for point in plan["tempo_map"]]
+    return NotatedScore(plan["title"], meters, tempos, parts, warnings)
 
 
 def write_jianpu(plan, jly_path, text_path=None):
-    """Write a jianpu-ly input and, optionally, a compact reading copy."""
-    warnings = []
-    key = plan.get("notation", {}).get("key_fifths")
-    if key is None:
-        warnings.append("No key signature was supplied; the jianpu projection assumes C major (1=C).")
-        key = 0
-    key = int(key)
-    if key not in KEY_NAMES:
-        raise ValueError("Jianpu needs a key signature from -7 to 7")
-    tonic = (7 * key) % 12
-    parts = _parts(plan, warnings)
-    if not parts:
-        raise ValueError("Nothing to notate: the plan has no pitched events")
-    last = max(stop for _, lane in parts for _, stop, _ in lane)
-    bars = _bars(plan, last)
-    if any(meter["denominator"] != 4 for meter in plan["meter_map"]):
-        warnings.append(
-            "A meter in this plan does not use a quarter-note beat; jianpu dashes and beams "
-            "follow quarter beats, so they may not match the printed beat of that meter.")
-    bar_starts = {start for start, _, _ in bars}
-    tempo = {}
-    for point in plan["tempo_map"]:
-        tick = round(seconds_to_quarters(point["seconds"], plan["tempo_map"]) * 480)
-        tempo[tick] = round(point["bpm"])
-        if tick not in bar_starts:
-            warnings.append(
-                f"Tempo change at tick {tick} falls inside a bar; jianpu shows it at the "
-                "next bar line, the performance keeps the original timing.")
-    # A change inside a bar is displayed at the next bar line rather than dropped.
-    shown = {}
-    ordered = sorted(bar_starts)
-    for tick, bpm in sorted(tempo.items()):
-        if tick in bar_starts:
-            shown[tick] = bpm
-        else:
-            later = next((start for start in ordered if start > tick), None)
-            if later is not None:
-                shown[later] = bpm
-    first = bars[0][2]
-    opening_bpm = tempo.get(0)
-    jly = [f"title={plan['title']}",
-           # Marks follow the digit, including inside chords; without this the
-           # parser rejects a chord that mixes marked and unmarked members.
-           "OctavesAfter",
-           f"1={KEY_NAMES[key]} {first['numerator']}/{first['denominator']}"]
-    if opening_bpm:
-        jly.append(f"4={opening_bpm}")
-    text = [f"1={KEY_NAMES[key]} {first['numerator']}/{first['denominator']}"
-            + (f" \u2669={opening_bpm}" if opening_bpm else ""),
-            f"title: {plan['title']}"]
-    previous_meter = (first["numerator"], first["denominator"])
-    previous_tempo = opening_bpm
-    for index, (name, lane) in enumerate(parts):
-        if index:
-            jly.append("NextPart")
-        jly.extend(["", f"instrument={name}"])
-        text.extend(["", f"[{name}]"])
-        for start, end, meter in bars:
-            current = (meter["numerator"], meter["denominator"])
-            meter_prefix = ""
-            if current != previous_meter:
-                meter_prefix = f"{current[0]}/{current[1]} "
-                previous_meter = current
-            tempo_prefix = ""
-            bpm = shown.get(start)
-            if bpm and bpm != previous_tempo:
-                tempo_prefix = f"4={bpm} "
-                text_tempo_prefix = f"\u2669={bpm} "
-                previous_tempo = bpm
-            else:
-                text_tempo_prefix = ""
-            items = _split(_items(lane, start, end))
-            jly.append(meter_prefix + tempo_prefix + " ".join(
-                _write_item(*item, tonic, _JLY) for item in items) + " |")
-            text.append(meter_prefix + text_tempo_prefix + " ".join(
-                _text_item(*item, tonic, _TEXT) for item in items) + " |")
-    jly_path.parent.mkdir(parents=True, exist_ok=True)
-    jly_path.write_text("\n".join(jly) + "\n", encoding="utf-8")
-    result = {"jly_path": str(jly_path), "parts": len(parts), "warnings": warnings}
-    if text_path:
-        text_path.parent.mkdir(parents=True, exist_ok=True)
-        text_path.write_text("\n".join(text) + "\n", encoding="utf-8")
-        result["text_path"] = str(text_path)
-    return result
+    """Write jianpu for a performance plan."""
+    return write_score(notated_score(plan), jly_path, text_path)
+
+
+def write_musicxml_jianpu(musicxml_path, jly_path, text_path=None, title=None):
+    """Write jianpu from the engraved MusicXML of a native notation plan."""
+    return write_score(read_musicxml_notation(musicxml_path, title), jly_path, text_path)
