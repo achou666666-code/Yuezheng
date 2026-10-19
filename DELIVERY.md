@@ -129,12 +129,12 @@ Environment: macOS arm64, MuseScore Studio 4.7.4, Python 3.11.16, ffmpeg present
 
 | Check | Result |
 | --- | --- |
-| `python scripts/run_package_tests.py -q` | 257 passed |
+| `python scripts/run_package_tests.py -q` | 265 passed |
 | `yuezheng doctor` | pass (Pillow, PyMuPDF, MuseScore, Audiveris, MCP, WebSocket) |
 | `build-score examples/native-plan.json` | published MSCZ, 15/15 receipted steps, 7.2 s |
 | `deliver-music examples/music-plan.json --formats mscz musicxml pdf midi` | four files, 5.9 s |
 | `deliver-music examples/music-plan.json --formats wav mp3` | 9.5 s stereo 44.1 kHz WAV + MP3, rendered in 9.0 s |
-| `deliver-music ... --formats jianpu` | `.jly` accepted by jianpu-ly and a text copy, 14.9 s from a native plan |
+| `deliver-music ... --formats jianpu` | `.jly` accepted by jianpu-ly and a text copy, read from engraved MusicXML, 11.4 s |
 
 These are software-execution checks against bundled example plans. They add no
 recognition-accuracy score and are not a new acceptance denominator.
