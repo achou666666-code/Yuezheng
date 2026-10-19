@@ -165,6 +165,7 @@ recording accuracy is measured by input class, not represented as one universal
 percentage. English and Chinese project documentation are maintained together.
 
 Yuezheng is released under the Apache License 2.0; see [LICENSE](LICENSE).
+Release history is recorded in [CHANGELOG.md](CHANGELOG.md).
 
 The public brand and primary commands are now **Yuezheng**. The `scorebridge`
 Python import path, CLI alias, internal plan schema and legacy environment names
