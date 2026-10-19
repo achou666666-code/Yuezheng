@@ -246,20 +246,21 @@ def deliver_music_plan(input_path, output_dir, formats=("mscz",), executable="",
     """Generate only requested public files and preserve a private delivery receipt."""
     try:
         plan = load_music_plan(input_path)
-        allowed = {"mscz", "musicxml", "pdf", "midi", "ace", "sib"}
+        allowed = {"mscz", "musicxml", "pdf", "midi", "ace", "sib", "wav", "mp3"}
         if not formats or len(formats) != len(set(formats)) or any(f not in allowed for f in formats):
-            raise ValueError("Choose unique formats: mscz, sib, musicxml, pdf, midi, ace")
+            raise ValueError("Choose unique formats: mscz, sib, musicxml, pdf, midi, ace, wav, mp3")
         output = Path(output_dir).resolve()
         output.mkdir(parents=True, exist_ok=True)
         digest = hashlib.sha256(json.dumps(plan, sort_keys=True).encode()).hexdigest()
         internal = output / ".scorebridge" / ("delivery-" + digest[:20])
         internal.mkdir(parents=True, exist_ok=True)
         report = {"status": "delivered", "plan_sha256": digest, "outputs": {}, "warnings": list(plan.get("warnings", []))}
-        adapter = MuseScoreAdapter(executable=executable or None)
+        adapter = MuseScoreAdapter(executable=executable or None,
+                                   timeout=300 if set(formats) & {"wav", "mp3"} else 90)
         score_path = internal / "score.mscz"
         xml_path = internal / "score.musicxml"
         native = plan.get("notation", {}).get("native")
-        need_score = bool(set(formats) & {"mscz", "pdf"}) or bool(native and set(formats) & {"musicxml", "midi", "ace", "sib"})
+        need_score = bool(set(formats) & {"mscz", "pdf", "wav", "mp3"}) or bool(native and set(formats) & {"musicxml", "midi", "ace", "sib"})
         score_error = None
         if need_score:
             try:
@@ -277,7 +278,7 @@ def deliver_music_plan(input_path, output_dir, formats=("mscz",), executable="",
         import shutil
         for fmt in formats:
             try:
-                if score_error and (fmt in {"mscz", "pdf"} or native and fmt in {"musicxml", "midi", "ace", "sib"}):
+                if score_error and (fmt in {"mscz", "pdf", "wav", "mp3"} or native and fmt in {"musicxml", "midi", "ace", "sib"}):
                     raise ValueError(score_error)
                 if fmt == "sib":
                     from .sibelius.adapter import create_sibelius_score
@@ -314,6 +315,8 @@ def deliver_music_plan(input_path, output_dir, formats=("mscz",), executable="",
                 elif fmt == "mscz":
                     shutil.copyfile(score_path, destination)
                 else:
+                    # MuseScore renders audio for an audio extension and
+                    # engraves for a document extension from the same MSCZ.
                     adapter.convert(str(score_path), str(destination))
                 report["outputs"][fmt] = str(destination)
             except (ValueError, OSError, RuntimeError, MuseScoreError, ImportError) as exc:

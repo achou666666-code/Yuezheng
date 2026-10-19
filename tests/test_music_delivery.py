@@ -112,6 +112,31 @@ def test_missing_notation_software_does_not_block_midi(plan, tmp_path):
     assert "mscz" in report["errors"]
 
 
+def test_audio_preview_renders_from_the_delivered_score(plan, tmp_path, monkeypatch):
+    p = tmp_path / "plan.json"; p.write_text(json.dumps(plan))
+    conversions = []
+
+    def fake_convert(self, input_path, output_path):
+        Path(output_path).write_bytes(b"RIFF....WAVE")
+        conversions.append((Path(input_path).suffix, Path(output_path).name))
+        return {"output_path": str(output_path)}
+
+    monkeypatch.setattr("scorebridge.musescore.adapter.MuseScoreAdapter.convert", fake_convert)
+    report = deliver_music_plan(p, tmp_path / "output", ["wav", "mp3"])
+    assert report["status"] == "delivered"
+    assert set(report["outputs"]) == {"wav", "mp3"}
+    assert Path(report["outputs"]["wav"]).read_bytes().startswith(b"RIFF")
+    assert Path(report["outputs"]["mp3"]).name == "music.mp3"
+    # The audio is rendered from the notated MSCZ, never from the private plan.
+    assert (".mscz", "music.wav") in conversions
+    assert (".mscz", "music.mp3") in conversions
+
+
+def test_unknown_delivery_format_is_rejected(plan, tmp_path):
+    p = tmp_path / "plan.json"; p.write_text(json.dumps(plan))
+    assert deliver_music_plan(p, tmp_path / "output", ["ogg"])["status"] == "error"
+
+
 def test_sibelius_delivery_uses_independent_musicxml_projection(plan, tmp_path, monkeypatch):
     p = tmp_path / "plan.json"; p.write_text(json.dumps(plan))
 

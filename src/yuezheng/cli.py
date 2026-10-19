@@ -16,7 +16,7 @@ def main():
     plan.add_argument("--denominator", type=int, default=4)
     deliver = sub.add_parser("deliver-music", help="Deliver only requested notation, MIDI or native DAW files")
     deliver.add_argument("input"); deliver.add_argument("--output", required=True)
-    deliver.add_argument("--formats", nargs="+", choices=["mscz", "sib", "musicxml", "pdf", "midi", "ace"], default=["mscz"])
+    deliver.add_argument("--formats", nargs="+", choices=["mscz", "sib", "musicxml", "pdf", "midi", "ace", "wav", "mp3"], default=["mscz"])
     deliver.add_argument("--executable", default="")
     deliver.add_argument("--ace-cli", default="")
     deliver.add_argument("--sibelius-url", default="")
