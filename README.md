@@ -30,7 +30,7 @@ Request + PDF / images / audio
 | Editable notation | Agent plans create/edit/save native MSCZ through MuseScore, or native SIB through Sibelius Connect |
 | Audio transcription | Optional Basic Pitch, Transkun and YourMT3 engines; isolated environments, fallback and cached jobs |
 | Audio assistance | Optional Demucs stems, waveform/spectral evidence and candidate combination |
-| Shared plan/output | Original performance plus notation; selected MSCZ, MusicXML, PDF, multitrack MIDI and audio preview (WAV/MP3) |
+| Shared plan/output | Original performance plus notation; selected MSCZ, MusicXML, PDF, multitrack MIDI, audio preview (WAV/MP3) and jianpu (numbered notation) |
 | Native DAW project | Official ACE CLI: note import, actual AI/plugin sound bindings, save/reopen/readback |
 | Evaluation | Separate pitch/onset, release timing, drum and instrument-identity measurements |
 
@@ -129,6 +129,8 @@ yuezheng deliver-music work/music-plan.json --output final --formats mscz
 yuezheng deliver-music work/music-plan.json --output final --formats musicxml pdf midi ace sib
 # Listen before engraving:
 yuezheng deliver-music work/music-plan.json --output final --formats wav mp3
+# Numbered notation for readers who do not read staves:
+yuezheng deliver-music work/music-plan.json --output final --formats jianpu
 ```
 
 MCP: `music_plan`, `music_deliver`, `ace_status`, `sibelius_status`, and
