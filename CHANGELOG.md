@@ -22,8 +22,9 @@ evidence lives in [DELIVERY.md](DELIVERY.md) and the `demos/` records.
 - README quick start for both English and Chinese: clone-and-install, the
   release wheel, a first run that needs no MuseScore (jianpu delivery) and the
   MuseScore route.
-- `LICENSE` now carries the Apache 2.0 appendix, so GitHub reports the licence
-  as Apache-2.0 instead of "Other".
+- `LICENSE` restored to the official Apache 2.0 text: two sentences had been
+  dropped from the body, so it was a modified licence that GitHub reported as
+  "Other". With the standard appendix the repository is recognised as Apache-2.0.
 
 ### Changed
 
