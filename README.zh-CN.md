@@ -8,6 +8,40 @@ Yuezheng 由 Skill、可复用程序和 CLI／MCP 接口组成。Agent 理解用
 图片／音频转谱是第一项核心工作流；制谱和 DAW 适配器为后续更完整的音乐制作任务提供基础。
 MuseScore 和 Sibelius 是当前制谱适配器，ACE Studio 是首个原生 DAW 适配器，项目定位不局限于某一个软件。
 
+## 快速开始
+
+```bash
+git clone https://github.com/achou666666-code/Yuezheng.git
+cd Yuezheng
+python3 -m venv .venv
+.venv/bin/pip install -e '.[mcp,image]'
+.venv/bin/yuezheng doctor
+```
+
+`doctor` 会报告这台机器能做什么：Python、MuseScore、图片支持、MCP 和可选的 WebSocket 插件。
+只有「可编辑乐谱」这条路线需要 MuseScore。
+
+不克隆、直接装同版本：
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install "yuezheng[mcp,image] @ https://github.com/achou666666-code/Yuezheng/releases/download/v0.4.28/yuezheng-0.4.28-py3-none-any.whl"
+```
+
+第一次试跑，不需要 MuseScore——生成简谱和纯文本阅读版：
+
+```bash
+.venv/bin/yuezheng deliver-music examples/music-plan.json --output out --formats jianpu
+# out/music.jly          jianpu-ly 输入
+# out/music.jianpu.txt   纯文本阅读版
+```
+
+装了 MuseScore Studio 4.7+ 后，生成真正的原生乐谱：
+
+```bash
+.venv/bin/yuezheng build-score examples/native-plan.json --output out/demo.mscz
+```
+
 ## 工作流程
 
 ```text
