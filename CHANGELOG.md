@@ -19,6 +19,11 @@ evidence lives in [DELIVERY.md](DELIVERY.md) and the `demos/` records.
   Native notation plans are read from their engraved MusicXML, so playback
   timing cannot move a note or split a chord; key and meter changes are written
   at their bars and grace notes are reported.
+- README quick start for both English and Chinese: clone-and-install, the
+  release wheel, a first run that needs no MuseScore (jianpu delivery) and the
+  MuseScore route.
+- `LICENSE` now carries the Apache 2.0 appendix, so GitHub reports the licence
+  as Apache-2.0 instead of "Other".
 
 ### Changed
 

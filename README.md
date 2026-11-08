@@ -11,6 +11,40 @@ DAW adapters are built so the assistant can grow into broader music production
 tasks. MuseScore and Sibelius are current notation adapters, and ACE Studio is
 the first native DAW adapter; the product is not tied to one editor.
 
+## Quick start
+
+```bash
+git clone https://github.com/achou666666-code/Yuezheng.git
+cd Yuezheng
+python3 -m venv .venv
+.venv/bin/pip install -e '.[mcp,image]'
+.venv/bin/yuezheng doctor
+```
+
+`doctor` reports what this machine can do: Python, MuseScore, image support, MCP
+and the optional WebSocket plugin. Only the editable-score routes need MuseScore.
+
+Same version without cloning:
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install "yuezheng[mcp,image] @ https://github.com/achou666666-code/Yuezheng/releases/download/v0.4.28/yuezheng-0.4.28-py3-none-any.whl"
+```
+
+First run, no MuseScore needed — numbered notation plus a reading copy:
+
+```bash
+.venv/bin/yuezheng deliver-music examples/music-plan.json --output out --formats jianpu
+# out/music.jly          input for jianpu-ly
+# out/music.jianpu.txt   plain-text reading copy
+```
+
+With MuseScore Studio 4.7+ installed, write a real native score:
+
+```bash
+.venv/bin/yuezheng build-score examples/native-plan.json --output out/demo.mscz
+```
+
 ## Workflow
 
 ```text
