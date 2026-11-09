@@ -103,6 +103,29 @@ publishes `.sib` only after the response reports success and the file is present
 Use `sibelius_status` to inspect the endpoint and plugin. The plan remains the
 same across MuseScore, Sibelius, ACE and file outputs.
 
+## Logic Pro
+
+Logic has no first-party API for agentic composition, so its delivery route is
+the file one. `deliver-music --formats midi` writes a multitrack Standard MIDI
+File (480 PPQ) with a conductor track carrying the plan's tempo and meter maps,
+one named track per part, and drums on channel 10. Import it with Logic's
+File > Import, or drag it into the arrange window, and turn on the import
+options for tempo and time signature when the dialog offers them; otherwise
+Logic keeps the project's own tempo and the imported material is re-barred.
+
+Yuezheng does not write `.logicx` and does not drive Logic's interface. For live
+control — transport, mixer, plugin insertion, project readback — use the
+external [logic-pro-mcp](https://github.com/MongLong0214/logic-pro-mcp) MCP
+server alongside Yuezheng. It is MIT-licensed, actively maintained, and targets
+the latest Logic release.
+
+That route is deliberately outside the default file workflow: it controls Logic
+through CoreMIDI, Accessibility, AppleScript, CGEvent, MCU, Scripter and MIDI
+Key Commands, so it needs a running Logic, macOS Accessibility and Automation
+permissions, and an MCP client that can launch it. Yuezheng's own adapters do
+not use screen automation, and keeping the two separate means a stuck UI
+session can never corrupt a delivered file.
+
 ## Jianpu (numbered notation)
 
 `--formats jianpu` writes two files from the same provisional grid as the

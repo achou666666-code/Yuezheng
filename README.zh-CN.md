@@ -172,6 +172,13 @@ ACE Studio 需已运行并开启 External Agent Access。官方 CLI 适配器创
 AI 轨尚未映射的表情会明确记录。多乐器插件需要真正选择预设或状态。
 参见[音乐计划及 ACE 说明](skills/yuezheng/references/music-plan.md)。
 
+Logic Pro 走文件路线而不是适配器：`deliver-music --formats midi` 输出带速度与拍号
+映射的多轨 MIDI，由 Logic 导入。需要实时控制 Logic 时，用外部的
+[logic-pro-mcp](https://github.com/MongLong0214/logic-pro-mcp) MCP 服务，它通过
+macOS 辅助功能自动化操作 Logic；Yuezheng 自己的适配器不引入这条依赖。
+参见 [Logic Pro 说明](skills/yuezheng/references/music-plan.md#logic-pro)。
+
+
 Sibelius 输出使用官方本机 Sibelius Connect WebSocket 和随工具提供的 ManuScript
 桥接插件。先运行 `yuezheng sibelius-install-plugin`，在 Sibelius 中开启 1898
 端口的 Sibelius Connect，再在 `deliver-music` 中请求 `sib`；适配器只在 Sibelius

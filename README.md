@@ -182,6 +182,14 @@ are retained/verified on GenericMidi plugin tracks, with unmapped AI expression
 reported explicitly. Multi-instrument plugins require an actual preset/state.
 See [music plan / ACE reference](skills/yuezheng/references/music-plan.md).
 
+Logic Pro is served by files rather than an adapter: `deliver-music --formats
+midi` writes a multitrack MIDI file carrying the plan's tempo and meter maps,
+and Logic imports it. Live Logic control belongs to the external
+[logic-pro-mcp](https://github.com/MongLong0214/logic-pro-mcp) MCP server, which
+drives Logic through macOS Accessibility automation; Yuezheng keeps that out of
+its own adapters. See the [Logic section](skills/yuezheng/references/music-plan.md#logic-pro).
+
+
 Sibelius delivery uses its official local Sibelius Connect WebSocket and a bundled
 ManuScript bridge. Install the bridge with `yuezheng sibelius-install-plugin`,
 enable Sibelius Connect on port 1898, and request `sib` in `deliver-music`. The

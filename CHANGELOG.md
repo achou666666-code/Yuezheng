@@ -22,6 +22,10 @@ evidence lives in [DELIVERY.md](DELIVERY.md) and the `demos/` records.
 - README quick start for both English and Chinese: clone-and-install, the
   release wheel, a first run that needs no MuseScore (jianpu delivery) and the
   MuseScore route.
+- Logic Pro interop documented: multitrack MIDI (tempo and meter maps, named
+  parts) is the handoff into Logic, and live control is delegated to the
+  external MIT-licensed `logic-pro-mcp` server, which stays outside Yuezheng's
+  screen-automation-free adapters.
 - `LICENSE` restored to the official Apache 2.0 text: two sentences had been
   dropped from the body, so it was a modified licence that GitHub reported as
   "Other". With the standard appendix the repository is recognised as Apache-2.0.
